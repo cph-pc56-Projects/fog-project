@@ -18,4 +18,5 @@ public class Test {
         // TODO code application logic here
     }
     //My first commen
+    //Added comment to newFeature branch
 }
