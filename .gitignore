@@ -54,11 +54,11 @@ Temporary Items
 .apdisk
 
 ### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
+**/nbproject/private/
+**/build/
+**/nbbuild/
+**/dist/
+**/nbdist/
 .nb-gradle/
 
 ### Windows ###
