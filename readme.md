@@ -1,7 +1,6 @@
-Andrian was here!
+The Team's Contributors:
 
-Tag yourself ;)
-
-#Petru Catana
-
-Hakuna matata
+`# Alexander Osenov`
+`# Andrian Vangelov`
+`# Patrick Fenger`
+`# Petru Catana`
