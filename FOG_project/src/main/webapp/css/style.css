@@ -7,4 +7,42 @@ and open the template in the editor.
     Created on : Apr 7, 2017, 10:21:48 AM
     Author     : trez__000
 */
+body,html {
+  height: 100%;
+}
 
+body {
+  padding-top: 50px;
+}
+
+.navbar {
+      margin: 0px;
+      border-radius: 0px;
+    }
+
+.wide {
+  width:100%;
+  height:100%;
+  height:calc(50% - 1px);
+  background-image:url('https://www.nasa.gov/sites/default/files/thumbnails/image/darkrift-orig_full.jpg');
+  background-size: cover;
+  color: white;
+  
+}
+.wide img {
+  width:100%;
+}
+.pad {
+  padding: 100px;
+  
+}
+.box {
+  background: rgba(255, 255, 255, .5);
+  padding-left: 10px;
+  padding-right: 10px;  
+}
+footer {
+  margin-top: 50px;
+  background-color: grey;
+  text-color: white;
+}
