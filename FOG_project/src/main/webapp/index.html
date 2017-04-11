@@ -25,13 +25,52 @@
 
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#Gallery">Login</a></li>
+                        <li><a class="w3-button"  onclick="document.getElementById('id01').style.display = 'block'"
+                               style="width:auto; background-color: black; color: grey;">Login</a></li>
                         <li> <a href="#Contact">Support</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
+        <!--Login form -->
+        <div id="id01" class="modal">
+
+            <form class="modal-content animate" action="/action_page.php">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Log In</h1>
+                </div>
+
+                <div class="loginContainer">
+                    <label><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                    <label><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+
+                    <button type="submit">Login</button>
+                    <input type="checkbox" checked="checked"> Remember me
+                </div>
+
+                <div class="loginContainer" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('id01').style.display = 'none'" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            // Get the modal
+            var modal = document.getElementById('id01');
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
 
         <div class="wide">
             <div class="container text-center pad">
@@ -42,24 +81,24 @@
 
         <!-- Custom port here -->
         <div class="w3-container w3-padding-16">
-                <div class="w3-container w3-half">
-                    <h1>Custom made carports</h1>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
-                    <button class="w3-button w3-teal w3-block w3-xlarge ">Build your carport</button>
-                </div>
-                <div class="w3-container w3-half w3-center">
-                    <img src="media/pictures/custom2.png" class="w3-padding-16" style="width:100%;max-width:400px">
-                </div>
-            
+            <div class="w3-container w3-half">
+                <h1>Custom made carports</h1>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </p>
+                <button class="w3-button w3-teal w3-block w3-xlarge ">Build your carport</button>
+            </div>
+            <div class="w3-container w3-half w3-center">
+                <img src="media/pictures/custom2.png" class="w3-padding-16" style="width:100%;max-width:400px">
+            </div>
+
         </div>
         <!-- Custom ends here -->
-        
+
         <div class="w3-container w3-padding-32 w3-center" id="Contact">
             <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Our Product line</h3>
         </div>
 
-        
+
 
 
         <div class="w3-row w3-container">
@@ -156,10 +195,10 @@
 
         </footer>
         <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
         <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>
 </html>
