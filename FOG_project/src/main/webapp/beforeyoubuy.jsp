@@ -1,6 +1,6 @@
 <%-- 
-    Document   : support
-    Created on : Apr 10, 2017, 9:09:41 AM
+    Document   : beforeyoubuy
+    Created on : Apr 12, 2017, 10:13:45 AM
     Author     : trez__000
 --%>
 
@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
-    <body class="w3-light-grey">
+    <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -27,16 +27,17 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">                        
-                        <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
+                        <li class="active"><a href="#">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
                         <li><a class="w3-button"  onclick="document.getElementById('id01').style.display = 'block'"
                                style="width:auto; background-color: #222222; color: grey;">Login</a></li>
-                        <li class="active"> <a  href="#" >Support</a></li>
+                        <li> <a href="support.jsp">Support</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
+
         <!--Login form -->
         <div id="id01" class="modal">
 
@@ -70,34 +71,11 @@
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {
-                if (event.target === modal) {
+                if (event.target == modal) {
                     modal.style.display = "none";
                 }
             }
         </script>
         
-        <div class="w3-container w3-padding-32 w3-content">
-            <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Carport regulations</h2>
-                <p>Here you will find all the necessary regulations for you to check to see if you're compliant to the law.</p>
-            </div>
-            <div class="w3-card-2 w3-container w3-margin">
-                <h2>Minimum requirements</h2>
-                <p>Lorem ipusm bla blabla</p>
-            </div>
-        </div>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-     </body>
+    </body>
 </html>
