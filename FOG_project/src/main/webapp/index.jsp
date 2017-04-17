@@ -42,18 +42,24 @@
         <!--Login form -->
         <div id="id01" class="modal">
 
-            <form class="modal-content animate" action="/action_page.php">
+            <form class="modal-content animate" action="Login">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('id01').style.display = 'none'" class="close" title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Log In</h1>
                 </div>
+                <% if ( "login".equals(request.getAttribute("error"))) {%>
+                    <div class="imgcontainer alert alert-danger">
+                        <strong> Wrong Log In details </strong> 
+                    </div>
+                <%}%>
+                
 
                 <div class="loginContainer">
                     <label><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <input type="text" placeholder="Enter Email" name="email" required>
 
                     <label><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <input type="password" placeholder="Enter Password" name="password" required>
 
                     <button type="submit">Login</button>
                     <input type="checkbox" checked="checked"> Remember me

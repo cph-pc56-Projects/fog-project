@@ -5,8 +5,13 @@
  */
 package Facade;
 
+import Data.DB;
+import Data.UserMapper;
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,22 +35,31 @@ public class Login extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws SQLException, ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            
+        response.setContentType("text/html;charset=UTF-8");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        UserMapper mapper = new UserMapper();
+        String emailDB = mapper.getEmail(email);
+        String passwordDB = mapper.getPassword(email);
+        // if the email is non existent or the password is not found or the typed password doesnt match the user`s password
+        if (emailDB == null || passwordDB == null || password != passwordDB) {
+            request.setAttribute("error", "login");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
+        
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,7 +74,11 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -74,7 +92,11 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

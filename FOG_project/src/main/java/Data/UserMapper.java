@@ -13,7 +13,46 @@ public class UserMapper {
     public UserMapper() {
         con = new DB().getConnection();
     }
-
+    
+    public String getEmail (String email){
+        String userEmail = null;
+        ResultSet rs = null;
+        Statement stmt = null;        
+        String SQLString
+                = "select email from users where email = " + email;
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQLString);
+            if (rs.next()){
+                userEmail = rs.getString("email");
+            }
+        } catch(SQLException x) {
+            System.out.println("Email not found");
+        }
+        return userEmail;
+    }
+    
+    public String getPassword(String email){
+        String password = null;
+        ResultSet rs = null;
+        Statement stmt = null;        
+        String SQLString
+                = "select password from users where email = " + email;
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQLString);
+            if (rs.next()){
+                password = rs.getString("password");
+            }
+        } catch(SQLException x) {
+            System.out.println("Password not found");
+        }
+        return password;
+    }
+    
+    
+    
+    
     public User getUser(int id) {
         ResultSet rs = null;
         Statement stmt = null;
