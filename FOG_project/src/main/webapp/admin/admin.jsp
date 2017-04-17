@@ -38,7 +38,7 @@
         </nav>
         <!--Login form -->
         <div id="adminTools" class="modal">
-            <form class="modal-content animate">
+            <form class="modal-content animate" style="margin: 140px auto">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('adminTools').style.display = 'none'" class="close" title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Admin Tools&nbsp;<span class="glyphicon glyphicon-cog"></span></h1>
@@ -71,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+            </form>
         </div>
 
         <div class="w3-card-2 w3-container">
