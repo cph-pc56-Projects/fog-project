@@ -157,3 +157,7 @@ span.psw {
         width: 80%;
     }
 }
+
+.w3-container, .w3-panel {
+    padding-top: 70px;
+}
