@@ -9,9 +9,8 @@ import Model.User;
 
 public class UserMapper {
     private Connection con;
-    
-    
-    public UserMapper() throws Exception {
+
+    public UserMapper() {
         con = new DB().getConnection();
     }
     

@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 
 public class DB {
 
-    private static String driver = "org.gjt.mm.mysql.Driver";
-    private static String URL = "jdbc:mysql://localhost:3306/fog"; //change DATABASE
+    private static String driver = "com.mysql.jdbc.Driver";
+    private static String URL = "jdbc:mysql://localhost:3306/something"; //change DATABASE
     private static String id = "root";
-    private static String pw = "calarashi"; //change PASSWORD
+    private static String pw = "password"; //change PASSWORD
 
     public Connection getConnection() {
         Connection con = null;
