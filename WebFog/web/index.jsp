@@ -60,7 +60,7 @@
                     <label><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" required>
 
-                    <button type="submit">Login</button>
+                    <button type="submit" onclick="document.getElementById('id01').style.display = 'block'">Login</button>
                     <input type="checkbox" checked="checked"> Remember me
                 </div>
 
