@@ -31,23 +31,36 @@ public class Login extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
+     * @throws java.sql.SQLException
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        UserMapper mapper = new UserMapper();
-        String emailDB = mapper.getEmail(email);
-        String passwordDB = mapper.getPassword(email);
-        // if the email is non existent or the password is not found or the typed password doesnt match the user`s password
-        if (emailDB == null || passwordDB == null || password != passwordDB) {
+            throws SQLException, ServletException, IOException, LoginError {
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+
+            UserMapper mapper = new UserMapper();
+            
+            String emailDB = mapper.getEmail(email);
+            String passwordDB = mapper.getPassword(email);
+            
+            // if the email is non existent or the password is not found or the typed password doesnt match the user`s password
+            if (emailDB == null || passwordDB == null || !password.equals(passwordDB)) {
+                throw new LoginError();
+            } 
+            
+            request.getRequestDispatcher("/support.jsp").forward(request, response);
+            
+        } catch (LoginError x) {
             request.setAttribute("error", "login");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } catch (SQLException x) {
+            System.out.println("Sth wrong with user query");
+            System.out.println(x);
         }
         
        
@@ -78,6 +91,8 @@ public class Login extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LoginError ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -96,6 +111,8 @@ public class Login extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LoginError ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -108,5 +125,11 @@ public class Login extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static class LoginError extends Exception {
+
+        public LoginError() {
+        }
+    }
 
 }

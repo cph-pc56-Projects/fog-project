@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import Model.User;
+import java.sql.PreparedStatement;
 
 
 public class UserMapper {
@@ -14,41 +15,42 @@ public class UserMapper {
         con = new DB().getConnection();
     }
     
-    public String getEmail (String email){
+    public String getEmail (String email) throws SQLException {
         String userEmail = null;
-        ResultSet rs = null;
-        Statement stmt = null;        
-        String SQLString
-                = "select email from users where email = " + email;
+        String sql = "select email from users where email = " + "'" + email + "'";
+        
         try {
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQLString);
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()){
                 userEmail = rs.getString("email");
             }
         } catch(SQLException x) {
             System.out.println("Email not found");
+            x.printStackTrace();
         }
+        
         return userEmail;
     }
     
     public String getPassword(String email){
         String password = null;
-        ResultSet rs = null;
-        Statement stmt = null;        
-        String SQLString
-                = "select password from users where email = " + email;
+        String sql = "select password from users where email = " + "'" + email + "'";
+        
         try {
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQLString);
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()){
                 password = rs.getString("password");
             }
         } catch(SQLException x) {
-            System.out.println("Password not found");
+            System.out.println("Email not found");
+            x.printStackTrace();
         }
+        
         return password;
     }
+    
     
     
     

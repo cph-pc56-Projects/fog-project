@@ -31,9 +31,8 @@
                         <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a class="w3-button"  onclick="document.getElementById('id01').style.display = 'block'"
-                               style="width:auto; background-color: #222222; color: grey;">Login</a></li>
-                        <li> <a href="support.jsp">Support</a></li>
+                        <li><a onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
+                        <li><a href="support.jsp">Support</a></li>
                     </ul>
                 </div>
             </div>
