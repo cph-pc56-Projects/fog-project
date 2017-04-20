@@ -13,8 +13,7 @@ import java.sql.SQLException;
  */
 public class main {
     
-    public static void main (String[] args) {
-        DB db = new DB();
+    public static void main (String[] args) {        
         UserMapper mapper = new UserMapper();
         String email = "Sth is wrong";
         try {

@@ -17,7 +17,7 @@ public class UserMapper {
     
     public String getEmail (String email) throws SQLException {
         String userEmail = null;
-        String sql = "select email from users where email = " + "'" + email + "'";
+        String sql = "select email from users where email ="+"'" + email + "'";
         
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
