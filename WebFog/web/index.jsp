@@ -24,7 +24,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="index.html">HOME</a>
+                    <a class="navbar-brand" href="index.jsp">HOME</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">                        
@@ -43,11 +43,22 @@
 
             <form class="modal-content animate" action="Login">
                 <div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+                    <span onclick="document.getElementById('id01').style.display = 'block'"class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Log In</h1>
                 </div>
                 <% if ( "login".equals(request.getAttribute("error"))) {%>
-                    <div class="imgcontainer alert alert-danger">
+                    <script>
+                        // Get the modal
+                        var modal = document.getElementById('id01');
+
+                        // When the user clicks anywhere outside of the modal, close it
+                        window.onclick = function (event) {
+                            if (event.target == modal) {
+                                modal.style.display = 'block';
+                            }
+                        }
+                    </script>
+                        <div class="imgcontainer alert alert-danger">
                         <strong> Wrong Log In details </strong> 
                     </div>
                 <%}%>
@@ -71,6 +82,7 @@
             </form>
         </div>
 
+        
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
@@ -82,7 +94,7 @@
                 }
             }
         </script>
-
+        
         <div class="wide">
             <div class="container text-center pad">
                 <h1><span class="box">My First Carport</span></h1>      
