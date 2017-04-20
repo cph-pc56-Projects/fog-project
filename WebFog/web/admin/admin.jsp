@@ -31,7 +31,7 @@
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#" onclick="document.getElementById('adminTools').style.display = 'block'">Admin Tools&nbsp;<span class="glyphicon glyphicon-cog"></span></a></li>
-                        <li> <a href="../index.html">Log Out</a></li>
+                        <li> <a href="../index.jsp">Log Out</a></li>
                     </ul>
                 </div>
             </div>
