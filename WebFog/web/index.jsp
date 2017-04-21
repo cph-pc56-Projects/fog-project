@@ -43,20 +43,12 @@
 
             <form class="modal-content animate" action="Login">
                 <div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display = 'block'"class="close"  title="Close Modal">&times;</span>
+                    <span onclick="document.getElementById('id01').style.display = 'none'"class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Log In</h1>
                 </div>
                 <% if ( "login".equals(request.getAttribute("error"))) {%>
                     <script>
-                        // Get the modal
-                        var modal = document.getElementById('id01');
-
-                        // When the user clicks anywhere outside of the modal, close it
-                        window.onclick = function (event) {
-                            if (event.target == modal) {
-                                modal.style.display = 'block';
-                            }
-                        }
+                        alert("Invalid username and password");
                     </script>
                         <div class="imgcontainer alert alert-danger">
                         <strong> Wrong Log In details </strong> 
