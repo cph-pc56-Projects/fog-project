@@ -70,7 +70,7 @@
             }
         </script>
         
-        <div class="w3-container w3-padding-32 w3-content">
+        <div class="w3-container w3-padding-64 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
                 <h2>Carport regulations</h2>
                 <p>Here you will find all the necessary regulations for you to check to see if you're compliant to the law.</p>

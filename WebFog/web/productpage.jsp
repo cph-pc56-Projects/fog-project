@@ -82,10 +82,10 @@
             <a href="javascript:void(0)" class="w3-right w3-bar-item w3-button" onclick="w3_open()"><i class="fa fa-bars"></i></a>
         </header>
 
-        
+        <div style="padding: 50px;"></div>
 
         <!-- !PAGE CONTENT! -->
-        <div class="w3-main w3-white" style="margin-left:260px">
+        <div class="w3-main w3-white w3-padding-16 w3-card-2" style="margin-left:260px">
 
             <!-- Push down content on small screens -->
             <div class="w3-hide-large" style="margin-top:80px"></div>
