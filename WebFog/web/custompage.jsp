@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Support</title>
+        <title>Custom Carport</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -24,9 +24,8 @@
                         <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a class="w3-button"  onclick="document.getElementById('id01').style.display = 'block'"
-                               style="width:auto; background-color: #222222; color: grey;">Login</a></li>
-                        <li class="active"> <a  href="#" >Support</a></li>
+                        <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
+                        <li><a href="support.jsp" >Support</a></li>
                     </ul>
                 </div>
             </div>
@@ -69,29 +68,41 @@
                 }
             }
         </script>
-        
+
         <div class="w3-container w3-padding-32 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Carport regulations</h2>
-                <p>Here you will find all the necessary regulations for you to check to see if you're compliant to the law.</p>
-            </div>
-            <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Minimum requirements</h2>
-                <p>Lorem ipusm bla blabla</p>
-            </div>
-            <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Our hot phone lines</h2>
-                <p>555-33 22 (Copenhagen)</p>
-                <p>555-22 33 (International)</p>
-            </div>
-            <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>SPam us here :</h2>
-                <p>mail@thismail.mail</p>
+                <h2>Custom Carports</h2>
+                <p>Here you can make your own carport, just input the measures that fits your needs.</p>
+                <form class="modal-content animate" action="custompage2.jsp" method="post">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('id01').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
+                        <h1 class="w3-container ">Measures</h1>
+                    </div>
+
+                    <div class="loginContainer">
+                        <label><b>Width</b></label>
+                        <input type="text" placeholder="Width in centimeters" name="width" required>
+
+                        <label><b>Length</b></label>
+                        <input type="text" placeholder="Length in centimeters" name="length" required>
+
+                        <label><b>Heigh</b></label>
+                        <input type="text" placeholder="Heigh in centimeters" name="heigh" required>
+
+                        <button type="submit">Next</button>
+                    </div>
+
+                    <div class="loginContainer" style="background-color:#f1f1f1">
+                        <button type="reset" style="background-color: red">Reset</button>
+                    </div>
+                    <div class="w3-light-grey">
+                        <div class="w3-container w3-green w3-center" style="width:25%">Step 1/3</div>
+                    </div>
+                </form>
             </div>
         </div>
-        
-        
-       <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
+
+        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
 
         </footer>
