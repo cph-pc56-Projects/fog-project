@@ -76,11 +76,11 @@
             }
         </script>
         
-        <div class="w3-container w3-padding-32 w3-content">
+        <div class="w3-container w3-padding-64 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
                 <h2>Before you buy you may consider :</h2>
                 <p>Lorem ipusm bla blabla</p>
-                <ol>
+                <ol style="text-align: left;">
                     <li>Visit Local Regulations first. (link <span style="color: blue"><a href="#">here</a></span>)</li>
                     <li>If bored from the first step, call us now on 555-37 37. (or go to <span style="color: blue"><a href="support.jsp">Support</a></span> page)</li>
                     <li>Know the right measures: </li>
