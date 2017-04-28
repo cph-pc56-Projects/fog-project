@@ -44,7 +44,7 @@ public class Login extends HttpServlet {
             String password = request.getParameter("password");
 
             UserMapper mapper = new UserMapper();
-            
+            request.setAttribute("mapper", mapper);
             String emailDB = mapper.getEmail(email);
             String passwordDB = mapper.getPassword(email);
             
@@ -57,6 +57,7 @@ public class Login extends HttpServlet {
             
         } catch (LoginError x) {
             request.setAttribute("error", "login");
+            
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (SQLException x) {
             System.out.println("Sth wrong with user query");

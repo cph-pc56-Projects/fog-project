@@ -72,6 +72,7 @@
 
                     <button type="submit" >Login</button>
                     <input type="checkbox" checked="checked"> Remember me
+                    <button type="button" onclick="document.getElementById('id02').style.display = 'block'" class="w3-button w3-black">Register</button>
                 </div>
 
                 <div class="loginContainer" style="background-color:#f1f1f1">
@@ -81,15 +82,60 @@
             </form>
         </div>
 
+        <!--Register form START-->
+        <div id="id02" class="modal">
+            <form class="modal-content animate" action="Register" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id02').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Register</h1>
+                </div>
+                <script>
+                    // Get the modal
+                    var modal2 = document.getElementById('id02');
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal2) {
+                            modal2.style.display = 'block';
+                        }
+                    }
+                </script>
+
+
+                <div class="loginContainer">
+                    <label><b>Email</b></label>
+                    <input type="text" placeholder="Email" name="email" required>
+                    <label><b>Password</b></label>
+                    <input type="password" placeholder="Password" name="password" required>
+                    <label><b>Re-type Password</b></label>
+                    <input type="password" placeholder="Re-type Password" name="repassword" required>
+                    <label><b>First name</b></label>
+                    <input type="text" placeholder="First name" name="fname" required>
+                    <label><b>Last name</b></label>
+                    <input type="text" placeholder="Second name" name="lname" required>
+                    <label><b>Phone number</b></label>
+                    <input type="text" placeholder="Mobile,Fax,Landline, etc." name="pnumber" required>
+                    <label><b>Address</b></label>
+                    <input type="text" placeholder="Street Address" name="address" required>
+                    <label><b>Zip code</b></label>
+                    <input type="text" placeholder="Local post code" name="zipcode" required>
+
+                    <button type="submit">Register</button>
+                    <button type="button" onclick="document.getElementById('id02').style.display = 'none'" class="cancelbtn">Close</button>
+                </div>
+            </form>
+        </div><!-- Register END -->
 
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
+            var modal2 = document.getElementById('id02');
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {
-                if (event.target == modal) {
+                if (event.target == modal || event.target == modal2) {
                     modal.style.display = "none";
+                    modal2.style.display = "none";
                 }
             }
         </script>
@@ -116,12 +162,10 @@
         </div>
         <!-- Custom ends here -->
 
+        <!-- Product line -->
         <div class="w3-container w3-padding-32 w3-center" id="Contact">
             <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Our Product line</h3>
         </div>
-
-
-
 
         <div class="w3-row w3-container">
             <div class="w3-half">
@@ -205,7 +249,7 @@
         <div class="w3-container">
             <p class="w3-border-bottom w3-border-light-grey w3-padding-16"></p>
         </div>
-
+        <!-- /Product line -->
 
         <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
