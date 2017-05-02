@@ -168,26 +168,28 @@
         </div>
 
         <div class="w3-row w3-container">
+            <!--1st Product -->
             <div class="w3-half">
                 <div class="w3-card-4 w3-margin " >
                     <div class="w3-display-container w3-text-white">
                         <img src="media/pictures/CAR01.png" alt="CAR01" style="width:100%">
-                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><h3>CAR01</h3></div>
+                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><h3><span class="w3-black box">Carport 1</span></h3></div>
                     </div> 
                     <div class="w3-padding-16  w3-container">
                         <p class="w3-threequarter">3,00 x 4,80 mtr. Højde; 2,25 mtr. Trykimprægnerede stolper og stern. 
                             Leveres med: søm, skruer, beslag og plasttrapez tag m/topskruer.
                             NB! Leveres som Byg-selv sæt - usamlet og ubehandlet!</p>
                         <h3 class="w3-threequarter">Price : pr. stk. 3.495,-</h3>
-                        <a href="productpage.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
+                        <a href="carport1.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
                     </div>                    
                 </div>
             </div>
+            <!--2nd Product -->
             <div class="w3-half">
                 <div class="w3-card-4 w3-margin " >
                     <div class="w3-display-container w3-text-white">
                         <img src="media/pictures/CAR01HR.png" alt="CAR01HR" style="width:100%">
-                        <div class="w3-xlarge w3-display-bottomleft w3-padding">CAR01HR</div>
+                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">Carport 2</span></div>
                     </div> 
                     <div class="w3-padding-16  w3-container">
                         <p class="w3-threequarter">Enkelt carport med høj rejsning. 3,60 x 7,20 m. m/Byg-selv spær. Inkl. 3,20 x 2,25 m. redskabsrum. Højde; 3,05 mtr.
@@ -195,15 +197,16 @@
                             Varen kan ses udstillet i følgende afdelinger:
                             Værebro</p>
                         <h3 class="w3-threequarter">Price : pr. stk. 18.995,-</h3>
-                        <a href="productpage.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
+                        <a href="carport2.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
                     </div>                    
                 </div>
             </div>
+            <!--3rd Product -->
             <div class="w3-half">
                 <div class="w3-card-4 w3-margin " >
                     <div class="w3-display-container w3-text-white">
-                        <img src="http://placehold.it/350x150" alt="Lights" style="width:100%">
-                        <div class="w3-xlarge w3-display-bottomleft w3-padding">Carport #12312</div>
+                        <img src="media/pictures/flat2.png" alt="Lights" style="width:100%">
+                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">Carport 3</span></div>
                     </div> 
                     <div class="w3-padding-16  w3-container">
                         <p class="w3-threequarter">Some details here and there we are here you boommmm chaka lkakaand here ahee as ad asd asdas das d </p>
@@ -213,15 +216,16 @@
                             <li>3. Two</li>
                             <li>4. Seven</li>
                         </ul>  
-                        <a href="productpage.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
+                        <a href="carport3.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
                     </div>                    
                 </div>
             </div>
+            <!--4th Product -->
             <div class="w3-half">
                 <div class="w3-card-4 w3-margin " >
                     <div class="w3-display-container w3-text-white">
-                        <img src="http://placehold.it/350x150" alt="Lights" style="width:100%">
-                        <div class="w3-xlarge w3-display-bottomleft w3-padding">Carport #22</div>
+                        <img src="media/pictures/pitch2.png" alt="Lights" style="width:100%">
+                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">Carport 4</span></div>
                     </div> 
                     <div class="w3-padding-16  w3-container">
                         <p class="w3-threequarter">Some details here and there we are here you boommmm chaka lkakaand here ahee as ad asd asdas das d </p>
@@ -241,7 +245,7 @@
                                 <td>Null</td>
                             </tr>
                         </table>
-                        <a href="productpage.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
+                        <a href="carport4.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
                     </div>                    
                 </div>
             </div>

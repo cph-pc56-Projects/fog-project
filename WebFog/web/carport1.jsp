@@ -85,13 +85,11 @@
         <div style="padding: 50px;"></div>
 
         <!-- !PAGE CONTENT! -->
-        <div class="w3-main w3-white w3-padding-16 w3-card-2" style="margin-left:260px">
-
-            <!-- Push down content on small screens -->
-            <div class="w3-hide-large" style="margin-top:80px"></div>
+        <div class="w3-main w3-white w3-padding-16 w3-card-2">
+            <h1 class="w3-center">Carport 1</h1>   
 
             <!-- Slideshow Header -->
-            <div class="w3-container" id="apartment">
+            <div class="w3-container w3-content" id="apartment">
                
                 <div class="w3-display-container mySlides">
                     <img src="media/pictures/CAR01.png" style="width:100%;margin-bottom:-6px">
@@ -145,20 +143,7 @@
             </div>
             <hr>
 
-            <!-- Contact -->
-            <div class="w3-container" id="contact">
-                <h2>Contact</h2>
-                <i class="fa fa-map-marker" style="width:30px"></i> Lyngby <br>
-                <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
-                <i class="fa fa-envelope" style="width:30px"> </i> Email: mail@mail.com<br>
-                <p>Questions? Go ahead, ask them:</p>
-                <form action="/action_page.php" target="_blank">
-                    <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
-                    <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
-                    <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-                    <button type="submit" class="w3-button w3-green w3-third">Send a Message</button>
-                </form>
-            </div>
+            
 
             <!-- End page content -->
         </div>
