@@ -85,7 +85,7 @@
                     <li>If bored from the first step, call us now on 555-37 37. (or go to <span style="color: blue"><a href="support.jsp">Support</a></span> page)</li>
                     <li>Know the right measures: </li>
                 </ol>
-                <img src="media/pictures/byb500x700.png">
+                
                 <p>MEASURES</p>
             </div>
         </div>
