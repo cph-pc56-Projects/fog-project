@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,9 +6,9 @@ import java.sql.DriverManager;
 public class DB {
 
     private static String driver = "com.mysql.jdbc.Driver";
-    private static String URL = "jdbc:mysql://localhost:3306/fog"; 
+    private static String URL = "jdbc:mysql://localhost:3306/jfog"; //DATABASE
     private static String id = "root";
-    private static String pw = "calarashi"; //change PASSWORD
+    private static String pw = "33chereshi"; //change PASSWORD
 
     public Connection getConnection() {
         Connection con = null;

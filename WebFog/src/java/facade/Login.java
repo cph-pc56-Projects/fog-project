@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Facade;
+package facade;
 
-import Data.DB;
-import Data.UserMapper;
+import data.DB;
+import data.UserMapper;
 import java.io.IOException;
 
 import java.sql.SQLException;
@@ -17,6 +17,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
@@ -44,15 +46,18 @@ public class Login extends HttpServlet {
             String password = request.getParameter("password");
 
             UserMapper mapper = new UserMapper();
-            request.setAttribute("mapper", mapper);
+            request.setAttribute("mapper", mapper); // WHY THIS LINE ???
             String emailDB = mapper.getEmail(email);
             String passwordDB = mapper.getPassword(email);
             
-            // if the email is non existent or the password is not found or the typed password doesnt match the user`s password
+            // if the email is non existent or the password is not found or the typed password doesn't match the user`s password
             if (emailDB == null || passwordDB == null || !password.equals(passwordDB)) {
                 throw new LoginError();
-            } 
+            }
+            User user = mapper.getUser(2); //here give the method the right ID that we need.
             
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
             request.getRequestDispatcher("/support.jsp").forward(request, response);
             
         } catch (LoginError x) {
@@ -124,7 +129,7 @@ public class Login extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Login Servlet that takes user input like email and password, connects to DB and checks if the user exist in the DB, if true, opens a session.";
     }// </editor-fold>
 
     private static class LoginError extends Exception {

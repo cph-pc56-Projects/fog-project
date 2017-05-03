@@ -75,7 +75,7 @@
             }
         </script>
 
-        
+
         <!-- Top menu on small screens -->
         <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
             <span class="w3-bar-item">Rental</span>
@@ -138,9 +138,49 @@
 
                 <h4><strong>Buy this beauty</strong></h4>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                
-                <p><button class="w3-button w3-green w3-third" onclick="document.getElementById('subscribe').style.display = 'block'">Buy</button></p>
+
+                <p><button class="w3-button w3-green w3-third" onclick=
+                           <%
+                               if (session.getAttribute("username") == null) {
+                                   String buyLink = "document.getElementById('cardAPI').style.display = 'block'";
+                                   session.setAttribute("buyLink", buyLink);
+                               } else {
+                                   String buyLink = "document.getElementById('cardAPI').style.display = 'block'";
+                                   session.setAttribute("buyLink", buyLink);
+                               }
+                           %>
+                           "<%= session.getAttribute("buyLink")%>">Buy</button></p>
             </div>
+            <!-- Credit Card -->
+            <div id="cardAPI" class="modal">
+                <form class="modal-content animate" action="thankyou.jsp">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('cardAPI').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+                        <h1 class="w3-container ">Credit Card Details</h1>
+                    </div>
+
+                    <div class="loginContainer">
+                        <label><b>Cardholder's name:</b></label>
+                        <input type="text" placeholder="the same as the card" name="cardname" required>
+
+                        <label><b>Credit Card No. :</b></label>
+                        <input type="password" placeholder="Enter all numericals" name="cardnumber" required>
+                        
+                        <label><b>Valid Date:</b></label>
+                        <input type="password" placeholder="Month / Year" name="carddate" required>
+                        
+                        <label><b>CCV No. :</b></label>
+                        <input type="password" placeholder="on the back" name="cardccv" required>
+
+                        <button type="submit">Buy</button>
+                    </div>
+
+                    <div class="loginContainer" style="background-color:#f1f1f1">
+                        <button type="button" onclick="document.getElementById('cardAPI').style.display = 'none'" class="cancelbtn">Cancel</button>
+                        <span class="psw"><a href="#">Forgot password?</a></span>
+                    </div>
+                </form>
+            </div> <!-- CreditCard END HERE -->
             <hr>
 
             
@@ -163,36 +203,36 @@
 
 
         <script>// Slideshow Apartment Images
-                    var slideIndex = 1;
-                    showDivs(slideIndex);
+                            var slideIndex = 1;
+                            showDivs(slideIndex);
 
-                    function plusDivs(n) {
-                        showDivs(slideIndex += n);
-                    }
+                            function plusDivs(n) {
+                                showDivs(slideIndex += n);
+                            }
 
-                    function currentDiv(n) {
-                        showDivs(slideIndex = n);
-                    }
+                            function currentDiv(n) {
+                                showDivs(slideIndex = n);
+                            }
 
-                    function showDivs(n) {
-                        var i;
-                        var x = document.getElementsByClassName("mySlides");
-                        var dots = document.getElementsByClassName("demo");
-                        if (n > x.length) {
-                            slideIndex = 1
-                        }
-                        if (n < 1) {
-                            slideIndex = x.length
-                        }
-                        for (i = 0; i < x.length; i++) {
-                            x[i].style.display = "none";
-                        }
-                        for (i = 0; i < dots.length; i++) {
-                            dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
-                        }
-                        x[slideIndex - 1].style.display = "block";
-                        dots[slideIndex - 1].className += " w3-opacity-off";
-                    }
+                            function showDivs(n) {
+                                var i;
+                                var x = document.getElementsByClassName("mySlides");
+                                var dots = document.getElementsByClassName("demo");
+                                if (n > x.length) {
+                                    slideIndex = 1
+                                }
+                                if (n < 1) {
+                                    slideIndex = x.length
+                                }
+                                for (i = 0; i < x.length; i++) {
+                                    x[i].style.display = "none";
+                                }
+                                for (i = 0; i < dots.length; i++) {
+                                    dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+                                }
+                                x[slideIndex - 1].style.display = "block";
+                                dots[slideIndex - 1].className += " w3-opacity-off";
+                            }
         </script>
 
     </body>
