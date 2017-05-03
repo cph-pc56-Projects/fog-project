@@ -56,7 +56,6 @@
                 </div>
             </form>
         </div>
-
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
@@ -68,25 +67,24 @@
                 }
             }
         </script>
-
         <div class="w3-container w3-padding-32 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
                 <h2>Custom Carports 2</h2>
                 <p>Here you can make your own carport, just input the measures that fits your needs.</p>
-                <form class="modal-content animate" action="custompage3.jsp">
+                <form class="modal-content animate" action="customFinalDetails.jsp">
                     <div class="imgcontainer">
                         <span onclick="document.getElementById('id01').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                         <h1 class="w3-container ">Measures</h1>
                     </div>
 
                     <div class="loginContainer">
-                        <label><b>Tools Room Width</b></label>
+                        <label><b>Other Details</b></label>
                         <input type="text" placeholder="Width in centimeters" name="width" required>
 
-                        <label><b>Tools Room Length</b></label>
+                        <label><b>Other Details</b></label>
                         <input type="text" placeholder="Length in centimeters" name="length" required>
 
-                        <label><b>Tools Room Heigh</b></label>
+                        <label><b>Other Details</b></label>
                         <input type="text" placeholder="Heigh in centimeters" name="heigh" required>
 
                         <button type="submit">Next</button>
@@ -96,7 +94,7 @@
                         <button type="reset" style="background-color: red">Reset</button>
                     </div>
                     <div class="w3-light-grey">
-                        <div class="w3-container w3-green w3-center" style="width:50%">Step 2/3</div>
+                        <div class="w3-container w3-green w3-center" style="width:50%">Step 3/3</div>
                     </div>
                 </form>
             </div>
