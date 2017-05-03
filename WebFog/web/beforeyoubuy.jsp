@@ -30,7 +30,7 @@
                         <li class="active"><a href="#">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
+                        <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
                         <li> <a href="support.jsp">Support</a></li>
                     </ul>
                 </div>

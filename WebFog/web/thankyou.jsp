@@ -3,12 +3,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Support</title>
+        <title>Before you buy</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
-    <body class="w3-light-grey">
+    <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -21,15 +21,16 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">                        
-                        <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
+                        <li class="active"><a href="#">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"  onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
-                        <li class="active"> <a  href="#" >Support</a></li>
+                        <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
+                        <li> <a href="support.jsp">Support</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
+
         <!--Login form -->
         <div id="id01" class="modal">
 
@@ -45,7 +46,7 @@
 
                     <label><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="psw" required>
-
+                    
                     <button type="submit">Login</button>
                     <input type="checkbox" checked="checked"> Remember me
                 </div>
@@ -63,7 +64,7 @@
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {
-                if (event.target === modal) {
+                if (event.target == modal) {
                     modal.style.display = "none";
                 }
             }
@@ -71,26 +72,19 @@
         
         <div class="w3-container w3-padding-64 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Carport regulations</h2>
-                <p>Here you will find all the necessary regulations for you to check to see if you're compliant to the law.</p>
-            </div>
-            <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Minimum requirements</h2>
-                <p>Lorem ipusm bla blabla</p>
-            </div>
-            <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Our hot phone lines</h2>
-                <p>555-33 22 (Copenhagen)</p>
-                <p>555-22 33 (International)</p>
-            </div>
-            <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>SPam us here :</h2>
-                <p>mail@thismail.mail</p>
+                <h2>Thank you for your purchase!</h2>
+                <p>One of our specialists will contact you in (?)days on this basis:</p>
+                <ol class="w3-center" style="text-align: left;">
+                    <li>Through email</li>
+                    <li>On the phone that you're provided</li>
+                </ol>
+                <p>(Here's Why: You will speak about your new carport, on how to be delivered, if the bank transaction is verified, how your wife and kids are doing and other stuff.)</p>
+                <p>Be ready and smile.</p>
+                <a class="w3-button w3-green" href="index.jsp">Go to Home page.</a>  
             </div>
         </div>
         
-        
-       <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
+        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
 
         </footer>

@@ -31,7 +31,7 @@
                         <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
+                        <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
                         <li><a href="support.jsp">Support</a></li>
                     </ul>
                 </div>
@@ -49,6 +49,8 @@
                 <script>
                     // Get the modal
                     var modal = document.getElementById('id01');
+                    // Make modal Login to be visible if the first login attempt was failed
+                    modal.style.display = 'block';
 
                     // When the user clicks anywhere outside of the modal, close it
                     window.onclick = function (event) {
@@ -80,7 +82,7 @@
                     <span class="psw"><a href="#">Forgot password?</a></span>
                 </div>
             </form>
-        </div>
+        </div><!-- Login END -->
 
         <!--Register form START-->
         <div id="id02" class="modal">
