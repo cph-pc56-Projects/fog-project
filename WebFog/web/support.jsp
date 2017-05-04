@@ -93,7 +93,7 @@
                 <h2>Feedback</h2>
                 <p>It would mean the world to us if you would spent a
                     couple of minutes answering our survey on your customer 
-                    experience. Click <span style="color: #cc00cc"><a href="#">here</a></span></li>
+                    experience. Click <span style="color: #cc00cc"><a href="survey.jsp">here</a></span></li>
                     to proceed  </p>
             </div>
         </div>

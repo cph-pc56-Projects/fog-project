@@ -7,8 +7,8 @@ public class DB {
 
     private static String driver = "com.mysql.jdbc.Driver";
     private static String URL = "jdbc:mysql://localhost:3306/fog"; 
-    private static String id = "root";
-    private static String pw = "calarashi"; //change PASSWORD
+    private static String id = "fog";
+    private static String pw = "fog123"; //change PASSWORD
 
     public Connection getConnection() {
         Connection con = null;
