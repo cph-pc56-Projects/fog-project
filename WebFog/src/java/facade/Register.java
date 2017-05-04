@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Register extends HttpServlet {
 
     //define variables comming from user input
-    String email, password, fname, lname, pnumber, address, zipcode;
+    String email, password, fName, lName, phone, adress, zipCode, role, creationDate;
     private Connection conn;
 
     /**
@@ -39,20 +39,21 @@ public class Register extends HttpServlet {
         try {
             email = request.getParameter("email");
             password = request.getParameter("password");
-            fname = request.getParameter("fname");
-            lname = request.getParameter("lname");
-            pnumber = request.getParameter("pnumber");
-            address = request.getParameter("address");
-            zipcode = request.getParameter("zipcode");
+            fName = request.getParameter("fName");
+            lName = request.getParameter("lName");
+            phone = request.getParameter("phone");
+            adress = request.getParameter("adress");
+            zipCode = request.getParameter("zipCode");
             conn = new DB().getConnection();
             Statement st = conn.createStatement();
-            int i = st.executeUpdate("insert into members(email, password, fname, lname, phone, address, zipcode, regdate, accrole, status) values ('" + email + "','" + password + "','" + fname + "','" + lname + "','" + pnumber + "','" + address + "','" + zipcode + "', CURDATE(), 'customer', 'positive')");
+            int i = st.executeUpdate("insert into users(email, password, fName, lName, phone, adress, zipCode, role, creationDate) "
+                    + "values ('" + email + "','" + password + "','" + fName + "','" + lName + "','" + phone + "','" + adress + "'," + Integer.parseInt(zipCode) + ", 0 , CURDATE())");
             if (i > 0) {
                 response.sendRedirect("index.jsp");
             } else {
                 response.sendRedirect("error/failRegister.jsp");
             }
-            
+
         } catch (SQLException e) {
             response.sendRedirect("error/failSQL.jsp");
         }

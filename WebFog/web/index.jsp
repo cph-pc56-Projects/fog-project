@@ -112,15 +112,15 @@
                     <label><b>Re-type Password</b></label>
                     <input type="password" placeholder="Re-type Password" name="repassword" required>
                     <label><b>First name</b></label>
-                    <input type="text" placeholder="First name" name="fname" required>
+                    <input type="text" placeholder="First name" name="fName" required>
                     <label><b>Last name</b></label>
-                    <input type="text" placeholder="Second name" name="lname" required>
+                    <input type="text" placeholder="Second name" name="lName" required>
                     <label><b>Phone number</b></label>
-                    <input type="text" placeholder="Mobile,Fax,Landline, etc." name="pnumber" required>
+                    <input type="text" placeholder="Mobile,Fax,Landline, etc." name="phone" required>
                     <label><b>Address</b></label>
-                    <input type="text" placeholder="Street Address" name="address" required>
+                    <input type="text" placeholder="Street Address" name="adress" required>
                     <label><b>Zip code</b></label>
-                    <input type="text" placeholder="Local post code" name="zipcode" required>
+                    <input type="text" placeholder="Local post code" name="zipCode" required>
 
                     <button type="submit">Register</button>
                     <button type="button" onclick="document.getElementById('id02').style.display = 'none'" class="cancelbtn">Close</button>
