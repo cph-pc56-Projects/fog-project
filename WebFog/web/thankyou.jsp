@@ -1,9 +1,3 @@
-<%-- 
-    Document   : beforeyoubuy
-    Created on : Apr 12, 2017, 10:13:45 AM
-    Author     : trez__000
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -78,15 +72,15 @@
         
         <div class="w3-container w3-padding-64 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Before you buy you may consider :</h2>
-                <p>Lorem ipusm bla blabla</p>
-                <ol style="text-align: left;">
-                    <li>Visit Local Regulations first. (link <span style="color: blue"><a href="#">here</a></span>)</li>
-                    <li>If bored from the first step, call us now on 555-37 37. (or go to <span style="color: blue"><a href="support.jsp">Support</a></span> page)</li>
-                    <li>Know the right measures: </li>
+                <h2>Thank you for your purchase!</h2>
+                <p>One of our specialists will contact you in (?)days on this basis:</p>
+                <ol class="w3-center" style="text-align: left;">
+                    <li>Through email</li>
+                    <li>On the phone that you're provided</li>
                 </ol>
-                
-                <p>MEASURES</p>
+                <p>(Here's Why: You will speak about your new carport, on how to be delivered, if the bank transaction is verified, how your wife and kids are doing and other stuff.)</p>
+                <p>Be ready and smile.</p>
+                <a class="w3-button w3-green" href="index.jsp">Go to Home page.</a>  
             </div>
         </div>
         

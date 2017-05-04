@@ -3,22 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Facade;
+package facade;
 
+import data.DB;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author dido8
- */
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
+
+    //define variables comming from user input
+    String email, password, fname, lname, pnumber, address, zipcode;
+    private Connection conn;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,18 +35,26 @@ public class Register extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Register</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Register at " + request.getContextPath() + "</h1>");
-            out.println("<h1>REGISTER PAGE.</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        try {
+            email = request.getParameter("email");
+            password = request.getParameter("password");
+            fname = request.getParameter("fname");
+            lname = request.getParameter("lname");
+            pnumber = request.getParameter("pnumber");
+            address = request.getParameter("address");
+            zipcode = request.getParameter("zipcode");
+            conn = new DB().getConnection();
+            Statement st = conn.createStatement();
+            int i = st.executeUpdate("insert into members(email, password, fname, lname, phone, address, zipcode, regdate, accrole, status) values ('" + email + "','" + password + "','" + fname + "','" + lname + "','" + pnumber + "','" + address + "','" + zipcode + "', CURDATE(), 'customer', 'positive')");
+            if (i > 0) {
+                response.sendRedirect("index.jsp");
+            } else {
+                response.sendRedirect("error/failRegister.jsp");
+            }
+            
+        } catch (SQLException e) {
+            response.sendRedirect("error/failSQL.jsp");
         }
     }
 

@@ -1,10 +1,10 @@
-package Data;
+package data;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import Model.User;
+import model.User;
 import java.sql.PreparedStatement;
 
 
@@ -51,6 +51,17 @@ public class UserMapper {
         return password;
     }
     
+    public void createUser(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws Exception {
+        try {
+            PreparedStatement create = con.prepareStatement("INSERT INTO users (email, password, fName, lName, phone, adress, zipCode, type, creationDate)"
+                    + " VALUES ('"+email+"', '"+password+"', '"+fName+"', '"+lName+"', '"+phone+"', '"+adress+"', '"+zipCode+"', 0, CURDATE())");
+            create.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Something wrong with post()");
+        } finally {
+            System.out.println("Insert Complete");
+        }
+    }
     
     
     
