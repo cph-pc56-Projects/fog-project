@@ -61,7 +61,7 @@ public class Register extends HttpServlet {
             } else {
                 response.sendRedirect("error/failRegister.jsp");
             }
-             response.sendRedirect("index.jsp");
+            
         } catch (SQLException e) {
             response.sendRedirect("error/failSQL.jsp");
         }
