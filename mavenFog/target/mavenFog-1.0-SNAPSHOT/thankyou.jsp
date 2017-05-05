@@ -33,22 +33,41 @@
 
         <!--Login form -->
         <div id="id01" class="modal">
-
-            <form class="modal-content animate" action="/action_page.php">
+            <form class="modal-content animate" action="Login" method = "POST">
                 <div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+                    <span onclick="document.getElementById('id01').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Log In</h1>
                 </div>
+                <% if ("login".equals(request.getAttribute("error"))) {%>
+                <script>
+                    // Get the modal
+                    var modal = document.getElementById('id01');
+                    // Make modal Login to be visible if the first login attempt was failed
+                    modal.style.display = 'block';
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = 'block';
+                        }
+                    }
+                </script>
+                <div class="imgcontainer alert alert-danger">
+                    <strong> Wrong Log In details </strong> 
+                </div>
+                <%}%>
+
 
                 <div class="loginContainer">
                     <label><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <input type="text" placeholder="Enter Email" name="email" required>
 
                     <label><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" required>
-                    
-                    <button type="submit">Login</button>
+                    <input type="password" placeholder="Enter Password" name="password" required>
+
+                    <button type="submit" >Login</button>
                     <input type="checkbox" checked="checked"> Remember me
+                    <button type="button" onclick="document.getElementById('id02').style.display = 'block'" class="w3-button w3-black">Register</button>
                 </div>
 
                 <div class="loginContainer" style="background-color:#f1f1f1">
@@ -56,16 +75,62 @@
                     <span class="psw"><a href="#">Forgot password?</a></span>
                 </div>
             </form>
-        </div>
+        </div><!-- Login END -->
+
+        <!--Register form START-->
+        <div id="id02" class="modal" style="overflow-y: scroll">
+            <form class="modal-content animate" action="Register" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id02').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Register</h1>
+                </div>
+                <script>
+                    // Get the modal
+                    var modal2 = document.getElementById('id02');
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal2) {
+                            modal2.style.display = 'block';
+                        }
+                    }
+                </script>
+
+
+                <div class="loginContainer">
+                    <label><b>Email</b></label>
+                    <input type="text" placeholder="Email" name="email" required>
+                    <label><b>Password</b></label>
+                    <input type="password" placeholder="Password" name="password" required>
+                    <label><b>Re-type Password</b></label>
+                    <input type="password" placeholder="Re-type Password" name="repassword" required>
+                    <label><b>First name</b></label>
+                    <input type="text" placeholder="First name" name="fName" required>
+                    <label><b>Last name</b></label>
+                    <input type="text" placeholder="Second name" name="lName" required>
+                    <label><b>Phone number</b></label>
+                    <input type="text" placeholder="Mobile,Fax,Landline, etc." name="phone" required>
+                    <label><b>Address</b></label>
+                    <input type="text" placeholder="Street Address" name="adress" required>
+                    <label><b>Zip code</b></label>
+                    <input type="text" placeholder="Local post code" name="zipCode" required>
+
+                    <button type="submit">Register</button>
+                    <button type="button" onclick="document.getElementById('id02').style.display = 'none'" class="cancelbtn">Close</button>
+                </div>
+            </form>
+        </div><!-- Register END -->
 
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
+            var modal2 = document.getElementById('id02');
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {
-                if (event.target == modal) {
+                if (event.target == modal || event.target == modal2) {
                     modal.style.display = "none";
+                    modal2.style.display = "none";
                 }
             }
         </script>

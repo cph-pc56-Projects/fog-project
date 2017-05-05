@@ -85,7 +85,7 @@
         </div><!-- Login END -->
 
         <!--Register form START-->
-        <div id="id02" class="modal">
+        <div id="id02" class="modal" style="overflow-y: scroll">
             <form class="modal-content animate" action="Register" method="post">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('id02').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
