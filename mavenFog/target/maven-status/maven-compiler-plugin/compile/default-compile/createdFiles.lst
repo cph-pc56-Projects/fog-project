@@ -1,3 +1,6 @@
 data\DB.class
 data\UserMapper.class
 servlets\Register.class
+servlets\Login.class
+servlets\Login$LoginError.class
+model\User.class
