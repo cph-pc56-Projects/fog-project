@@ -64,7 +64,7 @@ public class Login extends HttpServlet {
                 
                 // Send to index if customer, send to admin if admin
                 if (role == 0) {
-                    response.sendRedirect("/index.jsp");
+                    response.sendRedirect("index.jsp");
                 } else {
                     response.sendRedirect("admin/admin.jsp");
                 }

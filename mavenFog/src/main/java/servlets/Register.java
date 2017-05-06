@@ -44,6 +44,7 @@ public class Register extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         try {
+            //Get the data from register form
             String email, password, fName, lName, phone, adress, zipCode;
             email = request.getParameter("email");
             password = request.getParameter("password");
@@ -54,8 +55,9 @@ public class Register extends HttpServlet {
             zipCode = request.getParameter("zipCode");
             
             UserMapper mapper = new UserMapper();
-            
+            //Create new user in the database
             int i = mapper.createUser(email, password, fName, lName, phone, adress, zipCode);
+            //If successful go to index, otherwise go to error page
             if (i > 0) {
                 response.sendRedirect("index.jsp");
             } else {
