@@ -46,9 +46,6 @@
                                 <li><a id="logoutFunction" href="#">Log out</a></li>
                             </ul>
                         </li>
-
-                        <!--<a href="#" onclick="document.getElementById('logout').style.display = 'block'">Log out</a>-->
-
                         <% } else {%>
                         <!-- ELSE THE COMMON ONE WITH LOGIN -->
                         <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
@@ -149,6 +146,17 @@
             </form>
         </div><!-- Register END -->
 
+        <!--Logout modal -->
+        <div id="logout" class="modal">
+            <form class="modal-content animate">
+            <div class="imgcontainer">
+                    
+                    <h1 class="w3-container ">You are logged out!</h1>
+                    <p class="w3-container ">(You will be redirected after 5 seconds...)</p>
+                </div>
+            </form>
+        </div><!-- Logout END -->
+        
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
@@ -308,9 +316,9 @@
             $('#logoutFunction').click(function ()
             {
                 setTimeout(function () {
-                    alert("You are logged out!");
+                    document.getElementById('logout').style.display = 'block';
                 }, 800);
-                var delay = 1000;
+                var delay = 5000;
                 setTimeout(function () {
                     window.location = 'logout.jsp';
                 }, delay);
