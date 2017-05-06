@@ -31,7 +31,25 @@
                         <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
+                        <% if (session.getAttribute("username") == null) {%>
+                        <!-- HERE WHEN LOGGED IN DIV -->
+                        <li>
+                            <a href="#" id="dropdownMenu1" data-toggle="dropdown">andrian@fog.dk&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="profile.jsp">Profile page</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="index.jsp">Log out</a></li>
+                            </ul>
+                        </li>
+
+                        <!--<a href="#" onclick="document.getElementById('logout').style.display = 'block'">Log out</a>-->
+
+                        <% } else {%>
+                        <!-- ELSE THE COMMON ONE WITH LOGIN -->
                         <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
+                            <% } %>
                         <li><a href="support.jsp">Support</a></li>
                     </ul>
                 </div>
@@ -269,6 +287,19 @@
         </script>
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <!-- Prevent "space" button script -->
+        <script>
+            $(function () {
+                $('#input1').on('keypress', function (e) {
+                    if (e.which == 32)
+                        return false;
+                });
+                $('#input2').on('keypress', function (e) {
+                    if (e.which == 32)
+                        return false;
+                });
+            });
+        </script>
     </body>
 </html>
 

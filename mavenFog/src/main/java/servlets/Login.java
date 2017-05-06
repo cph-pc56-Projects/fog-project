@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
@@ -38,13 +39,13 @@ public class Login extends HttpServlet {
             throws SQLException, ServletException, IOException, LoginError {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            response.setContentType("text/html;charset=UTF-8");
             //Taking the email and password when submit the Log in form       
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
             //Create object mapper wich opens a connection to DB
             UserMapper mapper = new UserMapper();
+            
             //Check if we have email and password in the DB
             String emailDB = mapper.getEmail(email);
             String passwordDB = mapper.getPassword(email);
@@ -52,17 +53,31 @@ public class Login extends HttpServlet {
             // if the email is non existent or the password is not found or the typed password doesn't match the user`s input
             if (emailDB == null || passwordDB == null || !password.equals(passwordDB)) {
                 throw new LoginError();
+            } else {
+                //Creates a new User obj with the input data
+                int role = mapper.getRole(emailDB);
+                User user = new User(emailDB, mapper.getFirstName(emailDB), mapper.getLastName(emailDB), mapper.getPhone(emailDB), mapper.getAdress(emailDB), mapper.getZipCode(emailDB), mapper.getRole(emailDB));
+                
+                //Creates a new session and sends the user object
+                HttpSession session = request.getSession();
+                session.setAttribute("user", (Object)user);
+                
+                // Send to index if customer, send to admin if admin
+                if (role == 0) {
+                    response.sendRedirect("index.jsp");
+                } else {
+                    response.sendRedirect("admin/admin.jsp");
+                }
+
+                
+                
+                
             }
-            HttpSession session = request.getSession();
-            
-            response.sendRedirect("/index.jsp");
         } catch (LoginError x) {
             request.setAttribute("error", "login");
-
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (SQLException x) {
             System.out.println("Sth wrong with user query");
-            System.out.println(x);
         }
     }
 
