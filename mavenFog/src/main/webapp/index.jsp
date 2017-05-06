@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%User user = null;%>
-<%user = (User)session.getAttribute("user");%>
+<%user = (User) session.getAttribute("user");%>
 <html>
     <head>
         <title>Home page</title>
@@ -43,7 +43,7 @@
                                 <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>
                                 <li class="divider"></li>
-                                <li><a href="index.jsp">Log out</a></li>
+                                <li><a id="logoutFunction" href="#">Log out</a></li>
                             </ul>
                         </li>
 
@@ -302,6 +302,21 @@
                         return false;
                 });
             });
+        </script>
+        <!-- Calls logout on button click -->
+        <script>
+            $('#logoutFunction').click(function ()
+            {
+                setTimeout(function () {
+                    alert("You are logged out!");
+                }, 800);
+                var delay = 1000;
+                setTimeout(function () {
+                    window.location = 'logout.jsp';
+                }, delay);
+                return false;
+            });
+
         </script>
     </body>
 </html>
