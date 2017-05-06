@@ -31,7 +31,7 @@
                         <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
-                        <% if (session.getAttribute("username") == null) {%>
+                        <% if (session.getAttribute("username") != null) {%>
                         <!-- HERE WHEN LOGGED IN DIV -->
                         <li>
                             <a href="#" id="dropdownMenu1" data-toggle="dropdown">andrian@fog.dk&nbsp;<span class="caret"></span></a>
