@@ -7,7 +7,6 @@ package servlets;
 
 import data.UserMapper;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,7 +55,7 @@ public class Login extends HttpServlet {
             } else {
                 //Creates a new User obj with the input data
                 int role = mapper.getRole(emailDB);
-                User user = new User(emailDB, mapper.getFirstName(emailDB), mapper.getLastName(emailDB), mapper.getPhone(emailDB), mapper.getAdress(emailDB), mapper.getZipCode(emailDB), mapper.getRole(emailDB));
+                User user = new User(emailDB, mapper.getFirstName(emailDB), mapper.getLastName(emailDB), mapper.getPhone(emailDB), mapper.getAdress(emailDB), mapper.getZipCode(emailDB), mapper.getRole(emailDB), mapper.getAccountID(emailDB));
                 
                 //Creates a new session and sends the user object
                 HttpSession session = request.getSession();

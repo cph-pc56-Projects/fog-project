@@ -3,9 +3,9 @@ package model;
 public class User {
     private String email, fName, lName, phone, adress;
     private int zipCode;
-    private final int role;
+    private final int role, accountID;
 
-    public User(String email, String fName, String lName, String phone, String adress, int zipCode, int role) {
+    public User(String email, String fName, String lName, String phone, String adress, int zipCode, int role, int accountID) {
         this.email = email;
         this.fName = fName;
         this.lName = lName;
@@ -13,6 +13,7 @@ public class User {
         this.adress = adress;
         this.zipCode = zipCode;
         this.role = role;
+        this.accountID = accountID;
     }
     
     public String getEmail() {
@@ -42,6 +43,11 @@ public class User {
     public int getRole() {
         return role;
     }
+
+    public int getAccountID() {
+        return accountID;
+    }
+    
     
     
 }
