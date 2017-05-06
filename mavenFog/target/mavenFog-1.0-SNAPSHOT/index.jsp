@@ -1,5 +1,8 @@
+<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%User user = null;%>
+<%user = (User)session.getAttribute("user");%>
 <html>
     <head>
         <title>Home page</title>
@@ -31,12 +34,12 @@
                         <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
-                        <% if (session.getAttribute("username") != null) {%>
+                        <% if (user != null) {%>
                         <!-- HERE WHEN LOGGED IN DIV -->
                         <li>
-                            <a href="#" id="dropdownMenu1" data-toggle="dropdown">andrian@fog.dk&nbsp;<span class="caret"></span></a>
+                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%=user.getEmail()%>&nbsp;<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="profile.jsp">Profile page</a></li>
+                                <li><a href="profile/profile.jsp">Profile page</a></li>
                                 <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>
                                 <li class="divider"></li>

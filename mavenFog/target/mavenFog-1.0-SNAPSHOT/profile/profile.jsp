@@ -1,5 +1,8 @@
+<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%User user = null;%>
+<%user = (User)session.getAttribute("user");%>
 <html>
     <head>
         <title>Home page</title>
@@ -28,11 +31,27 @@
                     <ul class="nav navbar-nav">                        
                         <li><a href="#About">My Profile&nbsp;<span class="glyphicon glyphicon-plus"></span></a></li>
 
-                    </ul>      
+                    </ul>                   
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">My name&nbsp;<span class="glyphicon glyphicon-cog"></span></a></li>
-                        <li> <a href="../index.jsp">Log Out</a></li>
-                    </ul>
+                        <% if (user != null) {%>
+                        <!-- HERE WHEN LOGGED IN DIV -->
+                        <li>
+                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%=user.getEmail()%>&nbsp;<span class="glyphicon glyphicon-cog"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="../index.jsp">Log out</a></li>
+                            </ul>
+                        </li>
+
+                        <!--<a href="#" onclick="document.getElementById('logout').style.display = 'block'">Log out</a>-->
+
+                        <% } else {%>
+                        <!-- ELSE THE COMMON ONE WITH LOGIN -->                        
+                        <li>Unauthorized</li>
+                        <%}%>
+                    
                 </div>
             </div>
         </nav>         
@@ -46,7 +65,14 @@
                </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade active in" role="tabpanel" id="pending">
-                    <h1>Profile Info</h1>
+                    <h1>Profile Info</h1>                    
+                    <h2><%= user.getEmail()%></h2>
+                    <h2><%= user.getfName()%></h2>
+                    <h2><%= user.getlName()%></h2>
+                    <h2><%= user.getPhone()%></h2>
+                    <h2><%= user.getAdress()%></h2>
+                    <h2><%= user.getZipCode()%></h2>
+                    <h2><%= user.getRole()%></h2>
                     
                 </div>
                 
