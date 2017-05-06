@@ -65,15 +65,33 @@
                </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade active in" role="tabpanel" id="pending">
-                    <h1>Profile Info</h1>                    
-                    <h2><%= user.getEmail()%></h2>
-                    <h2><%= user.getfName()%></h2>
-                    <h2><%= user.getlName()%></h2>
-                    <h2><%= user.getPhone()%></h2>
-                    <h2><%= user.getAdress()%></h2>
-                    <h2><%= user.getZipCode()%></h2>
-                    <h2><%= user.getRole()%></h2>
-                    
+                    <h1>Profile Info:</h1>                  
+                    <table cellpadding="5">
+                        <tr>
+                            <td>First Name:</td>
+                            <td><%= user.getfName()%></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name:</td>
+                            <td><%= user.getlName()%></td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td><%= user.getEmail()%></td>
+                        </tr>                        
+                        <tr>
+                            <td>Address:</td>
+                            <td><%= user.getAdress()%></td>
+                        </tr>
+                        <tr>
+                            <td>ZipCode:</td>
+                            <td><%= user.getZipCode()%></td>
+                        </tr>
+                        <tr>
+                            <td>Phone number:</td>
+                            <td><%= user.getPhone()%></td>
+                        </tr>
+                    </table>
                 </div>
                 
                     <div class="tab-pane fade" role="tabpanel" id="completed">
