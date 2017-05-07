@@ -25,13 +25,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="#">FOG</a>
+                    <a class="navbar-brand" href="../index.jsp">FOG</a>
                 </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">                        
-                        <li><a href="#About">My Profile&nbsp;<span class="glyphicon glyphicon-plus"></span></a></li>
-
-                    </ul>                   
+                <div class="collapse navbar-collapse" id="myNavbar">                                      
                     <ul class="nav navbar-nav navbar-right">
                         <% if (user != null) {%>
                         <!-- HERE WHEN LOGGED IN DIV -->
@@ -51,10 +47,21 @@
                         <!-- ELSE THE COMMON ONE WITH LOGIN -->                        
                         <li>Unauthorized</li>
                             <%}%>
-
+                    </ul>
                 </div>
             </div>
-        </nav>         
+        </nav>
+        <!--Logout modal -->
+        <div id="logout" class="modal">
+            <form class="modal-content animate">
+                <div class="imgcontainer">
+
+                    <h1 class="w3-container ">You are logged out!</h1>
+                    <p class="w3-container ">(You will be redirected after 5 seconds...)</p>
+                </div>
+            </form>
+        </div><!-- Logout END -->
+        
         <div style="margin-top: 70px;"></div>
         <div class="w3-white w3-card-2 w3-container w3-margin w3-padding-32">
             <h1>Your page:</h1>
@@ -169,19 +176,21 @@
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
 
         </footer>
+        <!-- Calls logout on button click -->
         <script>
             $('#logoutFunction').click(function ()
             {
                 setTimeout(function () {
-                    alert("You are logged out!");
+                    document.getElementById('logout').style.display = 'block';
                 }, 800);
-                var delay = 1000;
+                var delay = 5000;
                 setTimeout(function () {
                     window.location = '../logout.jsp';
                 }, delay);
                 return false;
             });
-        </script>        
+
+        </script>      
     </body>
 </html>
 

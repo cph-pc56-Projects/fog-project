@@ -4,8 +4,11 @@
     Author     : trez__000
 --%>
 
+<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%User user = null;%>
+<%user = (User) session.getAttribute("user");%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,12 +33,40 @@
                         <li class="active"><a href="#">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
+                        <% if (user != null) {%>
+                        <!-- HERE WHEN LOGGED IN DIV -->
+                        <li>
+                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%=user.getEmail()%>&nbsp;<span class="glyphicon glyphicon-cog"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="profile/profile.jsp">Profile page</a></li>                                
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a id="logoutFunction" href="#">Log out</a></li>
+                            </ul>
+                        </li>
+
+                        <!--<a href="#" onclick="document.getElementById('logout').style.display = 'block'">Log out</a>-->
+
+                        <% } else {%>
+                        <!-- ELSE THE COMMON ONE WITH LOGIN -->                        
                         <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
+                            <%}%>
                         <li> <a href="support.jsp">Support</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <!--Logout modal -->
+        <div id="logout" class="modal">
+            <form class="modal-content animate">
+                <div class="imgcontainer">
+
+                    <h1 class="w3-container ">You are logged out!</h1>
+                    <p class="w3-container ">(You will be redirected after 5 seconds...)</p>
+                </div>
+            </form>
+        </div><!-- Logout END -->
 
         <!--Login form -->
         <div id="id01" class="modal">
@@ -140,7 +171,7 @@
                 }
             }
         </script>
-        
+
         <div class="w3-container w3-padding-64 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
                 <h2>Before you buy you may consider :</h2>
@@ -150,11 +181,11 @@
                     <li>If bored from the first step, call us now on 555-37 37. (or go to <span style="color: blue"><a href="support.jsp">Support</a></span> page)</li>
                     <li>Know the right measures: </li>
                 </ol>
-                
+
                 <p>MEASURES</p>
             </div>
         </div>
-        
+
         <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
 
@@ -167,5 +198,20 @@
         </script>
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <!--Logout function -->
+        <script>
+            $('#logoutFunction').click(function ()
+            {
+                setTimeout(function () {
+                    document.getElementById('logout').style.display = 'block';
+                }, 800);
+                var delay = 5000;
+                setTimeout(function () {
+                    window.location = 'logout.jsp';
+                }, delay);
+                return false;
+            });
+
+        </script>   
     </body>
 </html>
