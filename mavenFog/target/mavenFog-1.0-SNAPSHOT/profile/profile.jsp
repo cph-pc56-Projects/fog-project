@@ -20,6 +20,9 @@
         #id02 {
             display: none;
         }
+        .red {
+            background-color: red !important;    
+        } 
     </style>
     <body class="w3-light-grey">      
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -145,11 +148,13 @@
                             var edit = document.getElementById("edit");
                             if (y.style.display === 'none') {
                                 edit.innerHTML = "Cancel";
+                                edit.classList.toggle("red");
                                 y.style.display = 'block';
                                 x.style.display = "none";
                             } else {
                                 y.style.display = 'none';
                                 edit.innerHTML = "Edit";
+                                edit.classList.toggle("red", false);
                                 x.style.display = "block";
                             }
                         }
