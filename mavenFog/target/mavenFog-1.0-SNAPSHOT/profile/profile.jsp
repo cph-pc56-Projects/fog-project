@@ -25,9 +25,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="../index.jsp">FOG</a>
+                    <a class="navbar-brand" href="../index.jsp">FOG</a>                    
                 </div>
-                <div class="collapse navbar-collapse" id="myNavbar">                                      
+                <div class="collapse navbar-collapse" id="myNavbar"> 
+                    <ul class="nav navbar-nav">
+                        <li><a href="../beforeyoubuy.jsp">Before you buy</a></li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <% if (user != null) {%>
                         <!-- HERE WHEN LOGGED IN DIV -->
@@ -47,6 +50,7 @@
                         <!-- ELSE THE COMMON ONE WITH LOGIN -->                        
                         <li>Unauthorized</li>
                             <%}%>
+                        <li><a href="../support.jsp">Support</a></li>
                     </ul>
                 </div>
             </div>
@@ -98,6 +102,10 @@
                             <tr>
                                 <th>Phone number:</th>
                                 <td><%= user.getPhone()%></td>
+                            </tr>
+                            <tr>
+                                <th>Account ID: </th>
+                                <td><%= user.getAccountID()%></td>
                             </tr>
                         </table>
                     </div>
