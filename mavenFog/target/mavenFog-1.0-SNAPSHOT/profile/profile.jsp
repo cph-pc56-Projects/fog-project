@@ -117,44 +117,45 @@
                     <div  clas="w3-display-right">
                         <a id="edit" class="w3-button w3-yellow" onclick="toggle()">Edit</a>
                     </div>
-                </div>
-                <div id="id02">
-                    <table  cellpadding="5">
-                        <tr>
-                            <td style="text: bold;">First Name:</td>        
-                            <td><input type="text"></input></td>
-                        </tr>
-                        <tr>
-                            <td>Last Name:</td>
-                            <td><input type="text"></input></td>        
-                        </tr>
-                        <tr>
-                            <td>username:</td>
-                            <td><input type="text"></input></td>        
-                        </tr>
-                        <tr>
-                            <td>password:</td>
-                            <td><input type="text"></input></td>        
-                        </tr>      
-                    </table>
-                    <a class="w3-button w3-green"> Submit</a>
-                </div>
-                <script>
-                    function toggle() {
-                        var x = document.getElementById('id01');
-                        var y = document.getElementById('id02');
-                        var edit = document.getElementById("edit");
-                        if (y.style.display === 'none') {
-                            edit.innerHTML = "Cancel";
-                            y.style.display = 'block';
-                            x.style.display = "none";
-                        } else {
-                            y.style.display = 'none';
-                            edit.innerHTML = "Edit";
-                            x.style.display = "block";
+                    <div id="id02">
+                        <table  cellpadding="5">
+                            <tr>
+                                <td style="text: bold;">First Name:</td>        
+                                <td><input type="text"></input></td>
+                            </tr>
+                            <tr>
+                                <td>Last Name:</td>
+                                <td><input type="text"></input></td>        
+                            </tr>
+                            <tr>
+                                <td>username:</td>
+                                <td><input type="text"></input></td>        
+                            </tr>
+                            <tr>
+                                <td>password:</td>
+                                <td><input type="text"></input></td>        
+                            </tr>      
+                        </table>
+                        <a class="w3-button w3-green"> Submit</a>
+                    </div>
+                    <script>
+                        function toggle() {
+                            var x = document.getElementById('id01');
+                            var y = document.getElementById('id02');
+                            var edit = document.getElementById("edit");
+                            if (y.style.display === 'none') {
+                                edit.innerHTML = "Cancel";
+                                y.style.display = 'block';
+                                x.style.display = "none";
+                            } else {
+                                y.style.display = 'none';
+                                edit.innerHTML = "Edit";
+                                x.style.display = "block";
+                            }
                         }
-                    }
-                </script>
+                    </script>
+                </div>
+
 
 
                 <div class="tab-pane fade" role="tabpanel" id="completed">
