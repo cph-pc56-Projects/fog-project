@@ -16,6 +16,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </head>
+    <style>    
+        #id02 {
+            display: none;
+        }
+    </style>
     <body class="w3-light-grey">      
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
@@ -65,7 +70,7 @@
                 </div>
             </form>
         </div><!-- Logout END -->
-        
+
         <div style="margin-top: 70px;"></div>
         <div class="w3-white w3-card-2 w3-container w3-margin w3-padding-32">
             <h1>Your page:</h1>
@@ -77,7 +82,7 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade active in" role="tabpanel" id="pending">
                     <h1>Profile Info:</h1>  
-                    <div class="w3-padding-16 w3-margin-32 w3-left">
+                    <div id="id01" class="w3-padding-16 w3-margin-32 w3-left">
                         <table class="w3-table w3-bordered w3-padding" cellpadding="5">
                             <tr>
                                 <th>First Name:</th>
@@ -109,10 +114,47 @@
                             </tr>
                         </table>
                     </div>
-                    <div clas="w3-display-right">
-                        <a class="w3-button w3-yellow">Edit</a>
+                    <div  clas="w3-display-right">
+                        <a id="edit" class="w3-button w3-yellow" onclick="toggle()">Edit</a>
                     </div>
                 </div>
+                <div id="id02">
+                    <table  cellpadding="5">
+                        <tr>
+                            <td style="text: bold;">First Name:</td>        
+                            <td><input type="text"></input></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name:</td>
+                            <td><input type="text"></input></td>        
+                        </tr>
+                        <tr>
+                            <td>username:</td>
+                            <td><input type="text"></input></td>        
+                        </tr>
+                        <tr>
+                            <td>password:</td>
+                            <td><input type="text"></input></td>        
+                        </tr>      
+                    </table>
+                    <a class="w3-button w3-green"> Submit</a>
+                </div>
+                <script>
+                    function toggle() {
+                        var x = document.getElementById('id01');
+                        var y = document.getElementById('id02');
+                        var edit = document.getElementById("edit");
+                        if (y.style.display === 'none') {
+                            edit.innerHTML = "Cancel";
+                            y.style.display = 'block';
+                            x.style.display = "none";
+                        } else {
+                            y.style.display = 'none';
+                            edit.innerHTML = "Edit";
+                            x.style.display = "block";
+                        }
+                    }
+                </script>
 
 
                 <div class="tab-pane fade" role="tabpanel" id="completed">
