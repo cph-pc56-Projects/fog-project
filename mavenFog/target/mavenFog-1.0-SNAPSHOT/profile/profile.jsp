@@ -121,25 +121,31 @@
                         <a id="edit" class="w3-button w3-yellow" onclick="toggle()">Edit</a>
                     </div>
                     <div id="id02">
-                        <table  cellpadding="5">
-                            <tr>
-                                <td style="text: bold;">First Name:</td>        
-                                <td><input type="text"></input></td>
-                            </tr>
-                            <tr>
-                                <td>Last Name:</td>
-                                <td><input type="text"></input></td>        
-                            </tr>
-                            <tr>
-                                <td>username:</td>
-                                <td><input type="text"></input></td>        
-                            </tr>
-                            <tr>
-                                <td>password:</td>
-                                <td><input type="text"></input></td>        
-                            </tr>      
-                        </table>
-                        <a class="w3-button w3-green"> Submit</a>
+                        <form action="../Profile" method="post">
+                            <table  cellpadding="5">
+                                <tr>
+                                    <td>Email: </td>        
+                                    <td><input type="text" name="email"></input></td>
+                                </tr>
+                                <tr>
+                                    <td>Password: </td>
+                                    <td><input type="text" name="password"></input></td>        
+                                </tr>
+                                <tr>
+                                    <td>Address: </td>
+                                    <td><input type="text" name="address"></input></td>        
+                                </tr>
+                                <tr>
+                                    <td>Phone: </td>
+                                    <td><input type="number" name="phone"></input></td>        
+                                </tr>
+                                <tr>
+                                    <td>ZipCode: </td>
+                                    <td><input type="number" name="zipcode"></input></td>        
+                                </tr> 
+                            </table>
+                            <button class="w3-button w3-green" type="submit"> Submit</button>
+                        </form>
                     </div>
                     <script>
                         function toggle() {
