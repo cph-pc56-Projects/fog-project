@@ -13,9 +13,11 @@ import java.sql.Connection;
  */
 public class AdminMapper {
     private final Connection con;
+    private final DB db;
 
     public AdminMapper() {
-        con = new DB().getConnection();
+        db = new DB();
+        con = db.getConnection();
     }
     
     

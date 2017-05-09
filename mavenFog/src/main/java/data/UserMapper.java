@@ -8,10 +8,22 @@ import java.sql.PreparedStatement;
 
 public class UserMapper {
     private final Connection con;
+    private final DB db;
+    
 
     public UserMapper() {
-        con = new DB().getConnection();
+        db = new DB();
+        con = db.getConnection();
     }
+
+    public DB getDb() {
+        return db;
+    }
+
+    public Connection getCon() {
+        return con;
+    }
+
     
     public int createUser(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws Exception {
         int i = 0;

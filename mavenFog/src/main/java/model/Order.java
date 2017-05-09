@@ -1,11 +1,14 @@
 package model;
 
+import java.sql.Date;
+
 public class Order {
     private final int orderID, customerID;
-    private int productID, salesRepID, price, deliveryID, invoiveID;
-    private String creationDate;
+    private int productID, salesRepID, deliveryID, invoiveID;
+    private double price;
+    private Date date;
 
-    public Order(int orderID, int customerID, int productID, int salesRepID, int price, int deliveryID, int invoiveID, String creationDate) {
+    public Order(int orderID, double price, Date date, int customerID, int productID, int salesRepID,  int deliveryID, int invoiveID) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.productID = productID;
@@ -13,19 +16,16 @@ public class Order {
         this.price = price;
         this.deliveryID = deliveryID;
         this.invoiveID = invoiveID;
-        this.creationDate = creationDate;
+        this.date = date;
     }
-
+    
+    
     public void setProductID(int productID) {
         this.productID = productID;
     }
 
     public void setSalesRepID(int salesRepID) {
         this.salesRepID = salesRepID;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     public void setDeliveryID(int deliveryID) {
@@ -36,12 +36,12 @@ public class Order {
         this.invoiveID = invoiveID;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-    
     public int getOrderID() {
         return orderID;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public int getCustomerID() {
@@ -56,7 +56,7 @@ public class Order {
         return salesRepID;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -68,9 +68,12 @@ public class Order {
         return invoiveID;
     }
 
-    public String getCreationDate() {
-        return creationDate;
+    @Override
+    public String toString() {
+        return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", productID=" + productID + ", salesRepID=" + salesRepID + ", deliveryID=" + deliveryID + ", invoiveID=" + invoiveID + ", price=" + price + ", date=" + date + '}';
     }
+
+    
     
     
     

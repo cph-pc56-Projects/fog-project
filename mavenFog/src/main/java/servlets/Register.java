@@ -42,7 +42,7 @@ public class Register extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
-
+        UserMapper mapper = new UserMapper();
         try {
             //Get the data from register form
             String email, password, fName, lName, phone, adress, zipCode;
@@ -54,7 +54,7 @@ public class Register extends HttpServlet {
             adress = request.getParameter("adress");
             zipCode = request.getParameter("zipCode");
             
-            UserMapper mapper = new UserMapper();
+            
             //Create new user in the database
             int i = mapper.createUser(email, password, fName, lName, phone, adress, zipCode);
             //If successful go to index, otherwise go to error page
@@ -66,6 +66,8 @@ public class Register extends HttpServlet {
             
         } catch (SQLException e) {
             response.sendRedirect("error/failSQL.jsp");
+        } finally {
+            mapper.getDb().releaseConnection(mapper.getCon());
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

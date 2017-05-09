@@ -16,6 +16,7 @@ public class DB {
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(URL, id, pw);  // The connection will be released upon program 
+            System.out.println("Connection to DB established!");
 
         } catch (Exception e) {
             
@@ -32,6 +33,7 @@ public class DB {
             con.close();
         } catch (Exception e) {
             System.err.println(e);
+            System.out.println("Couldnt close connection");
         }
     }
     
