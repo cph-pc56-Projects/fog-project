@@ -48,8 +48,9 @@ public class UserMapper {
             if (rs.next()){
                 userEmail = rs.getString("email");
             }
+            System.out.println("getEmail complete");
         } catch(SQLException x) {
-            System.out.println("Email not found");
+            System.out.println("Something wrong with getEmail");
         }
         return userEmail;
     }
@@ -63,8 +64,9 @@ public class UserMapper {
             if (rs.next()){
                 password = rs.getString("password");
             }
+            System.out.println("getPassword complete");
         } catch(SQLException x) {
-            System.out.println("Email not found");
+            System.out.println("Something wrong with getPassword");
         }
         return password;
     }
@@ -80,8 +82,9 @@ public class UserMapper {
             if (rs.next()){
                 role = rs.getInt("role");
             }
+            System.out.println("getRole complete");
         } catch(SQLException x) {
-            System.out.println("Role not found");
+            System.out.println("Something wrong with getRole");
         }
         return role;
     }
@@ -95,8 +98,9 @@ public class UserMapper {
             if (rs.next()){
                 id = rs.getInt("account_id");
             }
+            System.out.println("getAccountID complete");
         } catch(SQLException x) {
-            System.out.println("Account_id not found");
+            System.out.println("Something wrong with getAccountID");
         }
         return id;
     }
@@ -110,8 +114,9 @@ public class UserMapper {
             if (rs.next()){
                 zipCode = rs.getInt("zipCode");
             }
+            System.out.println("getZipCode complete");
         } catch(SQLException x) {
-            System.out.println("zipCode not found");
+            System.out.println("zSomething wrong with getZipCode");
         }
         return zipCode;
     }
@@ -125,8 +130,9 @@ public class UserMapper {
             if (rs.next()){
                 fName = rs.getString("fName");
             }
+            System.out.println("getFirstName complete");
         } catch(SQLException x) {
-            System.out.println("fName not found");
+            System.out.println("Something wrong with getFirstName");
         }
         return fName;
     }
@@ -140,8 +146,9 @@ public class UserMapper {
             if (rs.next()){
                 lName = rs.getString("lName");
             }
+            System.out.println("geLastName complete");
         } catch(SQLException x) {
-            System.out.println("lName not found");
+            System.out.println("Something wrong with getLastName");
         }
         return lName;
     }
@@ -155,8 +162,9 @@ public class UserMapper {
             if (rs.next()){
                 phone = rs.getString("phone");
             }
+            System.out.println("getPhone complete");
         } catch(SQLException x) {
-            System.out.println("phone not found");
+            System.out.println("Something wrong with getPhone");
         }
         return phone;
     }
@@ -170,8 +178,9 @@ public class UserMapper {
             if (rs.next()){
                 adress = rs.getString("adress");
             }
+            System.out.println("getAdress complete");
         } catch(SQLException x) {
-            System.out.println("aress not found");
+            System.out.println("Something wrong with getAdress");
         }
         return adress;
     }
@@ -182,11 +191,10 @@ public class UserMapper {
         try {
             PreparedStatement update = con.prepareStatement(sql);
             i = update.executeUpdate();
+            System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updateEmail()");
-        } finally {
-            System.out.println("Insert Complete");
-        }
+        } 
         return i;
     } 
     
@@ -196,11 +204,10 @@ public class UserMapper {
         try {
             PreparedStatement update = con.prepareStatement(sql);
             i = update.executeUpdate();
+            System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updatePassword()");
-        } finally {
-            System.out.println("Insert Complete");
-        }
+        } 
         return i;
     }
     
@@ -210,11 +217,10 @@ public class UserMapper {
         try {
             PreparedStatement update = con.prepareStatement(sql);
             i = update.executeUpdate();
+            System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updateAdress()");
-        } finally {
-            System.out.println("Insert Complete");
-        }
+        } 
         return i;
     }
     
@@ -224,11 +230,10 @@ public class UserMapper {
         try {
             PreparedStatement update = con.prepareStatement(sql);
             i = update.executeUpdate();
+            System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updatePhone()");
-        } finally {
-            System.out.println("Insert Complete");
-        }
+        } 
         return i;
     }
     
@@ -238,11 +243,10 @@ public class UserMapper {
         try {
             PreparedStatement update = con.prepareStatement(sql);
             i = update.executeUpdate();
+            System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updatePassword()");
-        } finally {
-            System.out.println("Insert Complete");
-        }
+        } 
         return i;
     }
     
