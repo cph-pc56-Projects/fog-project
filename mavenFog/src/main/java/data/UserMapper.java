@@ -32,11 +32,10 @@ public class UserMapper {
         try {
             PreparedStatement create = con.prepareStatement(sql);
             i = create.executeUpdate();
+            System.out.println("createUser Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with createUser()");
-        } finally {
-            System.out.println("Insert Complete");
-        }
+        } 
         return i;
     }
     

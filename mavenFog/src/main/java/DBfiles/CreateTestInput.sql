@@ -3,10 +3,10 @@ INSERT INTO users (email, password, fName, lName, phone, adress, zipCode, role, 
 INSERT INTO users (email, password, fName, lName, phone, adress, zipCode, role, creationDate) VALUES ('customer2@gmail.com', 'customer2', 'Second', 'Customer', '+45 23 33 55 77', 'Customer 22', 6666, 0, CURDATE());
 insert into product (height, width, length,rooftopType, hasShed) VALUES (2.5, 2.5,2.5, 1,1);
 insert into product (height, width, length,rooftopType, hasShed) VALUES (2.3, 2.3,2.3, 0,0);
-INSERT into orders (price, creationDate,customer_id) VALUES (3.5,CURDATE(), 2);
-INSERT into orders (price, creationDate,customer_id) VALUES (4.5,CURDATE(), 2);
-INSERT into orders (price, creationDate,customer_id) VALUES (5.5,CURDATE(), 3);
-INSERT into orders (price, creationDate,customer_id) VALUES (2.5,CURDATE(), 3);
+INSERT into orders (price, creationDate,customer_id, orderStatus) VALUES (3.5,CURDATE(), 2, 0);
+INSERT into orders (price, creationDate,customer_id, orderStatus) VALUES (4.5,CURDATE(), 2, 0);
+INSERT into orders (price, creationDate,customer_id, orderStatus) VALUES (5.5,CURDATE(), 3, 0);
+INSERT into orders (price, creationDate,customer_id, orderStatus) VALUES (2.5,CURDATE(), 3, 0);
 insert into orderdetails (order_id, product_id) VALUES (1,1);
 insert into orderdetails (order_id, product_id) VALUES (2,1);
 insert into orderdetails (order_id, product_id) VALUES (3,2);

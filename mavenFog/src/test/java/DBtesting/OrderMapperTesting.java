@@ -18,17 +18,16 @@ import model.Order;
 public class OrderMapperTesting {
     public static void main(String[] args) {
         OrderMapper mapper = new OrderMapper();
-        ArrayList<Order> orders = mapper.findOrdersByCustomer(3);
-        UserMapper mapper1 = new UserMapper();
-        System.out.println(mapper1.getAccountID("customer@gmail.com"));
-        
+        mapper.createOrder(6.8, 1);
+        ArrayList<Order> orders = mapper.findOrdersByCustomer(1);
+                
         for(Order order:orders) {
             System.out.println(order);
-//            System.out.println(order.getCustomerID());
-//            System.out.println(order.getDate());
-//            System.out.println(order.getDeliveryID());
-//            System.out.println("");
+
         }
+
+        
+        
         
     }
 }

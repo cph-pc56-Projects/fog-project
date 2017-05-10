@@ -4,11 +4,11 @@ import java.sql.Date;
 
 public class Order {
     private final int orderID, customerID;
-    private int productID, salesRepID, deliveryID, invoiveID;
+    private int productID, salesRepID, deliveryID, invoiveID, orderStatus;
     private double price;
     private Date date;
 
-    public Order(int orderID, double price, Date date, int customerID, int productID, int salesRepID,  int deliveryID, int invoiveID) {
+    public Order(int orderID, double price, Date date, int customerID, int productID, int salesRepID,  int deliveryID, int invoiveID, int orderStatus) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.productID = productID;
@@ -17,8 +17,12 @@ public class Order {
         this.deliveryID = deliveryID;
         this.invoiveID = invoiveID;
         this.date = date;
+        this.orderStatus = orderStatus;
     }
-    
+
+    public void setOrderStatus(int orderStatus) {
+        this.orderStatus = orderStatus;
+    }
     
     public void setProductID(int productID) {
         this.productID = productID;
@@ -34,6 +38,10 @@ public class Order {
 
     public void setInvoiveID(int invoiveID) {
         this.invoiveID = invoiveID;
+    }
+
+    public int getOrderStatus() {
+        return orderStatus;
     }
 
     public int getOrderID() {
@@ -70,8 +78,10 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", productID=" + productID + ", salesRepID=" + salesRepID + ", deliveryID=" + deliveryID + ", invoiveID=" + invoiveID + ", price=" + price + ", date=" + date + '}';
+        return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", productID=" + productID + ", salesRepID=" + salesRepID + ", deliveryID=" + deliveryID + ", invoiveID=" + invoiveID + ", orderStatus=" + orderStatus + ", price=" + price + ", date=" + date + '}';
     }
+
+    
 
     
     
