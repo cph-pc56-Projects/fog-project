@@ -95,4 +95,43 @@ public class OrderMapper {
         }
         return order_id;
     }
+    
+    public int updateSalesRep(int salesRep_id, int order_id) {
+        int i = 0;
+        String sql = "UPDATE orderdetails SET salesRep_id = " + salesRep_id + " WHERE order_id = " + order_id + "";
+        try {
+            PreparedStatement update = con.prepareStatement(sql);
+            i = update.executeUpdate();
+            System.out.println("updateSalesRep Complete");
+        } catch (Exception e) {
+            System.out.println("Something wrong with updateSalesRep");
+        } 
+        return i;
+    }
+    
+    public int updateDeliveryID(int delivery_id, int order_id) {
+        int i = 0;
+        String sql = "UPDATE orderdetails SET delivery_id = " + delivery_id + " WHERE order_id = " + order_id + "";
+        try {
+            PreparedStatement update = con.prepareStatement(sql);
+            i = update.executeUpdate();
+            System.out.println("updateDeliveryID Complete");
+        } catch (Exception e) {
+            System.out.println("Something wrong with updateDeliveryID");
+        } 
+        return i;
+    }
+    
+    public int updateInvoiceID(int invoice_id, int order_id) {
+        int i = 0;
+        String sql = "UPDATE orderdetails SET invoice_id = " + invoice_id + " WHERE order_id = " + order_id + "";
+        try {
+            PreparedStatement update = con.prepareStatement(sql);
+            i = update.executeUpdate();
+            System.out.println("updateInvoiceID Complete");
+        } catch (Exception e) {
+            System.out.println("Something wrong with updateInvoiceID");
+        } 
+        return i;
+    }
 }
