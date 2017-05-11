@@ -24,8 +24,7 @@ import model.User;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
-    
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,47 +37,55 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException, LoginError {
         response.setContentType("text/html;charset=UTF-8");
-        //Create object mapper wich opens a connection to DB
-        UserMapper mapper = new UserMapper();
         try {
             //Taking the email and password when submit the Log in form       
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
+            //Create object mapper which opens a connection to DB
+            UserMapper mapper = new UserMapper();
+            
             //Check if we have email and password in the DB
             String emailDB = mapper.getEmail(email);
             String passwordDB = mapper.getPassword(email);
 
             // if the email is non existent or the password is not found or the typed password doesn't match the user`s input
-            if (emailDB == null || passwordDB == null || !password.equals(passwordDB)) {
-                throw new LoginError();
+            if (emailDB.equals("empty") || passwordDB.equals("empty") || !password.equals(passwordDB)){
+                throw new LoginError(); 
+            }
+            else if (emailDB.equals("noDB") || passwordDB.equals("noDB")) {
+                response.sendRedirect("error/DBconnection.jsp");
             } else {
                 //Creates a new User obj with the input data
                 int role = mapper.getRole(emailDB);
                 User user = new User(emailDB, mapper.getFirstName(emailDB), mapper.getLastName(emailDB), mapper.getPhone(emailDB), mapper.getAdress(emailDB), mapper.getZipCode(emailDB), mapper.getRole(emailDB), mapper.getAccountID(emailDB));
-                
+                //Close the connection to the DB 
+                mapper.getDb().releaseConnection(mapper.getCon());
                 //Creates a new session and sends the user object
                 HttpSession session = request.getSession();
-                session.setAttribute("user", (Object)user);
-                
-                // Send to index if customer, send to admin if admin
+                session.setAttribute("user", (Object) user);
+
+                // Send to customer visible page if customer, send to admin if admin
                 if (role == 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect(request.getParameter("from"));
                 } else {
                     response.sendRedirect("admin/admin.jsp");
                 }
 
-                
-                
-                
             }
         } catch (LoginError x) {
-            request.setAttribute("error", "login");
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        } catch (SQLException x) {
-            System.out.println("Sth wrong with user query");
-        } finally {
-            mapper.getDb().releaseConnection(mapper.getCon());
+            HttpSession session = request.getSession();
+            session.setAttribute("error", "login");
+            response.sendRedirect(request.getParameter("from"));
+//            response.sendRedirect("error/DBconnection.jsp");
+//            request.setAttribute("error", "login");
+//            response.sendRedirect(request.getHeader("Referer"));
+//            response.sendRedirect(request.getRequestURI());
+//            request.getRequestDispatcher(request.getRequestURI()).forward(request, response);
+//          request.getRequestDispatcher(request.getHeader("Referer")).include(request, response);
+        } catch (SQLException e) {
+            System.out.println("Sth wrong with user query. Error: "+e);
+            response.sendRedirect("error/DBconnection.jsp");
         }
     }
 
@@ -138,5 +145,5 @@ public class Login extends HttpServlet {
         public LoginError() {
         }
     }
-    
+
 }

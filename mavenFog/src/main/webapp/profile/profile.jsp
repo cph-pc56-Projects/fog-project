@@ -5,7 +5,7 @@
 <%user = (User) session.getAttribute("user");%>
 <html>
     <head>
-        <title>Home page</title>
+        <title>Profile page</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Import end here -->
@@ -15,17 +15,18 @@
         <link rel="stylesheet" href="../css/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <style>    
+            #id02 {
+                display: none;
+            }
+            .red {
+                background-color: red !important;    
+            } 
+        </style>
     </head>
-    <style>    
-        #id02 {
-            display: none;
-        }
-        .red {
-            background-color: red !important;    
-        } 
-    </style>
+
     <body class="w3-light-grey">      
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -33,32 +34,30 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="../index.jsp">FOG</a>                    
+                    <a class="navbar-brand" href="index.jsp">FOG</a>
                 </div>
-                <div class="collapse navbar-collapse" id="myNavbar"> 
-                    <ul class="nav navbar-nav">
-                        <li><a href="../beforeyoubuy.jsp">Before you buy</a></li>
-                    </ul>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">                        
+                        <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
+                    </ul>      
                     <ul class="nav navbar-nav navbar-right">
                         <% if (user != null) {%>
                         <!-- HERE WHEN LOGGED IN DIV -->
                         <li>
-                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%=user.getEmail()%>&nbsp;<span class="glyphicon glyphicon-cog"></span></a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%=user.getEmail()%>&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="profile/profile.jsp">Profile page</a></li>
                                 <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>
                                 <li class="divider"></li>
                                 <li><a id="logoutFunction" href="#">Log out</a></li>
                             </ul>
                         </li>
-
-                        <!--<a href="#" onclick="document.getElementById('logout').style.display = 'block'">Log out</a>-->
-
                         <% } else {%>
-                        <!-- ELSE THE COMMON ONE WITH LOGIN -->                        
-                        <li>Unauthorized</li>
-                            <%}%>
-                        <li><a href="../support.jsp">Support</a></li>
+                        <!-- ELSE THE COMMON ONE WITH LOGIN -->
+                        <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
+                            <% } %>
+                        <li><a href="support.jsp">Support</a></li>
                     </ul>
                 </div>
             </div>
@@ -69,7 +68,7 @@
                 <div class="imgcontainer">
 
                     <h1 class="w3-container ">You are logged out!</h1>
-                    <p class="w3-container ">(You will be redirected after 5 seconds...)</p>
+                    <p class="w3-container ">(You will be redirected after 3 seconds...)</p>
                 </div>
             </form>
         </div><!-- Logout END -->
@@ -245,7 +244,7 @@
                 setTimeout(function () {
                     document.getElementById('logout').style.display = 'block';
                 }, 800);
-                var delay = 5000;
+                var delay = 3000;
                 setTimeout(function () {
                     window.location = '../logout.jsp';
                 }, delay);

@@ -2,14 +2,13 @@ package data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 
 public class DB {
 
     private static String driver = "com.mysql.jdbc.Driver";
-    private static String URL = "jdbc:mysql://localhost:3306/fog"; 
+    private static String URL = "jdbc:mysql://localhost:3306/fog";
     private static String id = "fog";
-    private static String pw = "fog123"; //change PASSWORD
+    private static String pw = "fog123"; //change PASSWORD if needed
 
     public Connection getConnection() {
         Connection con = null;
@@ -19,12 +18,9 @@ public class DB {
             System.out.println("Connection to DB established!");
 
         } catch (Exception e) {
-            
             System.out.println("error in DB.getConnection()");
-            System.out.println("\n*** Remember to insert your  ID and PW in the DBConnector class! ***\n");
-            System.out.println("Connection was not established");
+            System.out.println("Connection was not established!");
         }
-
         return con;
     }
 
@@ -33,10 +29,8 @@ public class DB {
             con.close();
         } catch (Exception e) {
             System.err.println(e);
-            System.out.println("Couldnt close connection");
+            System.out.println("Couldn't close connection...");
         }
     }
-    
+
 }
-    
-   

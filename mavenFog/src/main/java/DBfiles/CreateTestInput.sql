@@ -1,6 +1,15 @@
 INSERT INTO users (email, password, fName, lName, phone, adress, zipCode, role, creationDate) VALUES ('fog_admin@gmail.com', 'fog_admin', 'Admin', 'Fog', '+45 12 34 56 78', 'Fog Admin 34', 3456, 1, CURDATE());
 INSERT INTO users (email, password, fName, lName, phone, adress, zipCode, role, creationDate) VALUES ('customer@gmail.com', 'customer', 'First', 'Customer', '+45 12 34 56 78', 'Customer 34', 5555, 0, CURDATE());
 INSERT INTO users (email, password, fName, lName, phone, adress, zipCode, role, creationDate) VALUES ('customer2@gmail.com', 'customer2', 'Second', 'Customer', '+45 23 33 55 77', 'Customer 22', 6666, 0, CURDATE());
+
+insert into users (email, password, fName, lName, phone, adress, zipCode, role, creationDate) VALUES ('andrian@fog.dk','69696969','Andrian','Vangelov','777-333','@home123', 2200, 1, CURDATE());
+
+insert into users (email, password, fName, lName, phone, adress, zipCode, role, creationDate) VALUES ('patrick@fog.dk','69696969','Patrick','Fenger','111-555','@home456', 2100, 1, CURDATE());
+
+insert into users (email, password, fName, lName, phone, adress, zipCode, role, creationDate) VALUES ('petru@fog.dk','69696969','Petru','Catana','000-999','@home789', 2300, 1, CURDATE());
+
+insert into users (email, password, fName, lName, phone, adress, zipCode, role, creationDate) VALUES ('alexandar@fog.dk','69696969','Alexandar','Osenov','666-000','@home101', 3460, 1, CURDATE());
+
 insert into product (height, width, length,rooftopType, hasShed) VALUES (2.5, 2.5,2.5, 1,1);
 insert into product (height, width, length,rooftopType, hasShed) VALUES (2.3, 2.3,2.3, 0,0);
 INSERT into orders (price, creationDate,customer_id, orderStatus) VALUES (3.5,CURDATE(), 2, 0);

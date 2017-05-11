@@ -39,8 +39,8 @@ public class UserMapper {
         return i;
     }
     
-    public String getEmail (String email) throws SQLException {
-        String userEmail = null;
+    public String getEmail (String email) throws SQLException, NullPointerException {
+        String userEmail = "empty";
         String sql = "select email from users where email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -48,14 +48,17 @@ public class UserMapper {
             if (rs.next()){
                 userEmail = rs.getString("email");
             }
-        } catch(SQLException x) {
-            System.out.println("Email not found");
+        } catch(NullPointerException e) {
+            System.out.println("No connection to the DB!");
+            return userEmail = "noDB";
+        } catch(SQLException e) {
+            System.out.println("SQL Exception");
         }
         return userEmail;
     }
     
     public String getPassword(String email){
-        String password = null;
+        String password = "empty";
         String sql = "select password from users where email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -63,8 +66,11 @@ public class UserMapper {
             if (rs.next()){
                 password = rs.getString("password");
             }
-        } catch(SQLException x) {
-            System.out.println("Email not found");
+        } catch(NullPointerException e) {
+            System.out.println("No connection to the DB!");
+            return password = "noDB";
+        } catch(SQLException e) {
+            System.out.println("SQL Exception");
         }
         return password;
     }

@@ -35,7 +35,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="index.jsp">HOME</a>
+                    <a class="navbar-brand" href="index.jsp">FOG</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">                        
@@ -71,7 +71,8 @@
                     <span onclick="document.getElementById('id01').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Log In</h1>
                 </div>
-                <% if ("login".equals(request.getAttribute("error"))) {%>
+                <% if ("login".equals(session.getAttribute("error"))) {
+                                      session.invalidate(); %>
                 <script>
                     // Get the modal
                     var modal = document.getElementById('id01');
@@ -97,6 +98,8 @@
 
                     <label><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" title="at least 8 characters" pattern=".{8,}" id="passwordLog" required>
+                    <!-- current URL passed like a hidden field, so after Log in, the Servlet will redirect the user back here -->
+                    <input type="hidden" name="from" value="${pageContext.request.requestURI}">
 
                     <button type="submit" >Login</button>
                     <input type="checkbox" checked="checked"> Remember me
@@ -161,7 +164,7 @@
             <div class="imgcontainer">
                     
                     <h1 class="w3-container ">You are logged out!</h1>
-                    <p class="w3-container ">(You will be redirected after 5 seconds...)</p>
+                    <p class="w3-container ">(You will be redirected after 3 seconds...)</p>
                 </div>
             </form>
         </div><!-- Logout END -->
@@ -182,8 +185,8 @@
 
         <div class="wide">
             <div class="container text-center pad">
-                <h1><span class="box">My First Carport</span></h1>      
-                <p><span class="box">Find your match</span></p>
+                <h1 style="margin-top: 77px"><span class="box">My First Carport</span></h1>      
+                <p><span class="box">Find your match at Johannes Fog</span></p>
             </div>
         </div>
 
@@ -349,7 +352,7 @@
                 setTimeout(function () {
                     document.getElementById('logout').style.display = 'block';
                 }, 800);
-                var delay = 5000;
+                var delay = 3000;
                 setTimeout(function () {
                     window.location = 'logout.jsp';
                 }, delay);

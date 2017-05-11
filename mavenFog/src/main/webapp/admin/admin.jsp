@@ -31,7 +31,7 @@
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#" onclick="document.getElementById('adminTools').style.display = 'block'">Admin Tools&nbsp;<span class="glyphicon glyphicon-cog"></span></a></li>
-                        <li> <a href="../index.jsp">Log Out</a></li>
+                        <li><a id="logoutFunction" href="#">Log Out</a></li>
                     </ul>
                 </div>
             </div>
@@ -72,7 +72,18 @@
                     </div>
                 </div>
             </form>
-        </div>
+        </div> <!-- Login END here -->
+        
+        <!--Logout modal -->
+        <div id="logout" class="modal">
+            <form class="modal-content animate">
+            <div class="imgcontainer">
+                    
+                    <h1 class="w3-container ">You are logged out!</h1>
+                    <p class="w3-container ">(You will be redirected after 5 seconds...)</p>
+                </div>
+            </form>
+        </div><!-- Logout END -->
 
         <div class="w3-card-2 w3-container">
             <h1>View orders by status</h1>
@@ -207,6 +218,22 @@
                                 modal.style.display = "none";
                             }
                         }
+        </script>
+        
+        <!-- Calls logout on button click -->
+        <script>
+            $('#logoutFunction').click(function ()
+            {
+                setTimeout(function () {
+                    document.getElementById('logout').style.display = 'block';
+                }, 800);
+                var delay = 5000;
+                setTimeout(function () {
+                    window.location = '../logout.jsp';
+                }, delay);
+                return false;
+            });
+
         </script>
     </body>
 </html>
