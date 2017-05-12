@@ -5,7 +5,7 @@
 <%user = (User) session.getAttribute("user");%>
 <html>
     <head>
-        <title>Carport2</title>
+        <title>CAR01H HØJ REJSNING</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
@@ -21,7 +21,6 @@
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous">
-
         </script>
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -170,92 +169,8 @@
                 </div>
             </form>
         </div><!-- Logout END -->
-
-        <script>
-            // Get the modal
-            var modal = document.getElementById('id01');
-            var modal2 = document.getElementById('id02');
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal || event.target == modal2) {
-                    modal.style.display = "none";
-                    modal2.style.display = "none";
-                }
-            }
-        </script>
-
-        <div style="margin-top: 50px;"></div>
-
-        <!-- !PAGE CONTENT! -->
-        <div class="w3-main w3-white w3-padding-16 w3-card-2">
-            <h1 class="w3-center">Carport 2</h1>   
-
-            <!-- Slideshow Header -->
-            <div class="w3-container w3-content" id="apartment">
-
-                <div class="w3-display-container mySlides">
-                    <img src="media/pictures/CAR01HR.png" style="width:100%;margin-bottom:-6px">
-                    <div class="w3-display-bottomleft w3-container w3-black">
-                        <p>Real Picture</p>
-                    </div>
-                </div>
-                <div class="w3-display-container mySlides">
-                    <img src="media/pictures/flat.png" style="width:100%;margin-bottom:-6px">
-                    <div class="w3-display-bottomleft w3-container w3-black">
-                        <p>Scheme</p>
-                    </div>
-                </div>
-            </div>
-            <div class="w3-row-padding w3-section">
-                <div class="w3-col s3">
-                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/CAR01HR.png" style="width:100%;cursor:pointer" onclick="currentDiv(1)" title="Living room">
-                </div>
-                <div class="w3-col s3">
-                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/flat.png" style="width:100%;cursor:pointer" onclick="currentDiv(2)" title="Dining room">
-                </div>
-            </div>
-
-            <div class="w3-container">
-                <h4><strong>Description</strong></h4>
-                <div class="w3-row w3-large">
-                    <div class="w3-col s12">
-                        <p>3,00 x 4,80 mtr. Højde; 2,25 mtr. Trykimprægnerede stolper og stern. 
-                            Leveres med: søm, skruer, beslag og plasttrapez tag m/topskruer.
-                            NB! Leveres som Byg-selv sæt - usamlet og ubehandlet!</p>
-                    </div>
-                </div>
-                <hr>
-
-                <h4><strong>Price :</strong></h4>
-                <div class="w3-row w3-large">
-                    <div class="w3-col s6">
-                        <p>Negotiable pr. stk. 3.495,-</p>
-                    </div>
-                </div>
-                <hr>
-
-                <h4><strong>Extra Info</strong></h4>
-                <p>We accept: <i class="fa fa-credit-card w3-large"></i> <i class="fa fa-cc-mastercard w3-large"></i> <i class="fa fa-cc-amex w3-large"></i> <i class="fa fa-cc-cc-visa w3-large"></i><i class="fa fa-cc-paypal w3-large"></i></p>
-                <hr>
-
-                <h4><strong>Buy this beauty</strong></h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-                <p><button class="w3-button w3-green w3-third" onclick=
-                           <%
-                               //onclick the button will open a pop-up with Log in if there is no session was opened, or Credit Details modal if the user already was logged in
-                               if (user == null) {
-                                   String buyLink = "document.getElementById('id01').style.display = 'block'";
-                                   session.setAttribute("buyLink", buyLink);
-                               } else {
-                                   String buyLink = "document.getElementById('cardAPI').style.display = 'block'";
-                                   session.setAttribute("buyLink", buyLink);
-                               }
-                           %>
-                           "<%= session.getAttribute("buyLink")%>">Buy</button></p>
-            </div>
-            <!-- Credit Card -->
+        
+        <!-- Credit Card -->
             <div id="cardAPI" class="modal">
                 <form class="modal-content animate" action="thankyou.jsp">
                     <div class="imgcontainer">
@@ -277,21 +192,165 @@
                         <input type="password" placeholder="3 numbers on the back" name="cardccv" required>
 
                         <button type="submit">Buy</button>
-                    </div>
-
-                    <div class="loginContainer" style="background-color:#f1f1f1">
                         <button type="button" onclick="document.getElementById('cardAPI').style.display = 'none'" class="cancelbtn">Cancel</button>
-                        <span class="psw"><a href="#">Forgot password?</a></span>
                     </div>
                 </form>
             </div> <!-- CreditCard END HERE -->
-            <hr>
 
+        <script>
+            // Get the modal
+            var modal = document.getElementById('id01');
+            var modal2 = document.getElementById('id02');
+            var modal3 = document.getElementById('cardAPI');
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target === modal || event.target === modal2 || event.target === modal3) {
+                    modal.style.display = "none";
+                    modal2.style.display = "none";
+                    modal3.style.display = "none";
+                }
+            }
+        </script>
+
+        <div style="margin-top: 50px;"></div>
+
+        <!-- !PAGE CONTENT! -->
+        <div class="w3-main w3-white w3-padding-16 w3-card-2">
+            <h1 class="w3-center">CAR01H HØJ REJSNING</h1>   
+
+            <!-- Slideshow Header -->
+            <div class="w3-container w3-content" id="apartment">
+
+                <div class="w3-display-container mySlides">
+                    <img src="media/pictures/premadeCarports/CAR01H/CAR01H.png" style="width:100%;margin-bottom:-6px">
+                    <div class="w3-display-bottomleft w3-container w3-black">
+                        <p>Real Picture</p>
+                    </div>
+                </div>
+                <div class="w3-display-container mySlides">
+                    <img src="media/pictures/premadeCarports/CAR01H/CAR01HSheme1.png" style="width:100%;margin-bottom:-6px">
+                    <div class="w3-display-bottomleft w3-container w3-black">
+                        <p>Scheme</p>
+                    </div>
+                </div>
+                <div class="w3-display-container mySlides">
+                    <img src="media/pictures/premadeCarports/CAR01H/CAR01HSheme2.png" style="width:100%;margin-bottom:-6px">
+                    <div class="w3-display-bottomleft w3-container w3-black">
+                        <p>Scheme</p>
+                    </div>
+                </div>
+                <div class="w3-display-container mySlides">
+                    <img src="media/pictures/premadeCarports/CAR01H/CAR01HSheme3.png" style="width:100%;margin-bottom:-6px">
+                    <div class="w3-display-bottomleft w3-container w3-black">
+                        <p>Scheme</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row-padding w3-section">
+                <div class="w3-col s3">
+                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/premadeCarports/CAR01H/CAR01H.png" style="width:100%;cursor:pointer" onclick="currentDiv(1)" title="Real picture">
+                </div>
+                <div class="w3-col s3">
+                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/premadeCarports/CAR01H/CAR01HSheme1.png" style="width:100%;cursor:pointer" onclick="currentDiv(2)" title="Scheme1">
+                </div>
+                <div class="w3-col s3">
+                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/premadeCarports/CAR01H/CAR01HSheme2.png" style="width:100%;cursor:pointer" onclick="currentDiv(3)" title="Scheme2">
+                </div>
+                <div class="w3-col s3">
+                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/premadeCarports/CAR01H/CAR01HSheme3.png" style="width:100%;cursor:pointer" onclick="currentDiv(4)" title="Scheme3">
+                </div>
+            </div>
+
+            <div class="w3-container">
+                <h4><strong>Description</strong></h4>
+                <div class="w3-row w3-large">
+                    <div class="w3-col s12">
+                        <p>3,60 x 5,40 mtr. 
+                            Uden redskabsrum
+                            Trykimprægnerede stolper & stern.
+                            Leveres med: Søm, skruer, beslag og betontagstenstag.
+                            Udførlig byggevejledning til carport og spær medfølger.
+                            Betontagsten i sort med 30 års garanti.
+                            NB! Leveres som Byg-selv sæt - usamlet og ubehandlet!</p>
+                    </div>
+                </div>
+                <hr>
+
+                <h4><strong>Price :</strong></h4>
+                <div class="w3-row w3-large">
+                    <div class="w3-col s6">
+                        <p>pr. stk. 12.995,-</p>
+                    </div>
+                </div>
+                <hr>
+
+                <h4><strong>Extra Info</strong></h4>
+                <p><i class="fa fa-check w3-large"></i> 14 dages returret</p>
+                <p><i class="fa fa-check w3-large"></i> Sikker betaling</p>
+                <p>We accept: <i class="fa fa-credit-card w3-large"></i> <i class="fa fa-cc-mastercard w3-large"></i> <i class="fa fa-cc-amex w3-large"></i> <i class="fa fa-cc-cc-visa w3-large"></i><i class="fa fa-cc-paypal w3-large"></i></p>
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active"><a href="#shiping" role="tab" data-toggle="tab">Yderligere leveringsinformation&nbsp;</a></li>
+                    <li role="presentation" class=""><a href="#dokument" role="tab" data-toggle="tab">Dokumenter&nbsp;</a></li>
+                </ul>
+                <!-- TABS CONTENT -->
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" role="tabpanel" id="shiping">
+                        <h4>Leveringstype: Særlige leveringsbetingelser</h4>  
+                        <h1>Fragtvilkår for denne vare</h1>  
+                        <div class="w3-padding-16 w3-margin-32">
+                            <table class="w3-table w3-bordered w3-padding" cellpadding="5">
+                                <tr>
+                                    <td>Levering - Sjælland:</td>
+                                    <td>250,00 pr. stk.</td>
+                                </tr>
+                                <tr>
+                                    <td>Levering - Fyn:</td>
+                                    <td>1.475,00 pr. stk.</td>
+                                </tr>
+                                <tr>
+                                    <td>Levering - Jylland:</td>
+                                    <td>1.875,00 pr. stk.</td>
+                                </tr>
+                                <tr>
+                                    <td>Særlige leveringsdage:</td>
+                                    <td>Fredag</td>
+                                </tr>
+                            </table>
+                            <img src="media/pictures/levering900_b2c.png">
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" role="tabpanel" id="dokument">
+                        <h1><a href="https://www.johannesfog.dk/globalassets/inriver/resources/9116199_car01h-2016.pdf" target="_blank">CAR01H Tegninger (PDF)</a></h1>
+                    </div>
+                </div>
+                <!-- TABS CONTENT END-->
+                
+                <hr>
+
+                <h4><strong>Buy this beauty</strong></h4>
+                <p>When you click the "Buy" button that means you accept our Terms&Conditions.</p>
+                <p>You will be lead through the process by our system. Happy buying.</p>
+
+                <p><button class="w3-button w3-green w3-third" onclick=
+                           <%
+                               //onclick the button will open a pop-up with Log in if there is no session was opened, or Credit Details modal if the user already was logged in
+                               if (user == null) {
+                                   String buyLink = "document.getElementById('id01').style.display = 'block'";
+                                   session.setAttribute("buyLink", buyLink);
+                               } else {
+                                   String buyLink = "document.getElementById('cardAPI').style.display = 'block'";
+                                   session.setAttribute("buyLink", buyLink);
+                               }
+                           %>
+                           "<%= session.getAttribute("buyLink")%>">Buy</button></p>
+            </div>
         </div><!-- End page content -->
 
-        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
+        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-white w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
-        </footer>
+        </footer> 
 
         <script>// Slideshow Apartment Images
             var slideIndex = 1;
@@ -347,11 +406,11 @@
                 });
             });
         </script>
-        
+
         <!-- Checks the Re-type of password -->
         <script>
             $(function () {
-                
+
                 $('#repasswordReg').on('keyup', function () {
                     var password = $("#passwordReg").val();
                     var confirmPassword = $("#repasswordReg").val();
@@ -362,12 +421,12 @@
                     } else {
                         $("#pCheckPassword").html("Passwords match.");
                         $('#RegButton').prop('disabled', false);
-                        
+
                     }
                 });
             });
         </script>
-        
+
         <!-- Calls logout on button click -->
         <script>
             $('#logoutFunction').click(function ()
@@ -383,7 +442,7 @@
             });
 
         </script>
-        
+
     </body>
 </html>
 

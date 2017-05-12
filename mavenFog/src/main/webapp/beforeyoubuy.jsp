@@ -1,9 +1,3 @@
-<%-- 
-    Document   : beforeyoubuy
-    Created on : Apr 12, 2017, 10:13:45 AM
-    Author     : trez__000
---%>
-
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,6 +10,13 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+        </script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -179,29 +180,20 @@
         <div class="w3-container w3-padding-64 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
                 <h2>Before you buy you may consider :</h2>
-                <p>Lorem ipusm bla blabla</p>
+                <p>Here some hints</p>
                 <ol style="text-align: left;">
-                    <li>Visit Local Regulations first. (link <span style="color: blue"><a href="#">here</a></span>)</li>
+                    <li>Visit Local Regulations first. (link <span style="color: blue"><a href="#">here</a></span>) Because in order to put a carport around your home, you need to have a permission from the Commune in which you are currently living.</li>
                     <li>If bored from the first step, call us now on 555-37 37. (or go to <span style="color: blue"><a href="support.jsp">Support</a></span> page)</li>
                     <li>Know the right measures: </li>
                 </ol>
-
                 <p>MEASURES</p>
             </div>
         </div>
 
-        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
+        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-white w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
-
-        </footer>
-        <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous">
-
-        </script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        </footer> 
+        
         <!--Logout function -->
         <script>
             $('#logoutFunction').click(function ()
@@ -209,7 +201,7 @@
                 setTimeout(function () {
                     document.getElementById('logout').style.display = 'block';
                 }, 800);
-                var delay = 5000;
+                var delay = 3000;
                 setTimeout(function () {
                     window.location = 'logout.jsp';
                 }, delay);

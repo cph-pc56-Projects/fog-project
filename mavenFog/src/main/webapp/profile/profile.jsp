@@ -116,31 +116,31 @@
                             </tr>
                         </table>
                     </div>
-                    <div  clas="w3-display-right">
+                    <!-- <div class="w3-display-right"> -->
                         <a id="edit" class="w3-button w3-yellow" onclick="toggle()">Edit</a>
-                    </div>
+                    <!-- </div> -->
                     <div id="id02">
                         <form action="../Profile" method="post">
                             <table  cellpadding="5">
                                 <tr>
                                     <td>Email: </td>        
-                                    <td><input type="text" name="email"></input></td>
+                                    <td><input type="text" name="email"></td>
                                 </tr>
                                 <tr>
                                     <td>Password: </td>
-                                    <td><input type="text" name="password"></input></td>        
+                                    <td><input type="text" name="password"></td>        
                                 </tr>
                                 <tr>
                                     <td>Address: </td>
-                                    <td><input type="text" name="address"></input></td>        
+                                    <td><input type="text" name="address"></td>        
                                 </tr>
                                 <tr>
                                     <td>Phone: </td>
-                                    <td><input type="number" name="phone"></input></td>        
+                                    <td><input type="number" name="phone"></td>        
                                 </tr>
                                 <tr>
                                     <td>ZipCode: </td>
-                                    <td><input type="number" name="zipcode"></input></td>        
+                                    <td><input type="number" name="zipcode"></td>        
                                 </tr> 
                             </table>
                             <button class="w3-button w3-green" type="submit"> Submit</button>

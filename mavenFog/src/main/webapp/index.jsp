@@ -72,7 +72,7 @@
                     <h1 class="w3-container ">Log In</h1>
                 </div>
                 <% if ("login".equals(session.getAttribute("error"))) {
-                                      session.invalidate(); %>
+                        session.invalidate(); %>
                 <script>
                     // Get the modal
                     var modal = document.getElementById('id01');
@@ -161,14 +161,14 @@
         <!--Logout modal -->
         <div id="logout" class="modal">
             <form class="modal-content animate">
-            <div class="imgcontainer">
-                    
+                <div class="imgcontainer">
+
                     <h1 class="w3-container ">You are logged out!</h1>
                     <p class="w3-container ">(You will be redirected after 3 seconds...)</p>
                 </div>
             </form>
         </div><!-- Logout END -->
-        
+
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
@@ -191,17 +191,19 @@
         </div>
 
         <!-- Custom port here -->
-        <div class="w3-container w3-padding-16">
+        <div class="w3-row w3-padding-16">
             <div class="w3-container w3-half">
-                <h1 class="w3-center w3-lobster">Custom made carports</h1>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                <h1 class="w3-center w3-lobster">Custom made carports</h1><br>
+                <p>Med et specialudviklet computerprogram kan vi lynhurtigt beregne prisen og udskrive en skitsetegning på en carport indenfor vores standardprogram, der tilpasses dine specifikke ønsker.
+                    Tilbud og skitsetegning fremsendes med post hurtigst muligt.
+                    Ved bestilling medfølger standardbyggevejledning.
                 </p>
+                <br>
                 <a href="custompage.jsp" class="w3-button w3-teal w3-block w3-xlarge">Build your very own carport</a>
             </div>
             <div class="w3-container w3-half w3-center">
-                <img src="media/pictures/custom2.png" class="w3-padding-16" style="width:100%;max-width:400px">
+                <img src="media/pictures/custom2.png" class="w3-padding-16" style="width:100%;max-width:500px">
             </div>
-
         </div>
         <!-- Custom ends here -->
 
@@ -215,8 +217,8 @@
             <div class="w3-half">
                 <div class="w3-card-4 w3-margin " >
                     <div class="w3-display-container w3-text-white">
-                        <img src="media/pictures/CAR01.png" alt="CAR01" style="width:100%">
-                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><h3><span class="w3-black box">Carport 1</span></h3></div>
+                        <img src="media/pictures/premadeCarports/CAR01/CAR01.png" alt="CAR01" style="width:100%">
+                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><h3><span class="w3-black box">CAR01 FLADT TAG</span></h3></div>
                     </div> 
                     <div class="w3-padding-16  w3-container">
                         <p class="w3-threequarter">3,00 x 4,80 mtr. Højde; 2,25 mtr. Trykimprægnerede stolper og stern. 
@@ -231,15 +233,18 @@
             <div class="w3-half">
                 <div class="w3-card-4 w3-margin " >
                     <div class="w3-display-container w3-text-white">
-                        <img src="media/pictures/CAR01HR.png" alt="CAR01HR" style="width:100%">
-                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">Carport 2</span></div>
+                        <img src="media/pictures/premadeCarports/CAR01H/CAR01H.png" alt="CAR01HR" style="width:100%">
+                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">CAR01H HØJ REJSNING</span></div>
                     </div> 
                     <div class="w3-padding-16  w3-container">
-                        <p class="w3-threequarter">Enkelt carport med høj rejsning. 3,60 x 7,20 m. m/Byg-selv spær. Inkl. 3,20 x 2,25 m. redskabsrum. Højde; 3,05 mtr.
+                        <p class="w3-threequarter">3,60 x 5,40 mtr. 
+                            Uden redskabsrum
+                            Trykimprægnerede stolper & stern.
+                            Leveres med: Søm, skruer, beslag og betontagstenstag.
+                            Udførlig byggevejledning til carport og spær medfølger.
                             Betontagsten i sort med 30 års garanti.
-                            Varen kan ses udstillet i følgende afdelinger:
-                            Værebro</p>
-                        <h3 class="w3-threequarter">Price : pr. stk. 18.995,-</h3>
+                            NB! Leveres som Byg-selv sæt - usamlet og ubehandlet!</p>
+                        <h3 class="w3-threequarter">Price : pr. stk. 12.995,-</h3>
                         <a href="carport2.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
                     </div>                    
                 </div>
@@ -248,17 +253,16 @@
             <div class="w3-half">
                 <div class="w3-card-4 w3-margin " >
                     <div class="w3-display-container w3-text-white">
-                        <img src="media/pictures/flat2.png" alt="Lights" style="width:100%">
-                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">Carport 3</span></div>
+                        <img src="media/pictures/premadeCarports/CAR01R/CAR01R.png" alt="Lights" style="width:100%">
+                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">CAR01R MED REDSKABSRUM</span></div>
                     </div> 
                     <div class="w3-padding-16  w3-container">
-                        <p class="w3-threequarter">Some details here and there we are here you boommmm chaka lkakaand here ahee as ad asd asdas das d </p>
-                        <ul class="w3-threequarter">
-                            <li>1. One</li>
-                            <li>2. Five</li>
-                            <li>3. Two</li>
-                            <li>4. Seven</li>
-                        </ul>  
+                        <p class="w3-threequarter">3,00 x 6,20 mtr. incl. 1,50 x 2,70 mtr. redskabsrum. Højde; 2,25 mtr.
+                            Trykimprægnerede stolper, stern og beklædning.
+                            Leveres med: søm, skruer, beslag og plasttrapez tag m/topskruer.
+                            Udførlig byggevejledning medfølger.
+                            NB! Leveres som Byg-selv sæt - usamlet og ubehandlet!</p>
+                        <h3 class="w3-threequarter">Price : pr. stk. 7.995,-</h3>
                         <a href="carport3.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
                     </div>                    
                 </div>
@@ -267,27 +271,19 @@
             <div class="w3-half">
                 <div class="w3-card-4 w3-margin " >
                     <div class="w3-display-container w3-text-white">
-                        <img src="media/pictures/pitch2.png" alt="Lights" style="width:100%">
-                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">Carport 4</span></div>
+                        <img src="media/pictures/premadeCarports/CAR01HR/CAR01HR.png" alt="Lights" style="width:100%">
+                        <div class="w3-xlarge w3-display-bottomleft w3-padding"><span class=" w3-black box">CAR01HR MED REDSKABSRUM </span></div>
                     </div> 
                     <div class="w3-padding-16  w3-container">
-                        <p class="w3-threequarter">Some details here and there we are here you boommmm chaka lkakaand here ahee as ad asd asdas das d </p>
-                        <p class="w3-threequarter">Table:</p>
-                        <table class="w3-threequarter">
-                            <th>one</th>
-                            <th>two</th>
-                            <th>three</th>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>No</td>
-                                <td>Yes</td>
-                                <td>Null</td>
-                            </tr>
-                        </table>
+                        <p class="w3-threequarter">Enkelt carport med høj rejsning. 3,60 x 7,20 m. m/Byg-selv spær. Inkl. 3,20 x 2,25 m. redskabsrum. Højde; 3,05 mtr.
+                            Trykimprægnerede stolper, stern og beklædning.
+                            Leveres med: søm, skruer beslag og betontagstens tag.
+                            Udførlig byggevejledning til carport og spær medfølger.
+                            Betontagsten i sort med 30 års garanti.
+                            NB! Leveres som Byg-selv sæt - usamlet og ubehandlet!
+                            Varen kan ses udstillet i følgende afdelinger:
+                            Værebro</p>
+                        <h3 class="w3-threequarter">Price : pr. stk. 18.995,-</h3>
                         <a href="carport4.jsp" class="w3-col w3-button w3-blue ">Check me out</a>
                     </div>                    
                 </div>
@@ -298,11 +294,10 @@
         </div>
         <!-- /Product line -->
 
-        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
+        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-white w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
+        </footer> 
 
-        </footer>
-        
         <!-- Prevent "space" button script -->
         <script>
             $(function () {
@@ -324,11 +319,11 @@
                 });
             });
         </script>
-        
+
         <!-- Checks the Re-type of password -->
         <script>
             $(function () {
-                
+
                 $('#repasswordReg').on('keyup', function () {
                     var password = $("#passwordReg").val();
                     var confirmPassword = $("#repasswordReg").val();
@@ -339,12 +334,12 @@
                     } else {
                         $("#pCheckPassword").html("Passwords match.");
                         $('#RegButton').prop('disabled', false);
-                        
+
                     }
                 });
             });
         </script>
-        
+
         <!-- Calls logout on button click -->
         <script>
             $('#logoutFunction').click(function ()

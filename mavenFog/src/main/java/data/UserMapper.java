@@ -48,17 +48,11 @@ public class UserMapper {
             if (rs.next()){
                 userEmail = rs.getString("email");
             }
-<<<<<<< HEAD
         } catch(NullPointerException e) {
             System.out.println("No connection to the DB!");
             return userEmail = "noDB";
-        } catch(SQLException e) {
-            System.out.println("SQL Exception");
-=======
-            System.out.println("getEmail complete");
         } catch(SQLException x) {
             System.out.println("Something wrong with getEmail");
->>>>>>> 8f075bfcf7a091833704b24a7650ec62397231f9
         }
         return userEmail;
     }
@@ -72,17 +66,12 @@ public class UserMapper {
             if (rs.next()){
                 password = rs.getString("password");
             }
-<<<<<<< HEAD
+
         } catch(NullPointerException e) {
             System.out.println("No connection to the DB!");
             return password = "noDB";
-        } catch(SQLException e) {
-            System.out.println("SQL Exception");
-=======
-            System.out.println("getPassword complete");
         } catch(SQLException x) {
             System.out.println("Something wrong with getPassword");
->>>>>>> 8f075bfcf7a091833704b24a7650ec62397231f9
         }
         return password;
     }

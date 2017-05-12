@@ -5,7 +5,7 @@
 <%user = (User) session.getAttribute("user");%>
 <html>
     <head>
-        <title>Carport1</title>
+        <title>CAR01 FLADT TAG</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
@@ -74,7 +74,7 @@
                     <h1 class="w3-container ">Log In</h1>
                 </div>
                 <% if ("login".equals(session.getAttribute("error"))) {
-                                      session.invalidate(); %>
+                        session.invalidate(); %>
                 <script>
                     // Get the modal
                     var modal = document.getElementById('id01');
@@ -163,24 +163,53 @@
         <!--Logout modal -->
         <div id="logout" class="modal">
             <form class="modal-content animate">
-            <div class="imgcontainer">
-                    
+                <div class="imgcontainer">
+
                     <h1 class="w3-container ">You are logged out!</h1>
                     <p class="w3-container ">(You will be redirected after 3 seconds...)</p>
                 </div>
             </form>
         </div><!-- Logout END -->
+
+        <!-- Credit Card -->
+            <div id="cardAPI" class="modal">
+                <form class="modal-content animate" action="thankyou.jsp">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('cardAPI').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+                        <h1 class="w3-container ">Credit Card Details</h1>
+                    </div>
+
+                    <div class="loginContainer">
+                        <label><b>Cardholder's name:</b></label>
+                        <input type="text" placeholder="the same as the card" name="cardname" required>
+
+                        <label><b>Credit Card No. :</b></label>
+                        <input type="password" placeholder="Enter all numericals" name="cardnumber" required>
+
+                        <label><b>Valid until:</b></label>
+                        <input type="password" placeholder="Month / Year" name="carddate" required>
+
+                        <label><b>CCV No. :</b></label>
+                        <input type="password" placeholder="3 numbers on the back" name="cardccv" required>
+
+                        <button type="submit">Buy</button>
+                        <button type="button" onclick="document.getElementById('cardAPI').style.display = 'none'" class="cancelbtn">Cancel</button>
+                    </div>
+                </form>
+            </div> <!-- CreditCard END HERE -->
         
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
             var modal2 = document.getElementById('id02');
+            var modal3 = document.getElementById('cardAPI');
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {
-                if (event.target == modal || event.target == modal2) {
+                if (event.target === modal || event.target === modal2 || event.target === modal3) {
                     modal.style.display = "none";
                     modal2.style.display = "none";
+                    modal3.style.display = "none";
                 }
             }
         </script>
@@ -189,19 +218,31 @@
 
         <!-- !PAGE CONTENT! -->
         <div class="w3-main w3-white w3-padding-16 w3-card-2">
-            <h1 class="w3-center">Carport CAR01 FLADT TAG</h1>   
+            <h1 class="w3-center">CAR01 FLADT TAG</h1>   
 
             <!-- Slideshow Header -->
             <div class="w3-container w3-content" id="apartment">
 
                 <div class="w3-display-container mySlides">
-                    <img src="media/pictures/CAR01.png" style="width:100%;margin-bottom:-6px">
+                    <img src="media/pictures/premadeCarports/CAR01/CAR01.png" style="width:100%;margin-bottom:-6px">
                     <div class="w3-display-bottomleft w3-container w3-black">
                         <p>Real Picture</p>
                     </div>
                 </div>
                 <div class="w3-display-container mySlides">
-                    <img src="media/pictures/flat.png" style="width:100%;margin-bottom:-6px">
+                    <img src="media/pictures/premadeCarports/CAR01/CAR01Sheme1.png" style="width:100%;margin-bottom:-6px">
+                    <div class="w3-display-bottomleft w3-container w3-black">
+                        <p>Scheme</p>
+                    </div>
+                </div>
+                <div class="w3-display-container mySlides">
+                    <img src="media/pictures/premadeCarports/CAR01/CAR01Sheme2.png" style="width:100%;margin-bottom:-6px">
+                    <div class="w3-display-bottomleft w3-container w3-black">
+                        <p>Scheme</p>
+                    </div>
+                </div>
+                <div class="w3-display-container mySlides">
+                    <img src="media/pictures/premadeCarports/CAR01/CAR01Sheme3.png" style="width:100%;margin-bottom:-6px">
                     <div class="w3-display-bottomleft w3-container w3-black">
                         <p>Scheme</p>
                     </div>
@@ -209,10 +250,16 @@
             </div>
             <div class="w3-row-padding w3-section">
                 <div class="w3-col s3">
-                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/CAR01.png" style="width:100%;cursor:pointer" onclick="currentDiv(1)" title="Living room">
+                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/premadeCarports/CAR01/CAR01.png" style="width:100%;cursor:pointer" onclick="currentDiv(1)" title="Real picture">
                 </div>
                 <div class="w3-col s3">
-                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/flat.png" style="width:100%;cursor:pointer" onclick="currentDiv(2)" title="Dining room">
+                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/premadeCarports/CAR01/CAR01Sheme1.png" style="width:100%;cursor:pointer" onclick="currentDiv(2)" title="Scheme1">
+                </div>
+                <div class="w3-col s3">
+                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/premadeCarports/CAR01/CAR01Sheme2.png" style="width:100%;cursor:pointer" onclick="currentDiv(3)" title="Scheme2">
+                </div>
+                <div class="w3-col s3">
+                    <img class="demo w3-opacity w3-hover-opacity-off" src="media/pictures/premadeCarports/CAR01/CAR01Sheme3.png" style="width:100%;cursor:pointer" onclick="currentDiv(4)" title="Scheme3">
                 </div>
             </div>
 
@@ -236,11 +283,52 @@
                 <hr>
 
                 <h4><strong>Extra Info</strong></h4>
+                <p><i class="fa fa-check w3-large"></i> 14 dages returret</p>
+                <p><i class="fa fa-check w3-large"></i> Sikker betaling</p>
                 <p>We accept: <i class="fa fa-credit-card w3-large"></i> <i class="fa fa-cc-mastercard w3-large"></i> <i class="fa fa-cc-amex w3-large"></i> <i class="fa fa-cc-cc-visa w3-large"></i><i class="fa fa-cc-paypal w3-large"></i></p>
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active"><a href="#shiping" role="tab" data-toggle="tab">Yderligere leveringsinformation&nbsp;</a></li>
+                    <li role="presentation" class=""><a href="#dokument" role="tab" data-toggle="tab">Dokumenter&nbsp;</a></li>
+                </ul>
+                <!-- TABS CONTENT -->
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" role="tabpanel" id="shiping">
+                        <h4>Leveringstype: Særlige leveringsbetingelser</h4>  
+                        <h1>Fragtvilkår for denne vare</h1>  
+                        <div class="w3-padding-16 w3-margin-32">
+                            <table class="w3-table w3-bordered w3-padding" cellpadding="5">
+                                <tr>
+                                    <td>Levering - Sjælland:</td>
+                                    <td>250,00 pr. stk.</td>
+                                </tr>
+                                <tr>
+                                    <td>Levering - Fyn:</td>
+                                    <td>1.475,00 pr. stk.</td>
+                                </tr>
+                                <tr>
+                                    <td>Levering - Jylland:</td>
+                                    <td>1.875,00 pr. stk.</td>
+                                </tr>
+                                <tr>
+                                    <td>Særlige leveringsdage:</td>
+                                    <td>Fredag</td>
+                                </tr>
+                            </table>
+                            <img src="media/pictures/levering900_b2c.png">
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" role="tabpanel" id="dokument">
+                        <h1><a href="https://www.johannesfog.dk/globalassets/inriver/resources/9116194_car01-2016.pdf" target="_blank">CAR01 Tegninger (PDF)</a></h1>
+                    </div>
+                </div>
+                <!-- TABS CONTENT END-->
+                
                 <hr>
 
                 <h4><strong>Buy this beauty</strong></h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>When you click the "Buy" button that means you accept our Terms&Conditions.</p>
+                <p>You will be lead through the process by our system. Happy buying.</p>
 
                 <p><button class="w3-button w3-green w3-third" onclick=
                            <%
@@ -255,43 +343,11 @@
                            %>
                            "<%= session.getAttribute("buyLink")%>">Buy</button></p>
             </div>
-            <!-- Credit Card -->
-            <div id="cardAPI" class="modal">
-                <form class="modal-content animate" action="thankyou.jsp">
-                    <div class="imgcontainer">
-                        <span onclick="document.getElementById('cardAPI').style.display = 'none'" class="close" title="Close Modal">&times;</span>
-                        <h1 class="w3-container ">Credit Card Details</h1>
-                    </div>
-
-                    <div class="loginContainer">
-                        <label><b>Cardholder's name:</b></label>
-                        <input type="text" placeholder="the same as the card" name="cardname" required>
-
-                        <label><b>Credit Card No. :</b></label>
-                        <input type="password" placeholder="Enter all numericals" name="cardnumber" required>
-
-                        <label><b>Valid until:</b></label>
-                        <input type="password" placeholder="Month / Year" name="carddate" required>
-
-                        <label><b>CCV No. :</b></label>
-                        <input type="password" placeholder="3 numbers on the back" name="cardccv" required>
-
-                        <button type="submit">Buy</button>
-                    </div>
-
-                    <div class="loginContainer" style="background-color:#f1f1f1">
-                        <button type="button" onclick="document.getElementById('cardAPI').style.display = 'none'" class="cancelbtn">Cancel</button>
-                        <span class="psw"><a href="#">Forgot password?</a></span>
-                    </div>
-                </form>
-            </div> <!-- CreditCard END HERE -->
-            <hr>
-            
         </div><!-- End page content -->
 
-        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">          
+        <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-white w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
-        </footer>
+        </footer> 
 
         <script>// Slideshow/Switch Carport Images
             var slideIndex = 1;
@@ -347,11 +403,11 @@
                 });
             });
         </script>
-        
+
         <!-- Checks the Re-type of password -->
         <script>
             $(function () {
-                
+
                 $('#repasswordReg').on('keyup', function () {
                     var password = $("#passwordReg").val();
                     var confirmPassword = $("#repasswordReg").val();
@@ -362,12 +418,12 @@
                     } else {
                         $("#pCheckPassword").html("Passwords match.");
                         $('#RegButton').prop('disabled', false);
-                        
+
                     }
                 });
             });
         </script>
-        
+
         <!-- Calls logout on button click -->
         <script>
             $('#logoutFunction').click(function ()
@@ -383,7 +439,7 @@
             });
 
         </script>
-        
+
     </body>
 </html>
 
