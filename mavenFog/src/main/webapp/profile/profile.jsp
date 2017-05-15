@@ -34,19 +34,18 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="index.jsp">FOG</a>
+                    <a class="navbar-brand" href="../index.jsp">FOG</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">                        
-                        <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
+                        <li><a href="../beforeyoubuy.jsp">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
                         <% if (user != null) {%>
                         <!-- HERE WHEN LOGGED IN DIV -->
                         <li>
                             <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%=user.getEmail()%>&nbsp;<span class="caret"></span></a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="profile/profile.jsp">Profile page</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
                                 <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>
                                 <li class="divider"></li>
@@ -57,7 +56,7 @@
                         <!-- ELSE THE COMMON ONE WITH LOGIN -->
                         <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
                             <% } %>
-                        <li><a href="support.jsp">Support</a></li>
+                        <li><a href="../support.jsp">Support</a></li>
                     </ul>
                 </div>
             </div>
