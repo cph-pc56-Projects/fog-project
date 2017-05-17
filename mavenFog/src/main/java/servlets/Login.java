@@ -67,9 +67,11 @@ public class Login extends HttpServlet {
 
                 // Send to customer visible page if customer, send to admin if admin
                 if (role == 0) {
-                    response.sendRedirect(request.getParameter("from"));
+                    //response.sendRedirect(request.getParameter("from"));
+                    request.getRequestDispatcher("Orders").forward(request, response);
                 } else {
                     response.sendRedirect("admin/admin.jsp");
+                    
                 }
 
             }
