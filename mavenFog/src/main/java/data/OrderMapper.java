@@ -59,22 +59,27 @@ public class OrderMapper {
     public ArrayList<Order> findOrdersByCustomer(int customerID) {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * from orders INNER JOIN orderdetails ON orders.order_id = orderdetails.order_id where customer_id= " + customerID + "";
+        int order_id = 0, customer_id = 0, product_id = 0, salesRep_id = 0, delivery_id = 0, invoice_id = 0, orderStatus = 0;
+        double price = 0;
+        Date date = null;
+        Order order = null;
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                 int order_id = rs.getInt("order_id");
-                 double price = rs.getDouble("price");
-                 Date date = rs.getDate("creationDate");
-                 int customer_id = rs.getInt("customer_id");
-                 int product_id = rs.getInt("product_id");
-                 int salesRep_id = rs.getInt("salesRep_id");
-                 int delivery_id = rs.getInt("delivery_id");
-                 int invoice_id = rs.getInt("invoice_id");
-                 int orderStatus = rs.getInt("orderStatus");
-                 Order order = new Order(order_id, price, date, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus);
+                  order_id = rs.getInt("order_id");
+                  price = rs.getDouble("price");
+                  date = rs.getDate("creationDate");
+                  customer_id = rs.getInt("customer_id");
+                  product_id = rs.getInt("product_id");
+                  salesRep_id = rs.getInt("salesRep_id");
+                  delivery_id = rs.getInt("delivery_id");
+                  invoice_id = rs.getInt("invoice_id");
+                  orderStatus = rs.getInt("orderStatus");  
+                  order = new Order(order_id, price, date, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus);
                  orders.add(order);
             }
+             
         } catch(SQLException x) {
             System.out.println("Customer_id not found!");
         }

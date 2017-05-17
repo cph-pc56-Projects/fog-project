@@ -19,8 +19,8 @@
     </head>
     <body>
         <h1>Displaying order!</h1>
-        <%for (Order order: orders){ %>
-        <p>Customer ID: <%=order.getCustomerID()%></p>
-        <%}%>
+        
+        <p>Product PRice:: <%orders.get(0).getPrice(); %></p>
+        
     </body>
 </html>

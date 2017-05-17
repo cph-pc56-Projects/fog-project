@@ -176,21 +176,30 @@
                     
                 </div>
                 <div class="tab-pane fade" role="tabpanel" id="completed">
+                    <div class="table-responsive">
                     <h1>Orders</h1>
                     <table class="table table-hover">
                         <th>Number</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>More info</th>                 
+                        <th>More info</th>                         
                         <% for (Order order: orders) {%>                      
                                 <tr class="success">
                                     <td>Price: <%=order.getPrice()%></td>
-                                    <td>Product ID: <%=order.getProductID()%></td>
-                                    <td>Carport whit flat roof type, which can hold up to 2 compact vehicles.</td>
-                                    <td><button type="button" class="btn btn-info">Info</button></td>
-                                </tr> 
+                                    <td>Order ID: <%=order.getOrderID()%></td>
+                                    <td>Carport whit flat roof type, which can hold up to 2 compact vehicles.
+                                    <div class="collapse" id="<%=order.getOrderID()%>">
+                                           Carport whit flat roof type, which can hold up to 2 compact vehicles
+                                           <p> Date: <%=order.getDate()%></p>
+                                           <p>Price: <%=order.getPrice()%></p>
+                                           <p>Order ID: <%=order.getOrderID()%></p>
+                                    </div></td>
+                                    <td><button type="button" data-toggle="collapse" data-target="#<%=order.getOrderID()%>" >Info</button></td>
+                                </tr>
+                                
                         <% }%>
                     </table>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade" role="tabpanel" id="cancelled">
@@ -222,7 +231,12 @@
                 return false;
             });
 
-        </script>      
+        </script>    
+        <script>
+            function demo(){
+                document.getElementById('demo').style.display='block';
+            }
+        </script>
     </body>
 </html>
 
