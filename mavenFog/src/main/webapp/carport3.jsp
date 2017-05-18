@@ -173,7 +173,7 @@
         
         <!-- Credit Card -->
             <div id="cardAPI" class="modal">
-                <form class="modal-content animate" action="thankyou.jsp">
+                <form class="modal-content animate" action="Carport">
                     <div class="imgcontainer">
                         <span onclick="document.getElementById('cardAPI').style.display = 'none'" class="close" title="Close Modal">&times;</span>
                         <h1 class="w3-container ">Credit Card Details</h1>
@@ -191,7 +191,7 @@
 
                         <label><b>CCV No. :</b></label>
                         <input type="password" placeholder="3 numbers on the back" name="cardccv" required>
-
+                        <input type="hidden" name="price" value="7995">
                         <button type="submit">Buy</button>
                         <button type="button" onclick="document.getElementById('cardAPI').style.display = 'none'" class="cancelbtn">Cancel</button>
                     </div>

@@ -58,7 +58,7 @@ public class OrderMapper {
     // Creates a list with all the orders a customer has
     public ArrayList<Order> findOrdersByCustomer(int customerID) {
         ArrayList<Order> orders = new ArrayList<>();
-        String sql = "SELECT * from orders INNER JOIN orderdetails ON orders.order_id = orderdetails.order_id where customer_id= " + customerID + "";
+        String sql = "SELECT * from orders LEFT JOIN orderdetails ON orders.order_id = orderdetails.order_id where customer_id= " + customerID + "";
         int order_id = 0, customer_id = 0, product_id = 0, salesRep_id = 0, delivery_id = 0, invoice_id = 0, orderStatus = 0;
         double price = 0;
         Date date = null;

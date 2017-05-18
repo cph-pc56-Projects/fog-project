@@ -187,10 +187,10 @@
                                 <tr class="<%if (order.getOrderStatus() == 0) {out.print("warning");} else if (order.getOrderStatus() == 1) {out.print("success");} else {out.print("danger");};%>">
                                     <td>Order ID: <%=order.getOrderID()%></td>
                                     <td>Price: <%=order.getPrice()%></td>
-                                    <td>Carport whit flat roof type, which can hold up to 2 compact vehicles.
-                                    <div class="collapse" id="<%=order.getOrderID()%>">
-                                           Carport whit flat roof type, which can hold up to 2 compact vehicles
+                                    <td><p>Carport whit flat roof type, which can hold up to 2 compact vehicles.</p>
+                                    <div class="collapse" id="<%=order.getOrderID()%>">                                           
                                            <p>Date: <%=order.getDate()%></p>                                           
+                                           <p>Product ID: <%=order.getProductID()%></p>                                           
                                            <p>Customer ID:<%=order.getCustomerID()%></p>
                                            <p>Delivery ID:<%=order.getDeliveryID()%></p>
                                            <p>Invoice ID:<%=order.getInvoiveID()%></p>
