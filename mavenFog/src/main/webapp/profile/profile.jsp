@@ -179,20 +179,23 @@
                     <div class="table-responsive">
                     <h1>Orders</h1>
                     <table class="table table-hover">
-                        <th>Number</th>
-                        <th>Name</th>
+                        <th>Order ID</th>
+                        <th>Price</th>
                         <th>Description</th>
                         <th>More info</th>                         
                         <% for (Order order: orders) {%>                      
-                                <tr class="success">
-                                    <td>Price: <%=order.getPrice()%></td>
+                                <tr class="<%if (order.getOrderStatus() == 0) {out.print("warning");} else if (order.getOrderStatus() == 1) {out.print("success");} else {out.print("danger");};%>">
                                     <td>Order ID: <%=order.getOrderID()%></td>
+                                    <td>Price: <%=order.getPrice()%></td>
                                     <td>Carport whit flat roof type, which can hold up to 2 compact vehicles.
                                     <div class="collapse" id="<%=order.getOrderID()%>">
                                            Carport whit flat roof type, which can hold up to 2 compact vehicles
-                                           <p> Date: <%=order.getDate()%></p>
-                                           <p>Price: <%=order.getPrice()%></p>
-                                           <p>Order ID: <%=order.getOrderID()%></p>
+                                           <p>Date: <%=order.getDate()%></p>                                           
+                                           <p>Customer ID:<%=order.getCustomerID()%></p>
+                                           <p>Delivery ID:<%=order.getDeliveryID()%></p>
+                                           <p>Invoice ID:<%=order.getInvoiveID()%></p>
+                                           <p>Order Status: <%if (order.getOrderStatus() == 0) {out.print("Pending");} else if (order.getOrderStatus() == 1) {out.print("Completed");} else {out.print("Cancelled");};%></p>
+                                           <p>Sales Rep ID: <%=order.getSalesRepID()%></p>
                                     </div></td>
                                     <td><button type="button" data-toggle="collapse" data-target="#<%=order.getOrderID()%>" >Info</button></td>
                                 </tr>

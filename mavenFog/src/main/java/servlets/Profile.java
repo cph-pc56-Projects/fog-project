@@ -60,6 +60,12 @@ User user = null;
         mapper.updateAdress(address, accountId);
         mapper.updatePhone(phone, accountId);
         mapper.updateZipcode(zipcode, accountId);
+        session.removeAttribute("user"); 
+        
+        //Updating User Object in session               
+        user = new User(email, mapper.getFirstName(email), mapper.getLastName(email), mapper.getPhone(email), mapper.getAdress(email),
+                mapper.getZipCode(email), mapper.getRole(email), mapper.getAccountID(email));
+        session.setAttribute("user", (Object)user);
         response.sendRedirect("profile/profile.jsp");
     }
 
