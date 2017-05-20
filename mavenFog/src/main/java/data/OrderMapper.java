@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
+import exceptions.ConnectionException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,17 +9,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Order;
 
-/**
- *
- * @author Alex
- */
 public class OrderMapper {
     private final Connection con;
     private final DB db;
     
-    public OrderMapper() {
+    public OrderMapper() throws ConnectionException {
         db = new DB();
-        con = db.getConnection();
+        con = db.createConnection();
     }
 
     public DB getDb() {
@@ -33,6 +25,7 @@ public class OrderMapper {
     public Connection getCon() {
         return con;
     }
+    
     //Creates a new Order with status pending
     public int createOrder(double price, int customer_id) {
         int i = 0;

@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
-import data.DB;
+import exceptions.ConnectionException;
 import data.UserMapper;
+import exceptions.ConnectionException.CreateCustomerException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -20,15 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Patrick
- */
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
-public class Register extends HttpServlet {
-
-    
-    
+public class Register extends HttpServlet {    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,35 +25,40 @@ public class Register extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        UserMapper mapper = new UserMapper();
+        
         try {
-            //Get the data from register form
-            String email, password, fName, lName, phone, adress, zipCode;
-            email = request.getParameter("email");
-            password = request.getParameter("password");
-            fName = request.getParameter("fName");
-            lName = request.getParameter("lName");
-            phone = request.getParameter("phone");
-            adress = request.getParameter("adress");
-            zipCode = request.getParameter("zipCode");
-            
-            
-            //Create new user in the database
-            int i = mapper.createUser(email, password, fName, lName, phone, adress, zipCode);
-            //If successful go to index, otherwise go to error page
-            if (i > 0) {
+            UserMapper mapper = new UserMapper();
+            try {
+                //Get the data from register form
+                String email, password, fName, lName, phone, adress, zipCode;
+                email = request.getParameter("email");
+                password = request.getParameter("password");
+                fName = request.getParameter("fName");
+                lName = request.getParameter("lName");
+                phone = request.getParameter("phone");
+                adress = request.getParameter("adress");
+                zipCode = request.getParameter("zipCode");
+
+                //Create new user in the database
+                mapper.createCustomer(email, password, fName, lName, phone, adress, zipCode);
+                
+                //If successful go to index, otherwise go to error page
                 response.sendRedirect("index.jsp");
-            } else {
+                
+
+            } catch (CreateCustomerException cue) {
+                //Redirect to error page if we can`t create the profile.
+                cue.printStackTrace();
                 response.sendRedirect("error/failRegister.jsp");
+            } finally {
+                //Close the connection to the Database
+                mapper.getDb().releaseConnection(mapper.getCon());
             }
-            
-        } catch (SQLException e) {
-            response.sendRedirect("error/failSQL.jsp");
-        } finally {
-            mapper.getDb().releaseConnection(mapper.getCon());
-        }
+        } catch (ConnectionException ce) {
+            //JSP ERROR PAGE - Failed to connect to the Database!
+        }   
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -1,19 +1,23 @@
 package data;
 
+import exceptions.ConnectionException;
+import exceptions.ConnectionException.CreateCustomerException;
+import exceptions.ConnectionException.DataAccessException;
+import exceptions.ConnectionException.LoginError;
+import exceptions.ConnectionException.QueryException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
-
 public class UserMapper {
+    
     private final Connection con;
     private final DB db;
-    
 
-    public UserMapper() {
+    public UserMapper() throws ConnectionException {
         db = new DB();
-        con = db.getConnection();
+        con = db.createConnection();
     }
 
     public DB getDb() {
@@ -23,186 +27,320 @@ public class UserMapper {
     public Connection getCon() {
         return con;
     }
-
     
-    public int createUser(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws Exception {
-        int i = 0;
+    //Takes input from the register form and creates new Customer in the Database. 
+    //Throws Query Exception if the query is not executable. 
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public void createCustomer(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateCustomerException, QueryException {
         String sql = "INSERT INTO users (email, password, fName, lName, phone, adress, zipCode, role, creationDate)"
-                    + " VALUES ('"+email+"', '"+password+"', '"+fName+"', '"+lName+"', '"+phone+"', '"+adress+"', "+ Integer.parseInt(zipCode)+", 0, CURDATE())";
-        try {
-            PreparedStatement create = con.prepareStatement(sql);
-            i = create.executeUpdate();
-            System.out.println("createUser Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with createUser()");
-        } 
-        return i;
-    }
-    
-    public String getEmail (String email) throws SQLException, NullPointerException {
-        String userEmail = "empty";
-        String sql = "select email from users where email = " + "'" + email + "'";
+                + " VALUES (?,?,?,?,?,?,?,0, CURDATE())";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                userEmail = rs.getString("email");
+            try {
+                stmt.setString(1, email);
+                stmt.setString(2, password);
+                stmt.setString(3, fName);
+                stmt.setString(4, lName);
+                stmt.setInt(5, Integer.parseInt(phone));
+                stmt.setString(6, adress);
+                stmt.setInt(7, Integer.parseInt(zipCode));
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new CreateCustomerException();
+            } finally {
+                stmt.close();
             }
-        } catch(NullPointerException e) {
-            System.out.println("No connection to the DB!");
-            return userEmail = "noDB";
-        } catch(SQLException x) {
-            System.out.println("Something wrong with getEmail");
+        } catch (SQLException e) {
+            throw new QueryException();
+        }
+    }//CreateCustomer
+
+    //Checks the database for the email the user tries to login with
+    //Throws Login Error exception if the email is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public String getEmail(String email) throws LoginError, QueryException {
+        String userEmail = "NotFound";
+        String sql = "SELECT email FROM users WHERE email = " + "'" + email + "'";
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        userEmail = email;
+                    } else {
+                        throw new LoginError();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
+            }
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return userEmail;
-    }
+    }//getEmail
     
-    public String getPassword(String email){
-        String password = "empty";
-        String sql = "select password from users where email = " + "'" + email + "'";
+    //Checks the password for the desired email
+    //Throws Login Error exception if the password is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public String getPassword(String email) throws LoginError, QueryException {
+        String password = "NotFound";
+        String sql = "SELECT password FROM users WHERE email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                password = rs.getString("password");
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        password = rs.getString("password");
+                    } else {
+                        throw new LoginError();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
             }
-
-        } catch(NullPointerException e) {
-            System.out.println("No connection to the DB!");
-            return password = "noDB";
-        } catch(SQLException x) {
-            System.out.println("Something wrong with getPassword");
+            
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return password;
-    }
+    }//getPassword
     
-    
-    
-    public int getRole (String email) {
+    //Searches for the role of the user by email
+    //Throws Data Access exception if the email is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public int getRole(String email) throws QueryException, DataAccessException {
         int role = 0;
-        String sql = "select role from users where email = " + "'" + email + "'";
+        String sql = "SELECT role FROM users WHERE email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                role = rs.getInt("role");
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        role = rs.getInt("role");
+                    } else {
+                        throw new DataAccessException();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
             }
-            System.out.println("getRole complete");
-        } catch(SQLException x) {
-            System.out.println("Something wrong with getRole");
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return role;
-    }
+    }//getRole
     
-    public int getAccountID (String email) {
+    //Searches for the account id of the user by email
+    //Throws Data Access exception if the email is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public int getAccountID(String email) throws QueryException, DataAccessException {
         int id = 0;
-        String sql = "select account_id from users where email = " + "'" + email + "'";
+        String sql = "SELCT account_id FROM users WHERE email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                id = rs.getInt("account_id");
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        id = rs.getInt("account_id");
+                    } else {
+                        throw new DataAccessException();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
             }
-            System.out.println("getAccountID complete");
-        } catch(SQLException x) {
-            System.out.println("Something wrong with getAccountID");
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return id;
-    }
-    
-    public int getZipCode (String email) {
+    }//getAccountID
+
+    //Searches for the zip code of the user by email
+    //Throws Data Access exception if the email is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public int getZipCode(String email) throws QueryException, DataAccessException {
         int zipCode = 0;
-        String sql = "select zipCode from users where email = " + "'" + email + "'";
+        String sql = "SELECT zipCode FROM users WHERE email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                zipCode = rs.getInt("zipCode");
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        zipCode = rs.getInt("zipCode");
+                    } else {
+                        throw new DataAccessException();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
             }
-            System.out.println("getZipCode complete");
-        } catch(SQLException x) {
-            System.out.println("zSomething wrong with getZipCode");
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return zipCode;
-    }
-    
-    public String getFirstName (String email) {
+    }//getZipCode
+
+    //Searches for the first name of the user by email
+    //Throws Data Access exception if the email is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public String getFirstName(String email) throws QueryException, DataAccessException {
         String fName = null;
-        String sql = "select fName from users where email = " + "'" + email + "'";
+        String sql = "SELECT fName FROM users WHERE email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                fName = rs.getString("fName");
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        fName = rs.getString("fName");
+                    } else {
+                        throw new DataAccessException();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
             }
-            System.out.println("getFirstName complete");
-        } catch(SQLException x) {
-            System.out.println("Something wrong with getFirstName");
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return fName;
-    }
-    
-    public String getLastName (String email) {
+    }//getFirstName
+
+    //Searches for the last name of the user by email
+    //Throws Data Access exception if the email is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public String getLastName(String email) throws QueryException, DataAccessException {
         String lName = null;
-        String sql = "select lName from users where email = " + "'" + email + "'";
+        String sql = "SELECT lName FROM users WHERE email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                lName = rs.getString("lName");
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        lName = rs.getString("fName");
+                    } else {
+                        throw new DataAccessException();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
             }
-            System.out.println("geLastName complete");
-        } catch(SQLException x) {
-            System.out.println("Something wrong with getLastName");
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return lName;
-    }
-    
-    public String getPhone (String email) {
+    }//getLastName
+
+    //Searches for the phone of the user by email
+    //Throws Data Access exception if the email is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public String getPhone(String email) throws QueryException, DataAccessException  {
         String phone = null;
-        String sql = "select phone from users where email = " + "'" + email + "'";
+        String sql = "SELECT phone FROM users WHERE email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                phone = rs.getString("phone");
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        phone = rs.getString("phone");
+                    } else {
+                        throw new DataAccessException();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
             }
-            System.out.println("getPhone complete");
-        } catch(SQLException x) {
-            System.out.println("Something wrong with getPhone");
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return phone;
-    }
-    
-    public String getAdress (String email) {
+    }//getPhone
+
+    //Searches for the address of the user by email
+    //Throws Data Access exception if the email is not found
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public String getAdress(String email) throws QueryException, DataAccessException {
         String adress = null;
-        String sql = "select adress from users where email = " + "'" + email + "'";
+        String sql = "SELECT adress FROM users WHERE email = " + "'" + email + "'";
         try {
             PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                adress = rs.getString("adress");
+            try {
+                ResultSet rs = stmt.executeQuery();
+                try {
+                    if (rs.next()) {
+                        adress = rs.getString("adress");
+                    } else {
+                        throw new DataAccessException();
+                    }
+                } finally {
+                    //Close the resultset
+                    if (rs!=null) {rs.close();}
+                }
+            }  finally {
+                //Close the statement
+                if (stmt!=null) {stmt.close();}
             }
-            System.out.println("getAdress complete");
-        } catch(SQLException x) {
-            System.out.println("Something wrong with getAdress");
+        } catch (SQLException e)  {
+            throw new QueryException();
         }
         return adress;
     }
-    
+
+    //UpdateDetailsException
     public int updateEmail(String email, int acc_id) throws Exception {
         int i = 0;
         String sql = "UPDATE users SET email = '" + email + "' WHERE account_id = " + acc_id + "";
+        
         try {
             PreparedStatement update = con.prepareStatement(sql);
             i = update.executeUpdate();
             System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updateEmail()");
-        } 
+        }
         return i;
-    } 
-    
+    }
+
     public int updatePassword(String password, int acc_id) throws Exception {
         int i = 0;
         String sql = "UPDATE users SET password = '" + password + "' WHERE account_id = " + acc_id + "";
@@ -212,10 +350,10 @@ public class UserMapper {
             System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updatePassword()");
-        } 
+        }
         return i;
     }
-    
+
     public int updateAdress(String adress, int acc_id) throws Exception {
         int i = 0;
         String sql = "UPDATE users SET adress = '" + adress + "' WHERE account_id = " + acc_id + "";
@@ -225,10 +363,10 @@ public class UserMapper {
             System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updateAdress()");
-        } 
+        }
         return i;
     }
-    
+
     public int updatePhone(String phone, int acc_id) throws Exception {
         int i = 0;
         String sql = "UPDATE users SET phone = '" + phone + "' WHERE account_id = " + acc_id + "";
@@ -238,10 +376,10 @@ public class UserMapper {
             System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updatePhone()");
-        } 
+        }
         return i;
     }
-    
+
     public int updateZipcode(int zipCode, int acc_id) throws Exception {
         int i = 0;
         String sql = "UPDATE users SET zipCode = " + zipCode + " WHERE account_id = " + acc_id + "";
@@ -251,10 +389,8 @@ public class UserMapper {
             System.out.println("Update Complete");
         } catch (Exception e) {
             System.out.println("Something wrong with updatePassword()");
-        } 
+        }
         return i;
     }
-    
-    
-    
+
 }

@@ -1,27 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
+import exceptions.ConnectionException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author Alex
- */
 public class DeliveryMapper {
     private final Connection con;
     private final DB db;
     
-    public DeliveryMapper() {
+    public DeliveryMapper() throws ConnectionException {
         db = new DB();
-        con = db.getConnection();
+        con = db.createConnection();
     }
 
     public DB getDb() {
@@ -32,7 +24,8 @@ public class DeliveryMapper {
         return con;
     }
     
-    public int createDelivery(Date date, int order_id) {
+    //Creates new delivery in the Database
+    public int createDelivery(Date date, int order_id) throws ConnectionException {
         int i = 0;
         String sql = "INSERT into delivery (deliveryDate, devStatus, order_id) VALUES (" + date + ", 0, " + order_id + ")";
         OrderMapper oMapper = new OrderMapper();

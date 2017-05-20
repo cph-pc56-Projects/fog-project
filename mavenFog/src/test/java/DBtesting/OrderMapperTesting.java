@@ -5,6 +5,7 @@
  */
 package DBtesting;
 
+import exceptions.ConnectionException;
 import data.OrderMapper;
 import java.util.ArrayList;
 import model.Order;
@@ -15,7 +16,7 @@ import model.Order;
  * @author Alex
  */
 public class OrderMapperTesting {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ConnectionException {
         OrderMapper mapper = new OrderMapper();
         mapper.createOrder(6.8, 1);
         ArrayList<Order> orders = mapper.findOrdersByCustomer(1);

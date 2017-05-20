@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import exceptions.ConnectionException;
 import data.OrderMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,10 +34,12 @@ public class Carport extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws exceptions.ConnectionException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        try {
+            response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
@@ -49,6 +52,11 @@ public class Carport extends HttpServlet {
         
         
         response.sendRedirect("thankyou.jsp");
+        
+        } catch (ConnectionException e) {
+            System.out.println("Blabla");
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

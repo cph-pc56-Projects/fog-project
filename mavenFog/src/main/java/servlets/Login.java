@@ -6,6 +6,7 @@
 package servlets;
 
 import data.UserMapper;
+import exceptions.ConnectionException.LoginError;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -142,10 +143,6 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private static class LoginError extends Exception {
-
-        public LoginError() {
-        }
-    }
+    
 
 }
