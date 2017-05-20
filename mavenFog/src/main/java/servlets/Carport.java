@@ -46,8 +46,8 @@ public class Carport extends HttpServlet {
         double price = Integer.parseInt(request.getParameter("price"));
         OrderMapper mapper = new OrderMapper();
         mapper.createOrder(price, user.getAccountID());
-        
-        
+        ArrayList<Order> orders = mapper.findOrdersByCustomer(user.getAccountID());
+        session.setAttribute("orders", (Object) orders);        
         response.sendRedirect("thankyou.jsp");
     }
 
