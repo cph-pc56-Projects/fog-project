@@ -2,8 +2,8 @@ package data;
 
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateOrderException;
-import exceptions.ConnectionException.DataAccessException;
 import exceptions.ConnectionException.QueryException;
+import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -31,39 +31,34 @@ public class OrderMapper {
     }
 
     //Creates a new Order in the Database with status pending
-    //Throws Query Exception if the query is not executable. 
     //Throws Create Order Exception if the input is not the right data type or the querry is wrong
-    public void createOrder(double price, int customer_id, int product_id) throws QueryException, CreateOrderException {
-        String sqlOrders = "INSERT into orders (price, creationDate, customer_id, orderStatus)"
+    public void createOrder(double price, int customer_id, int product_id) throws CreateOrderException {
+        String sqlOrders = "INSERT into orders (price, creation_date, customer_id, order_status)"
                 + " VALUES (?,CURDATE(),?, 0)";
-        String sqlOrderDetails = "INSERT into orderdetails (order_id, product_id) VALUES (?,?)";
+        String sqlOrderDetails = "INSERT into order_details (order_id, product_id) VALUES (?,?)";
+        PreparedStatement stmt = null, stmt2 = null;
+        int order_id = 0;
         try {
-            PreparedStatement stmt = con.prepareStatement(sqlOrders);
-            PreparedStatement stmt2 = con.prepareStatement(sqlOrderDetails);
-            try {
-                stmt.setDouble(1, price);
-                stmt.setInt(2, customer_id);
-                stmt.executeUpdate();
-                int order_id = getOrderIDbyPriceAndCustomerID(price, customer_id);
-                stmt2.setInt(1, order_id);
-                stmt2.setInt(2, product_id);
-                stmt2.executeUpdate();
-            } catch (SQLException e) {
-                throw new CreateOrderException();
-            } finally {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (stmt2 != null) {
-                    stmt2.close();
-                }
-            }
+            stmt = con.prepareStatement(sqlOrders);
+            stmt2 = con.prepareStatement(sqlOrderDetails);
+            stmt.setDouble(1, price);
+            stmt.setInt(2, customer_id);
+            stmt.executeUpdate();
+            order_id = getOrderIDbyPriceAndCustomerID(price, customer_id);
+            stmt2.setInt(1, order_id);
+            stmt2.setInt(2, product_id);
+            stmt2.executeUpdate();
         } catch (SQLException e) {
-            throw new QueryException();
+            deleteOrder(order_id);
+            throw new CreateOrderException();
+        } finally {
+            DB.closeStmt(stmt);
+            DB.closeStmt(stmt2);
         }
-    }
-    
-    //Finds the order_id by the price and customer_id
+    }//createOrder
+
+    //Finds the order_id by the price and customer_id, used by the createOrder method
+    //Throws SQLException if the query failes
     private int getOrderIDbyPriceAndCustomerID(double price, int customer_id) throws SQLException {
         int order_id = 0;
         String sql = "SELECT order_id FROM orders WHERE price = " + price + " AND customer_id = " + customer_id + "";
@@ -72,89 +67,112 @@ public class OrderMapper {
         if (rs.next()) {
             order_id = rs.getInt("order_id");
         }
-        rs.close();
-        stmt.close();
+        try {
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         if (order_id == 0) {
             throw new SQLException();
         }
         return order_id;
     }//getOrderIDbyPriceAndCustomerID
 
+    //Deletes an order for the createOrder method in case of failure
+    private void deleteOrder(int order_id) {
+        String sql = "DELETE FROM orders WHERE order_id = " + order_id + "";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Could not delete order in OrderMapper.createOrder()");
+        } finally {
+            DB.closeStmt(stmt);
+        }
+    }
+
     // Creates a list with all the orders a customer has
     // Throws Data Access Exception if not possible to execute
-    public ArrayList<Order> findOrdersByCustomer(int customerID) throws DataAccessException {
+    public ArrayList<Order> findOrdersByCustomer(int customerID) throws QueryException {
         ArrayList<Order> orders = new ArrayList<>();
-        String sql = "SELECT * FROM orders LEFT JOIN orderdetails ON orders.order_id = orderdetails.order_id WHERE customer_id = " + customerID + "";
+        String sql = "SELECT * FROM orders LEFT JOIN order_details ON orders.order_id = order_details.order_id WHERE customer_id = " + customerID + "";
         int order_id = 0, customer_id = 0, product_id = 0, salesRep_id = 0, delivery_id = 0, invoice_id = 0, orderStatus = 0;
         double price = 0;
         Date date = null;
         Order order = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-                try {
-                    while (rs.next()) {
-                        order_id = rs.getInt("order_id");
-                        price = rs.getDouble("price");
-                        date = rs.getDate("creationDate");
-                        customer_id = rs.getInt("customer_id");
-                        product_id = rs.getInt("product_id");
-                        salesRep_id = rs.getInt("salesRep_id");
-                        delivery_id = rs.getInt("delivery_id");
-                        invoice_id = rs.getInt("invoice_id");
-                        orderStatus = rs.getInt("orderStatus");
-                        order = new Order(order_id, price, date, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus);
-                        orders.add(order);
-                    } 
-                } finally {
-                    if (rs!=null) {rs.close();}
-                    if (stmt!=null) {stmt.close();}
-                }
-
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                order_id = rs.getInt("order_id");
+                price = rs.getDouble("price");
+                date = rs.getDate("creation_date");
+                customer_id = rs.getInt("customer_id");
+                product_id = rs.getInt("product_id");
+                salesRep_id = rs.getInt("sales_rep_id");
+                delivery_id = rs.getInt("delivery_id");
+                invoice_id = rs.getInt("invoice_id");
+                orderStatus = rs.getInt("order_status");
+                order = new Order(order_id, price, date, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus);
+                orders.add(order);
+            }
         } catch (SQLException x) {
-            throw new DataAccessException();
-        } 
+            x.printStackTrace();
+            throw new QueryException();
+        } finally {
+            DB.closeRs(rs);
+            DB.closeStmt(stmt);
+        }
         return orders;
-    }
+    }//findOrdersByCustomer
 
-    
-
-    public int updateSalesRep(int salesRep_id, int order_id) {
-        int i = 0;
-        String sql = "UPDATE orderdetails SET salesRep_id = " + salesRep_id + " WHERE order_id = " + order_id + "";
+    //Used to automatically update the sales rep who finilized an order
+    //Throws Update OrderDetails Exception if the update fails
+    public void updateSalesRep(int salesRep_id, int order_id) throws UpdateOrderDetailsException {
+        String sql = "UPDATE order_details SET sales_rep_id = " + salesRep_id + " WHERE order_id = " + order_id + "";
+        PreparedStatement stmt = null;
         try {
-            PreparedStatement update = con.prepareStatement(sql);
-            i = update.executeUpdate();
-            System.out.println("updateSalesRep Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with updateSalesRep");
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new UpdateOrderDetailsException();
+        } finally {
+            DB.closeStmt(stmt);
         }
-        return i;
-    }
+    }//updateSalesRep
 
-    public int updateDeliveryID(int delivery_id, int order_id) {
-        int i = 0;
-        String sql = "UPDATE orderdetails SET delivery_id = " + delivery_id + " WHERE order_id = " + order_id + "";
+    //Used to automatically update the delivery ID when delivery is created
+    //Throws Update OrderDetails Exception if the update fails
+    public void updateDeliveryID(int delivery_id, int order_id) throws UpdateOrderDetailsException {
+        String sql = "UPDATE order_details SET delivery_id = " + delivery_id + " WHERE order_id = " + order_id + "";
+        PreparedStatement stmt = null;
         try {
-            PreparedStatement update = con.prepareStatement(sql);
-            i = update.executeUpdate();
-            System.out.println("updateDeliveryID Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with updateDeliveryID");
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new UpdateOrderDetailsException();
+        } finally {
+            DB.closeStmt(stmt);
         }
-        return i;
-    }
+    }//updateDeliveryID
 
-    public int updateInvoiceID(int invoice_id, int order_id) {
-        int i = 0;
-        String sql = "UPDATE orderdetails SET invoice_id = " + invoice_id + " WHERE order_id = " + order_id + "";
+    //Used to automatically update the invoice ID when invoice is created
+    //Throws Update OrderDetails Exception if the update fails
+    public void updateInvoiceID(int invoice_id, int order_id) throws UpdateOrderDetailsException {
+        String sql = "UPDATE order_details SET invoice_id = " + invoice_id + " WHERE order_id = " + order_id + "";
+        PreparedStatement stmt = null;
         try {
-            PreparedStatement update = con.prepareStatement(sql);
-            i = update.executeUpdate();
-            System.out.println("updateInvoiceID Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with updateInvoiceID");
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new UpdateOrderDetailsException();
+        } finally {
+            DB.closeStmt(stmt);
         }
-        return i;
-    }
-}
+    }//uppdateInvoiceID
+}//OrderMapper

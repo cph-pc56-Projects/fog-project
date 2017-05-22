@@ -3,6 +3,8 @@ package data;
 import exceptions.ConnectionException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DB {
@@ -29,7 +31,32 @@ public class DB {
         try {
             con.close();
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("Couldn't close connection!");
+        }
+    }
+    
+    //Closes a given PreparedStatement
+    public static void closeStmt(PreparedStatement stmt) {
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                System.out.println("Could not close prepared statement!");
+            }
+        }
+    }
+    
+    //Closes a given ResultSet
+    public static void closeRs(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Could not close resultset!");
+            }
         }
     }
 }
