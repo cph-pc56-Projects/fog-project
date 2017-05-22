@@ -5,6 +5,7 @@ import exceptions.ConnectionException.CreateCustomerException;
 import exceptions.ConnectionException.DataAccessException;
 import exceptions.ConnectionException.LoginError;
 import exceptions.ConnectionException.QueryException;
+import exceptions.ConnectionException.UpdateUserInfoException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,7 +49,7 @@ public class UserMapper {
             } catch (SQLException e) {
                 throw new CreateCustomerException();
             } finally {
-                stmt.close();
+                if (stmt!=null) {stmt.close();}
             }
         } catch (SQLException e) {
             throw new QueryException();
@@ -324,73 +325,101 @@ public class UserMapper {
             throw new QueryException();
         }
         return adress;
-    }
+    }//getAddress
 
-    //UpdateDetailsException
-    public int updateEmail(String email, int acc_id) throws Exception {
-        int i = 0;
+    //Updates the email from the update details form
+    //Throws UpdateUserInfoException if the update fails
+    //Throws Query Exception if there is something wrong with the query
+    public void updateEmail(String email, int acc_id) throws UpdateUserInfoException, QueryException {
         String sql = "UPDATE users SET email = '" + email + "' WHERE account_id = " + acc_id + "";
-        
         try {
-            PreparedStatement update = con.prepareStatement(sql);
-            i = update.executeUpdate();
-            System.out.println("Update Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with updateEmail()");
+            PreparedStatement stmt = con.prepareStatement(sql);
+            try {
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new UpdateUserInfoException();
+            } finally {
+                if (stmt!=null) {stmt.close();}
+            }
+        } catch (SQLException e) {
+            throw new QueryException();
         }
-        return i;
-    }
+    }//updateEmail
 
-    public int updatePassword(String password, int acc_id) throws Exception {
+    //Updates the password from the update details form
+    //Throws UpdateUserInfoException if the update fails
+    //Throws Query Exception if there is something wrong with the query
+    public void updatePassword(String password, int acc_id) throws UpdateUserInfoException, QueryException {
         int i = 0;
         String sql = "UPDATE users SET password = '" + password + "' WHERE account_id = " + acc_id + "";
         try {
-            PreparedStatement update = con.prepareStatement(sql);
-            i = update.executeUpdate();
-            System.out.println("Update Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with updatePassword()");
+            PreparedStatement stmt = con.prepareStatement(sql);
+            try {
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new UpdateUserInfoException();
+            } finally {
+                if (stmt!=null) {stmt.close();}
+            }
+        } catch (SQLException e) {
+            throw new QueryException();
         }
-        return i;
-    }
+    }//updatePassword
 
-    public int updateAdress(String adress, int acc_id) throws Exception {
-        int i = 0;
+    //Updates the address from the update details form
+    //Throws UpdateUserInfoException if the update fails
+    //Throws Query Exception if there is something wrong with the query
+    public void updateAdress(String adress, int acc_id) throws UpdateUserInfoException, QueryException {
         String sql = "UPDATE users SET adress = '" + adress + "' WHERE account_id = " + acc_id + "";
         try {
-            PreparedStatement update = con.prepareStatement(sql);
-            i = update.executeUpdate();
-            System.out.println("Update Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with updateAdress()");
+            PreparedStatement stmt = con.prepareStatement(sql);
+            try {
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new UpdateUserInfoException();
+            } finally {
+                if (stmt!=null) {stmt.close();}
+            }
+        } catch (SQLException e) {
+            throw new QueryException();
         }
-        return i;
     }
 
-    public int updatePhone(String phone, int acc_id) throws Exception {
-        int i = 0;
+    //Updates the phone from the update details form
+    //Throws UpdateUserInfoException if the update fails
+    //Throws Query Exception if there is something wrong with the query
+    public void updatePhone(String phone, int acc_id) throws UpdateUserInfoException, QueryException {
         String sql = "UPDATE users SET phone = '" + phone + "' WHERE account_id = " + acc_id + "";
         try {
-            PreparedStatement update = con.prepareStatement(sql);
-            i = update.executeUpdate();
-            System.out.println("Update Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with updatePhone()");
+            PreparedStatement stmt = con.prepareStatement(sql);
+            try {
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new UpdateUserInfoException();
+            } finally {
+                if (stmt!=null) {stmt.close();}
+            }
+        } catch (SQLException e) {
+            throw new QueryException();
         }
-        return i;
     }
 
-    public int updateZipcode(int zipCode, int acc_id) throws Exception {
-        int i = 0;
+    //Updates the zip zode from the update details form
+    //Throws UpdateUserInfoException if the update fails
+    //Throws Query Exception if there is something wrong with the query
+    public void updateZipcode(int zipCode, int acc_id) throws UpdateUserInfoException, QueryException {
         String sql = "UPDATE users SET zipCode = " + zipCode + " WHERE account_id = " + acc_id + "";
         try {
-            PreparedStatement update = con.prepareStatement(sql);
-            i = update.executeUpdate();
-            System.out.println("Update Complete");
-        } catch (Exception e) {
-            System.out.println("Something wrong with updatePassword()");
+            PreparedStatement stmt = con.prepareStatement(sql);
+            try {
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new UpdateUserInfoException();
+            } finally {
+                if (stmt!=null) {stmt.close();}
+            }
+        } catch (SQLException e) {
+            throw new QueryException();
         }
-        return i;
-    }
-
+    }//updateZipcode
 }
