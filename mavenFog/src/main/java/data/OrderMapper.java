@@ -2,6 +2,7 @@ package data;
 
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateOrderException;
+import exceptions.ConnectionException.GetAllOrders;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.sql.Connection;
@@ -99,10 +100,10 @@ public class OrderMapper {
     public ArrayList<Order> findOrdersByCustomer(int customerID) throws QueryException {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders LEFT JOIN order_details ON orders.order_id = order_details.order_id WHERE customer_id = " + customerID + "";
-        int order_id = 0, customer_id = 0, product_id = 0, salesRep_id = 0, delivery_id = 0, invoice_id = 0, orderStatus = 0;
-        double price = 0;
-        Date date = null;
-        Order order = null;
+        int order_id, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus;
+        double price;
+        Date date;
+        Order order;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
@@ -130,6 +131,44 @@ public class OrderMapper {
         }
         return orders;
     }//findOrdersByCustomer
+    
+    //Returns an ArrayList with all the orders in the Database
+    //Throws GetAllOrders Exception if the method is not executable or the list is empty
+    public ArrayList<Order> getAllOrders() throws GetAllOrders {
+        ArrayList<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM orders LEFT JOIN order_details ON orders.order_id = order_details.order_id";
+        int order_id, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus;
+        double price;
+        Date date;
+        Order order;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                order_id = rs.getInt("order_id");
+                price = rs.getDouble("price");
+                date = rs.getDate("creation_date");
+                customer_id = rs.getInt("customer_id");
+                product_id = rs.getInt("product_id");
+                salesRep_id = rs.getInt("sales_rep_id");
+                delivery_id = rs.getInt("delivery_id");
+                invoice_id = rs.getInt("invoice_id");
+                orderStatus = rs.getInt("order_status");
+                order = new Order(order_id, price, date, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus);
+                orders.add(order);
+            }
+        } catch (SQLException x) {
+            x.printStackTrace();
+            throw new GetAllOrders();
+        } finally {
+            DB.closeRs(rs);
+            DB.closeStmt(stmt);
+        }
+        if (orders.isEmpty()) {throw new GetAllOrders();}
+        return orders;
+    }//getAllOrders
 
     //Used to automatically update the sales rep who finilized an order
     //Throws Update OrderDetails Exception if the update fails

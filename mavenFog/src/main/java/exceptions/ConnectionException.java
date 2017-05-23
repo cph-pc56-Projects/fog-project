@@ -39,4 +39,28 @@ public class ConnectionException extends SQLException {
     public static class CreateDeliveryException extends Exception {
         //We can`t create this delivery at the moment
     }
+    
+    //Thrown by createProduct method in Product Mapper if inerstion fails
+    public static class CreateProductException extends Exception {
+        //We can`t create you product at this moment
+    }
+    
+    //THrown by getAllProducts method in Product Mapper if extration fails
+    public static class GetAllProducts extends Exception {
+        //We can`t show you the products at the moment
+    }
+    //Thrown by getAllOrders method in Orders Mapper if extration fails
+    public static class GetAllOrders extends Exception {
+        //We can`t show you the orders at the moment
+    }
+    
+    //Thrown by getAllDelivery method in Delivery Mapper if extration fails
+    public static class GetAllDelivery extends Exception {
+        //We can`t show you the deliveries at the moment
+    }
+    
+    //Thrown by getAllUsers method in User Mapper if extration fails
+    public static class GetAllUsers extends Exception {
+        //We can`t show you the users at the moment
+    }
 }

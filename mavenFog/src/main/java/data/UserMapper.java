@@ -2,13 +2,17 @@ package data;
 
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateCustomerException;
+import exceptions.ConnectionException.GetAllUsers;
 import exceptions.ConnectionException.LoginError;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateUserInfoException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import model.User;
 
 public class UserMapper {
     
@@ -52,6 +56,42 @@ public class UserMapper {
 
     }//CreateCustomer
 
+    //Returns an ArrayList with all the users in the Database
+    //Throws GetAllUsers Exception if the method is not executable or the list is empty
+    public ArrayList<User> getAllUsers() throws GetAllUsers {
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users";
+        String email, fName, lName, address;
+        int zipCode, phone, role, accountID;
+        User user;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                email = rs.getString("email");
+                fName = rs.getString("first_name");
+                lName = rs.getString("last_name");
+                address = rs.getString("address");
+                zipCode = rs.getInt("zip_code");
+                phone = rs.getInt("phone_bumber");
+                role = rs.getInt("role");
+                accountID = rs.getInt("account_id");
+                user = new User(email, fName, lName, address, zipCode, phone, role, accountID);
+                users.add(user);
+            }
+        } catch (SQLException x) {
+            x.printStackTrace();
+            throw new GetAllUsers();
+        } finally {
+            DB.closeRs(rs);
+            DB.closeStmt(stmt);
+        }
+        if (users.isEmpty()) {throw new GetAllUsers();}
+        return users;
+    }//getAllUsers
+    
     //Checks the database for the email the user tries to login with
     //Throws Login Error exception if the email is not found
     //Throws QueryException if the input is not the right data type or the querry is wrong

@@ -1,48 +1,47 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author Alex
- */
 public class Product {
-    private final int product_id, rooftopType, roofAngle, hasShed;
-    private final double height, width, length, shedLength, shedWidth;
+    private final int productID, rooftopType, hasShed, roofAngle;
+    private final double price, innerHeight, width, length, shedLength, shedWidth, rooftopHeight;
+    private final String name;
 
-    public Product(int product_id, int rooftopType, int roofAngle, int hasShed, double height, double width, double length, double shedLength, double shedWidth) {
-        this.product_id = product_id;
+    public Product(int productID, int rooftopType, int hasShed, int roofAngle, double price, double innerHeight, double width, double length, double shedLength, double shedWidth, double rooftopHeight, String name) {
+        this.productID = productID;
         this.rooftopType = rooftopType;
-        this.roofAngle = roofAngle;
         this.hasShed = hasShed;
-        this.height = height;
+        this.roofAngle = roofAngle;
+        this.price = price;
+        this.innerHeight = innerHeight;
         this.width = width;
         this.length = length;
         this.shedLength = shedLength;
         this.shedWidth = shedWidth;
+        this.rooftopHeight = rooftopHeight;
+        this.name = name;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public int getProductID() {
+        return productID;
     }
 
     public int getRooftopType() {
         return rooftopType;
     }
 
-    public int getRoofAngle() {
-        return roofAngle;
-    }
-
     public int getHasShed() {
         return hasShed;
     }
 
-    public double getHeight() {
-        return height;
+    public int getRoofAngle() {
+        return roofAngle;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getInnerHeight() {
+        return innerHeight;
     }
 
     public double getWidth() {
@@ -61,9 +60,17 @@ public class Product {
         return shedWidth;
     }
 
+    public double getRooftopHeight() {
+        return rooftopHeight;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        return "Product{" + "product_id=" + product_id + ", rooftopType=" + rooftopType + ", roofAngle=" + roofAngle + ", hasShed=" + hasShed + ", height=" + height + ", width=" + width + ", length=" + length + ", shedLength=" + shedLength + ", shedWidth=" + shedWidth + '}';
+        return "Product{" + "productID=" + productID + ", rooftopType=" + rooftopType + ", hasShed=" + hasShed + ", roofAngle=" + roofAngle + ", price=" + price + ", innerHeight=" + innerHeight + ", width=" + width + ", length=" + length + ", shedLength=" + shedLength + ", shedWidth=" + shedWidth + ", rooftop_height=" + rooftopHeight + ", name=" + name + '}';
     }
     
     

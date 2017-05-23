@@ -1,21 +1,20 @@
 package model;
 
 public class User {
-    private String email, fName, lName, phone, adress;
-    private int zipCode;
-    private final int role, accountID;
+    private final String email, fName, lName, address;
+    private final int zipCode, phone, role, accountID;
 
-    public User(String email, String fName, String lName, String phone, String adress, int zipCode, int role, int accountID) {
+    public User(String email, String fName, String lName, String address, int zipCode, int phone, int role, int accountID) {
         this.email = email;
         this.fName = fName;
         this.lName = lName;
         this.phone = phone;
-        this.adress = adress;
+        this.address = address;
         this.zipCode = zipCode;
         this.role = role;
         this.accountID = accountID;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -28,16 +27,16 @@ public class User {
         return lName;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
     public int getZipCode() {
         return zipCode;
+    }
+
+    public int getPhone() {
+        return phone;
     }
 
     public int getRole() {
@@ -47,6 +46,13 @@ public class User {
     public int getAccountID() {
         return accountID;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "email=" + email + ", fName=" + fName + ", lName=" + lName + ", address=" + address + ", zipCode=" + zipCode + ", phone=" + phone + ", role=" + role + ", accountID=" + accountID + '}';
+    }
+    
+    
     
     
     
