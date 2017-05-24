@@ -13,15 +13,9 @@ import model.Product;
 
 public class ProductMapper {
     private final Connection con;
-    private final DB db;
 
     public ProductMapper() throws ConnectionException {
-        db = new DB();
-        con = db.createConnection();
-    }
-
-    public DB getDb() {
-        return db;
+        con = DB.createConnection();
     }
 
     public Connection getCon() {

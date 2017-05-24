@@ -16,15 +16,9 @@ import model.Order;
 public class OrderMapper {
 
     private final Connection con;
-    private final DB db;
 
     public OrderMapper() throws ConnectionException {
-        db = new DB();
-        con = db.createConnection();
-    }
-
-    public DB getDb() {
-        return db;
+        con = DB.createConnection();
     }
 
     public Connection getCon() {
