@@ -5,9 +5,9 @@
  */
 package servlets;
 
+import exceptions.ConnectionException;
 import data.OrderMapper;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,10 +33,12 @@ public class Orders extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws exceptions.ConnectionException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        try {
+            response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         OrderMapper mapper = new OrderMapper();
         User user = (User) session.getAttribute("user");
@@ -44,6 +46,10 @@ public class Orders extends HttpServlet {
         session.setAttribute("orders", (Object) orders);
         
         response.sendRedirect(request.getParameter("from"));
+        } catch (ConnectionException r) {
+            System.out.println("Ordersevlet");
+        }
+        
         
     }
 

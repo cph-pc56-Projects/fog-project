@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import data.UserMapper;
+import exceptions.ConnectionException.LoginError;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,10 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.User;
 
-/**
- *
- * @author Patrick
- */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
   
@@ -111,8 +103,6 @@ public class Login extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LoginError ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -131,8 +121,6 @@ public class Login extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LoginError ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -146,10 +134,6 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private static class LoginError extends Exception {
-
-        public LoginError() {
-        }
-    }
+    
 
 }

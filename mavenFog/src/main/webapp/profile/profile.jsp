@@ -131,23 +131,23 @@
                             <table  cellpadding="5">
                                 <tr>
                                     <td>Email: </td>        
-                                    <td><input type="text" name="email"></td>
+                                    <td><input type="text" name="email" placeholder="<%=user.getEmail()%>"></td>
                                 </tr>
                                 <tr>
                                     <td>Password: </td>
-                                    <td><input type="text" name="password"></td>        
+                                    <td><input type="text" name="password" placeholder="new password"></td>        
                                 </tr>
                                 <tr>
                                     <td>Address: </td>
-                                    <td><input type="text" name="address"></td>        
+                                    <td><input type="text" name="address" placeholder="<%=user.getAdress()%>"></td>        
                                 </tr>
                                 <tr>
                                     <td>Phone: </td>
-                                    <td><input type="number" name="phone"></td>        
+                                    <td><input type="number" name="phone" placeholder="<%=user.getPhone()%>"></td>        
                                 </tr>
                                 <tr>
                                     <td>ZipCode: </td>
-                                    <td><input type="number" name="zipcode"></td>        
+                                    <td><input type="number" name="zipcode" placeholder="<%=user.getZipCode()%>"></td>        
                                 </tr> 
                             </table>
                             <button class="w3-button w3-green" type="submit"> Submit</button>

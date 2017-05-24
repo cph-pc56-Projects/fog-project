@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.sql.Date;
 
-/**
- *
- * @author Alex
- */
 public class Invoice {
     private final int invoice_id, product_id;
     private final Date creationDate;
