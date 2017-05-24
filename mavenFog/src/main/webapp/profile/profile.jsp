@@ -125,9 +125,7 @@
                         </table>
                     </div>
                 
-                     <div class="w3-display">
-                        <a id="edit" class="w3-button w3-yellow" onclick="toggle()">Edit</a>
-                     </div> 
+                      
                     <div id="id02">
                         <form action="../Profile" method="post">
                             <table  cellpadding="5">
@@ -155,6 +153,9 @@
                             <button class="w3-button w3-green" type="submit"> Submit</button>
                         </form>
                     </div>
+                            <div class="w3-padding-16 w3-margin-32 w3-left">
+                        <a id="edit" class="w3-button w3-yellow" onclick="toggle()">Edit</a>
+                     </div>
                     <script>
                         function toggle() {
                             var x = document.getElementById('id01');
@@ -175,7 +176,7 @@
                     </script>
                     
                 </div>
-                <div class="tab-pane fade" role="tabpanel" id="completed">
+                <div class="tab-pane fade col-xs-12" role="tabpanel" id="completed">
                     <div class="table-responsive">
                     <h1>Orders</h1>
                     <table class="table table-hover">

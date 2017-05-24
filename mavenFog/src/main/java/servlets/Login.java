@@ -67,8 +67,12 @@ public class Login extends HttpServlet {
 
                 // Send to customer visible page if customer, send to admin if admin
                 if (role == 0) {
-                    //response.sendRedirect(request.getParameter("from"));
-                    request.getRequestDispatcher("Orders").forward(request, response);
+                    if (request.getParameter("from").equals("/mavenFog/customShed.jsp") || request.getParameter("from").equals("/mavenFog/custompage.jsp") || request.getParameter("from").equals("/mavenFog/customFinalDetails.jsp")) {
+                        response.sendRedirect("index.jsp");
+                        return;
+                    }
+                    response.sendRedirect(request.getParameter("from"));
+//                    request.getRequestDispatcher("Orders").forward(request, response);
                 } else {
                     response.sendRedirect("admin/admin.jsp");
                     

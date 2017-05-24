@@ -72,7 +72,7 @@
                     <h1 class="w3-container ">Log In</h1>
                 </div>
                 <% if ("login".equals(session.getAttribute("error"))) {
-                        session.invalidate(); %>
+                                      session.invalidate(); %>
                 <script>
                     // Get the modal
                     var modal = document.getElementById('id01');
@@ -87,7 +87,7 @@
                     }
                 </script>
                 <div class="imgcontainer alert alert-danger">
-                    <strong> Wrong Log In details </strong> 
+                    <strong> Wrong Log In details </strong>
                 </div>
                 <%}%>
 
@@ -146,7 +146,7 @@
                     <label><b>Last name</b></label>
                     <input type="text" placeholder="Fog" name="lName" required>
                     <label><b>Phone number</b></label>
-                    <input type="text" placeholder="e.g. Mobile min. 8 numericals" name="phone" title="e.g. 45871001 (8 numericals)" pattern="[0-9]{8,}" required>
+                    <input type="text" placeholder="e.g. Mobile min. 8 numericals" name="phone" title="e.g. 45871001 (8 numericals)" pattern="[0-9]{8,8}" required>
                     <label><b>Address</b></label>
                     <input type="text" placeholder="Firskovvej 20" name="adress" title="e.g. Street" required>
                     <label><b>Zip code</b></label>
@@ -182,6 +182,7 @@
                 }
             }
         </script>
+        <!-- NAVBAR Suite ENDS-->
 
         <div class="wide">
             <div class="container text-center pad">
@@ -199,7 +200,7 @@
                     Ved bestilling medfølger standardbyggevejledning.
                 </p>
                 <br>
-                <a href="custompage.jsp" class="w3-button w3-teal w3-block w3-xlarge">Build your very own carport</a>
+                <a href="customType.jsp" class="w3-button w3-teal w3-block w3-xlarge">Build your very own carport</a>
             </div>
             <div class="w3-container w3-half w3-center">
                 <img src="media/pictures/custom2.png" class="w3-padding-16" style="width:100%;max-width:500px">

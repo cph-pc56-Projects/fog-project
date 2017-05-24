@@ -148,7 +148,7 @@
                     <label><b>Last name</b></label>
                     <input type="text" placeholder="Fog" name="lName" required>
                     <label><b>Phone number</b></label>
-                    <input type="text" placeholder="e.g. Mobile min. 8 numericals" name="phone" title="e.g. 45871001 (8 numericals)" pattern="[0-9]{8,}" required>
+                    <input type="text" placeholder="e.g. Mobile min. 8 numericals" name="phone" title="e.g. 45871001 (8 numericals)" pattern="[0-9]{8,8}" required>
                     <label><b>Address</b></label>
                     <input type="text" placeholder="Firskovvej 20" name="adress" title="e.g. Street" required>
                     <label><b>Zip code</b></label>

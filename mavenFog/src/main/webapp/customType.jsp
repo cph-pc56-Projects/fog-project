@@ -5,19 +5,66 @@
 <%user = (User) session.getAttribute("user");%>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Home page</title>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Before you buy</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"> <!-- Custom FONT -->
         <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous">
+
         </script>
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <style>
+            .cc-selector input{
+                margin:0;padding:0;
+                -webkit-appearance:none;
+                -moz-appearance:none;
+                appearance:none;
+            }
+            .flatRoof{background-image:url(media/pictures/customCarports/flat2.png);}
+            .hippedRoof{background-image:url(media/pictures/customCarports/hipped2.png);}
+
+            .cc-selector input:active +.drinkcard-cc{opacity: .9;}
+            .cc-selector input:checked +.drinkcard-cc{
+                -webkit-filter: none;
+                -moz-filter: none;
+                filter: none;
+            }
+            .drinkcard-cc{
+                cursor:pointer;
+                background-size:contain;
+                background-repeat:no-repeat;
+                display:inline-block;
+                width:400px;height:350px;
+                -webkit-transition: all 100ms ease-in;
+                -moz-transition: all 100ms ease-in;
+                transition: all 100ms ease-in;
+                -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+                -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+                filter: brightness(1.8) grayscale(1) opacity(.7);
+            }
+            .drinkcard-cc:hover{
+                -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+                -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+                filter: brightness(1.2) grayscale(.5) opacity(.9);
+            }
+
+            /* Extras */
+            a:visited{color:#888}
+            a{color:#444;text-decoration:none;}
+            p{margin-bottom:.3em;}
+            
+            /* Custom font */
+            .w3-lobster {
+                font-family: 'Lobster', cursive;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -32,7 +79,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">                        
-                        <li class="active"><a href="beforeyoubuy.jsp">Before you buy</a></li>
+                        <li><a href="beforeyoubuy.jsp">Before you buy</a></li>
                     </ul>      
                     <ul class="nav navbar-nav navbar-right">
                         <% if (user != null) {%>
@@ -65,7 +112,7 @@
                     <h1 class="w3-container ">Log In</h1>
                 </div>
                 <% if ("login".equals(session.getAttribute("error"))) {
-                                      session.invalidate(); %>
+                        session.invalidate(); %>
                 <script>
                     // Get the modal
                     var modal = document.getElementById('id01');
@@ -154,14 +201,14 @@
         <!--Logout modal -->
         <div id="logout" class="modal">
             <form class="modal-content animate">
-            <div class="imgcontainer">
-                    
+                <div class="imgcontainer">
+
                     <h1 class="w3-container ">You are logged out!</h1>
                     <p class="w3-container ">(You will be redirected after 3 seconds...)</p>
                 </div>
             </form>
         </div><!-- Logout END -->
-        
+
         <script>
             // Get the modal
             var modal = document.getElementById('id01');
@@ -175,27 +222,75 @@
                 }
             }
         </script>
-        
         <!-- NAVBAR Suite ENDS-->
 
         <div class="w3-container w3-padding-64 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
-                <h2>Before you buy you may consider :</h2>
-                <p>Here some hints</p>
-                <ol style="text-align: left;">
-                    <li>Visit Local Regulations first. (link <span style="color: blue"><a href="#">here</a></span>) Because in order to put a carport around your home, you need to have a permission from the Commune in which you are currently living.</li>
-                    <li>If bored from the first step, call us now on 555-37 37. (or go to <span style="color: blue"><a href="support.jsp">Support</a></span> page)</li>
-                    <li>Know the right measures: </li>
-                </ol>
-                <p>MEASURES</p>
+                <h2 class="w3-lobster">Choose type for your carport :</h2><br>
+                <form action="customShed.jsp" method="get">
+                    <div class="cc-selector">
+                        <input id="flatRoof" type="radio" name="roofType" value="flat" required>
+                        <label class="drinkcard-cc flatRoof" for="flatRoof"></label>
+                        <input id="hippedRoof" type="radio" name="roofType" value="hipped" required>
+                        <label class="drinkcard-cc hippedRoof" for="hippedRoof"></label>
+                    </div>
+                    <p>(NB!: Login here if you want to place an order)</p>
+                    <button type="submit">Next step&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></button>
+                    <br><br>
+                    <div class="w3-light-gray">
+                        <div class="w3-container w3-green w3-center" style="width:25%">Step 1/4</div>
+                    </div>
+                </form>
             </div>
         </div>
 
         <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-white w3-xlarge">          
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
         </footer> 
-        
-        <!--Logout function -->
+
+        <!-- Prevent "space" button script -->
+        <script>
+            $(function () {
+                $('#emailLog').on('keypress', function (e) {
+                    if (e.which == 32)
+                        return false;
+                });
+                $('#passwordLog').on('keypress', function (e) {
+                    if (e.which == 32)
+                        return false;
+                });
+                $('#passwordReg').on('keypress', function (e) {
+                    if (e.which == 32)
+                        return false;
+                });
+                $('#repasswordReg').on('keypress', function (e) {
+                    if (e.which == 32)
+                        return false;
+                });
+            });
+        </script>
+
+        <!-- Checks the Re-type of password -->
+        <script>
+            $(function () {
+
+                $('#repasswordReg').on('keyup', function () {
+                    var password = $("#passwordReg").val();
+                    var confirmPassword = $("#repasswordReg").val();
+
+                    if (password != confirmPassword) {
+                        $("#pCheckPassword").html("Passwords do not match!");
+                        $('#RegButton').prop('disabled', true);
+                    } else {
+                        $("#pCheckPassword").html("Passwords match.");
+                        $('#RegButton').prop('disabled', false);
+
+                    }
+                });
+            });
+        </script>
+
+        <!-- Calls logout on button click -->
         <script>
             $('#logoutFunction').click(function ()
             {
@@ -209,6 +304,6 @@
                 return false;
             });
 
-        </script>   
+        </script>  
     </body>
 </html>
