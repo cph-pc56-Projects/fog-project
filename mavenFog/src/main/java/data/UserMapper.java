@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import model.User;
 
 public class UserMapper {
-    
+
     private final Connection con;
     private final DB db;
 
@@ -31,10 +31,10 @@ public class UserMapper {
     public Connection getCon() {
         return con;
     }
-    
+
     //Takes input from the register form and creates new Customer in the Database. 
     //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
-    public void createCustomer(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateCustomerException  {
+    public void createCustomer(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateCustomerException {
         String sql = "INSERT INTO users (email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date)"
                 + " VALUES (?,?,?,?,?,?,?,0, CURDATE())";
         PreparedStatement stmt = null;
@@ -88,41 +88,38 @@ public class UserMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (users.isEmpty()) {throw new GetAllUsers();}
+        if (users.isEmpty()) {
+            throw new GetAllUsers();
+        }
         return users;
     }//getAllUsers
-    
+
     //Checks the database for the email the user tries to login with
     //Throws Login Error exception if the email is not found
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public String getEmail(String email) throws LoginError, QueryException {
-        String userEmail = "NotFound";
+    public void getEmail(String email) throws LoginError, QueryException {
         String sql = "SELECT email FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
-            if (rs.next()) {
-                userEmail = email;
-            } else {
+            if (!rs.next()) {
                 throw new LoginError();
             }
-
         } catch (SQLException e) {
             throw new QueryException();
         } finally {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        return userEmail;
     }//getEmail
-    
+
     //Checks the password for the desired email
     //Throws Login Error exception if the password is not found
     //Throws Query Exception if the input is not the right data type or the querry is wrong
-    public String getPassword(String email) throws LoginError, QueryException {
-        String password = "NotFound";
+    public void getPassword(String email, String password) throws LoginError, QueryException {
+        String passwordDB = "NotFound";
         String sql = "SELECT password FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -130,7 +127,7 @@ public class UserMapper {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                password = rs.getString("password");
+                passwordDB = rs.getString("password");
             } else {
                 throw new LoginError();
             }
@@ -141,9 +138,11 @@ public class UserMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        return password;
+        if (!passwordDB.equals(password)) {
+            throw new LoginError();
+        }
     }//getPassword
-    
+
     //Searches for the role of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
     public int getRole(String email) throws QueryException {
@@ -168,12 +167,12 @@ public class UserMapper {
         }
         return role;
     }//getRole
-    
+
     //Searches for the account id of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
     public int getAccountID(String email) throws QueryException {
         int id = 0;
-        String sql = "SELCT account_id FROM users WHERE email = " + "'" + email + "'";
+        String sql = "SELECT account_id FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
@@ -271,8 +270,8 @@ public class UserMapper {
 
     //Searches for the phone of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public String getPhone(String email) throws QueryException {
-        String phone = null;
+    public int getPhone(String email) throws QueryException {
+        int phone = 0;
         String sql = "SELECT phone_number FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -280,7 +279,7 @@ public class UserMapper {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                phone = rs.getString("phone_number");
+                phone = rs.getInt("phone_number");
             } else {
                 throw new QueryException();
             }

@@ -89,7 +89,43 @@
                 <div class="imgcontainer alert alert-danger">
                     <strong> Wrong Log In details </strong>
                 </div>
-                <%}%>
+                <%} else if ("queryException".equals(session.getAttribute("error"))) {
+                                                     session.invalidate(); %>
+                <script>
+                    // Get the modal
+                    var modal = document.getElementById('id01');
+                    // Make modal Login to be visible if the first login attempt was failed
+                    modal.style.display = 'block';
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = 'block';
+                        }
+                    }
+                </script>
+                <div class="imgcontainer alert alert-danger">
+                    <strong> We can`t process your request at the moment!<br> Error code: Query Exception  </strong>
+                </div>
+                <%} else if ("connectionException".equals(session.getAttribute("error"))) {
+                                                          session.invalidate(); %>
+                <script>
+                    // Get the modal
+                    var modal = document.getElementById('id01');
+                    // Make modal Login to be visible if the first login attempt was failed
+                    modal.style.display = 'block';
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = 'block';
+                        }
+                    }
+                </script>
+                <div class="imgcontainer alert alert-danger">
+                    <strong> We can`t process your request at the moment!<br> Error code: Connection Exception  </strong>
+                </div>              
+                <% }%>
 
 
                 <div class="loginContainer">

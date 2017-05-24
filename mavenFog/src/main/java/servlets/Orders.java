@@ -9,6 +9,8 @@ import exceptions.ConnectionException;
 import data.OrderMapper;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,18 +41,22 @@ public class Orders extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        OrderMapper mapper = new OrderMapper();
-        User user = (User) session.getAttribute("user");
-        ArrayList<Order> orders = mapper.findOrdersByCustomer(user.getAccountID());
-        session.setAttribute("orders", (Object) orders);
-        
-        response.sendRedirect(request.getParameter("from"));
+            HttpSession session = request.getSession();
+            OrderMapper mapper = new OrderMapper();
+            User user = (User) session.getAttribute("user");
+            ArrayList<Order> orders = mapper.findOrdersByCustomer(user.getAccountID());
+            session.setAttribute("orders", (Object) orders);
+            response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException r) {
-            System.out.println("Ordersevlet");
+            HttpSession session = request.getSession();
+            session.setAttribute("error", "connectionException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (ConnectionException.QueryException ex) {
+            HttpSession session = request.getSession();
+            session.setAttribute("error", "queryException");
+            response.sendRedirect(request.getParameter("from"));
         }
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

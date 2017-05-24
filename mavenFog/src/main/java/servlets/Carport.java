@@ -10,6 +10,8 @@ import data.OrderMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,18 +45,23 @@ public class Carport extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
-        
+        //take the real product ID after Product object was created here!!
+        int productID = 1;
         
         
         double price = Integer.parseInt(request.getParameter("price"));
         OrderMapper mapper = new OrderMapper();
-        mapper.createOrder(price, user.getAccountID());
+        mapper.createOrder(price, user.getAccountID(), productID);
         ArrayList<Order> orders = mapper.findOrdersByCustomer(user.getAccountID());
         session.setAttribute("orders", (Object) orders);        
         response.sendRedirect("thankyou.jsp");
         
         } catch (ConnectionException e) {
             System.out.println("Blabla");
+        } catch (ConnectionException.CreateOrderException ex) {
+            Logger.getLogger(Carport.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionException.QueryException ex) {
+            Logger.getLogger(Carport.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
