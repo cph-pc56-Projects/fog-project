@@ -21,10 +21,10 @@ INSERT INTO delivery (delivery_date, delivery_status, order_id, price) VALUES ('
 INSERT INTO delivery (delivery_date, delivery_status, order_id, price) VALUES ('2017-05-15', 0, 2, 1475.0);
 INSERT INTO delivery (delivery_date, delivery_status, order_id, price) VALUES ('2017-05-25', 1, 3, 1875.0);
 INSERT INTO delivery (delivery_date, delivery_status, order_id, price) VALUES ('2017-06-30', 2, 4, 250.0);
-INSERT INTO invoice (product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (1, 2, 4, '2017-05-06', 3700.0);
-INSERT INTO invoice (product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (1, 2, 5, '2017-05-06', 8500.0);
-INSERT INTO invoice (product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (1, 3, 6, '2017-05-06', 15000.0);
-INSERT INTO invoice (product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (1, 3, 7, '2017-05-06', 19300.0);
+INSERT INTO invoice (order_id, product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (1, 1, 2, 4, '2017-05-06', 3700.0);
+INSERT INTO invoice (order_id, product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (2, 1, 2, 5, '2017-05-06', 8500.0);
+INSERT INTO invoice (order_id, product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (3, 1, 3, 6, '2017-05-06', 15000.0);
+INSERT INTO invoice (order_id, product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (4, 1, 3, 7, '2017-05-06', 19300.0);
 UPDATE order_details SET sales_rep_id = 4, delivery_id =1, invoice_id = 1 WHERE order_id = 1;
 UPDATE order_details SET sales_rep_id = 5, delivery_id =2, invoice_id = 2 WHERE order_id = 2;
 UPDATE order_details SET sales_rep_id = 6, delivery_id =3, invoice_id = 3 WHERE order_id = 3;

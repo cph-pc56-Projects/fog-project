@@ -46,21 +46,31 @@ public class ConnectionException extends SQLException {
     }
     
     //THrown by getAllProducts method in Product Mapper if extration fails
-    public static class GetAllProducts extends Exception {
+    public static class GetAllProductsException extends Exception {
         //We can`t show you the products at the moment
     }
     //Thrown by getAllOrders method in Orders Mapper if extration fails
-    public static class GetAllOrders extends Exception {
+    public static class GetAllOrdersException extends Exception {
         //We can`t show you the orders at the moment
     }
     
     //Thrown by getAllDelivery method in Delivery Mapper if extration fails
-    public static class GetAllDelivery extends Exception {
+    public static class GetAllDeliveryException extends Exception {
         //We can`t show you the deliveries at the moment
     }
     
     //Thrown by getAllUsers method in User Mapper if extration fails
-    public static class GetAllUsers extends Exception {
+    public static class GetAllUsersException extends Exception {
         //We can`t show you the users at the moment
+    }
+    
+    //Trown by deleteSalesRep method in User Mapper if deletion not successful
+    public static class DeleteSalesRepException extends Exception {
+        //We can`t delete the user at the moment
+    }
+    
+    //Thrown by createInvoice method in Invoice Mappper if insertion fails
+    public static class CreateInvoiceException extends Exception {
+        //We can`t create this invoice at the moment
     }
 }
