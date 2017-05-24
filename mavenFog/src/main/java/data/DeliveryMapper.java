@@ -16,16 +16,11 @@ import model.Delivery;
 public class DeliveryMapper {
 
     private final Connection con;
-    private final DB db;
 
     public DeliveryMapper() throws ConnectionException {
-        db = new DB();
-        con = db.createConnection();
+        con = DB.createConnection();
     }
 
-    public DB getDb() {
-        return db;
-    }
 
     public Connection getCon() {
         return con;
@@ -57,7 +52,7 @@ public class DeliveryMapper {
                 throw new CreateDeliveryException();
         } finally {
             DB.closeStmt(stmt);
-            oMapper.getDb().releaseConnection(oMapper.getCon());
+            DB.releaseConnection(oMapper.getCon());
         }
     }//createDelivery
 
@@ -93,15 +88,11 @@ public class DeliveryMapper {
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
-            try {
-                stmt.executeUpdate();
-            } finally {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            }
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DB.closeStmt(stmt);
         }
     }//deleteDelivery
 

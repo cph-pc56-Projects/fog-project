@@ -14,7 +14,7 @@ public class DB {
     private final static String pw = "fog123";
     
     //Creates connection to the Database. Throws Exception if the connection is not established.    
-    public Connection createConnection() throws ConnectionException {
+    public static Connection createConnection() throws ConnectionException {
         Connection con = null;
         try {
             Class.forName(driver);
@@ -27,7 +27,7 @@ public class DB {
     }
     
     //Closes the connection to the Database
-    public void releaseConnection(Connection con) {
+    public static void releaseConnection(Connection con) {
         try {
             con.close();
         } catch (SQLException e) {

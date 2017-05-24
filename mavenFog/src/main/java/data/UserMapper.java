@@ -7,7 +7,6 @@ import exceptions.ConnectionException.LoginError;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateUserInfoException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -17,15 +16,9 @@ import model.User;
 public class UserMapper {
     
     private final Connection con;
-    private final DB db;
 
     public UserMapper() throws ConnectionException {
-        db = new DB();
-        con = db.createConnection();
-    }
-
-    public DB getDb() {
-        return db;
+        con = DB.createConnection();
     }
 
     public Connection getCon() {
@@ -393,4 +386,18 @@ public class UserMapper {
             DB.closeStmt(stmt);
         }
     }//updateZipcode
+    
+    //Deletes an /!\admin/!\ from the Database
+    private void deleteUser(String email) {
+        String sql = "DELETE FROM users WHERE email = '" + email + "'";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.closeStmt(stmt);
+        }
+    }//delete
 }//UserMapper
