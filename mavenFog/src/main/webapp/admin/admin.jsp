@@ -1,8 +1,15 @@
+<%@page import="model.Order"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<% User user = null; %>
+<% user = (User) session.getAttribute("user"); %>
+<% ArrayList<Order> orders = null; %>
+<% orders = (ArrayList<Order>) session.getAttribute("orders"); %>
 <html>
     <head>
-        <title>Home page</title>
+        <title>Admin page</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Import end here -->
@@ -12,6 +19,9 @@
         <link rel="stylesheet" href="../css/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <!-- DataTables -->
+        <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script> 
+        <script src="../js/dataTables.bootstrap.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -22,16 +32,20 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="admin.jsp">FOG</a>
+                    <a class="navbar-brand" href="admin.jsp">FOG Admin</a>
                 </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">                        
-                        <li><a href="#About">Create Order&nbsp;<span class="glyphicon glyphicon-plus"></span></a></li>
-
-                    </ul>      
+                <div class="collapse navbar-collapse" id="myNavbar">    
                     <ul class="nav navbar-nav navbar-right">
+                        <% if ("superAdmin".equals(session.getAttribute("admin"))) {%>
                         <li><a href="#" onclick="document.getElementById('adminTools').style.display = 'block'">Admin Tools&nbsp;<span class="glyphicon glyphicon-cog"></span></a></li>
-                        <li><a id="logoutFunction" href="#">Log Out</a></li>
+                                <% }%>
+                        <!-- HERE WHEN LOGGED IN DIV -->
+                        <li>
+                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%= user.getEmail()%>&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a id="logoutFunction" href="#">Log out</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -73,12 +87,11 @@
                 </div>
             </form>
         </div> <!-- Login END here -->
-        
+
         <!--Logout modal -->
         <div id="logout" class="modal">
             <form class="modal-content animate">
-            <div class="imgcontainer">
-                    
+                <div class="imgcontainer">
                     <h1 class="w3-container ">You are logged out!</h1>
                     <p class="w3-container ">(You will be redirected after 3 seconds...)</p>
                 </div>
@@ -96,44 +109,38 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade active in" role="tabpanel" id="pending" style="box-shadow: 10px 10px 5px #888888;">
                     <h1><span class="glyphicon glyphicon-step-forward"></span>&nbsp;Pending Orders:</h1>
-                    <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <th>Order ID</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Ordered on</th>
-                        <th>Customer email</th>
-                        <th>Customer ID</th>
-                        <th>Finalise</th>
-
-                        <tr class="info">
-                            <td>#0001</td>
-                            <td>Carport CUH02</td>
-                            <td>3.495,- dkk</td>
-                            <td>2017-05-18</td>
-                            <td>andrian@fog.dk</td>
-                            <td>0245</td>
-                            <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
-                        </tr>
-                        <tr class="info">
-                            <td>#0001</td>
-                            <td>Carport CUR02HR</td>
-                            <td>12.295,- dkk</td>
-                            <td>2017-05-19</td>
-                            <td>pesho@fog.dk</td>
-                            <td>0012</td>
-                            <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
-                        </tr>
-                        <tr class="info">
-                            <td>#0001</td>
-                            <td>Carport CUR02</td>
-                            <td>8.492,- dkk</td>
-                            <td>2017-05-20</td>
-                            <td>sexypink69@fog.dk</td>
-                            <td>0312</td>
-                            <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
-                        </tr>
-                    </table>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-striped" id="mydata">
+                                            <thead>
+                                                <tr>
+                                                    <th class="center-table">Order ID</th>
+                                                    <th class="center-table">Product Name</th>
+                                                    <th class="center-table">Price</th>
+                                                    <th class="center-table">Ordered on</th>
+                                                    <th class="center-table">Customer email</th>
+                                                    <th class="center-table">Customer ID</th>
+                                                    <th class="center-table">Finalise</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>WEEEK</td>
+                                                    <td>DAYYY12312</td>
+                                                    <td>Department 12312</td>
+                                                    <td>12:30</td>
+                                                    <td>00:30</td>
+                                                    <td>123123123231</td>
+                                                    <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- table responsive -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" role="tabpanel" id="completed" style="box-shadow: 10px 10px 5px #888888;">
@@ -144,125 +151,125 @@
                     <button type="button" class="btn btn-default" style="box-shadow: 10px 10px 5px #888888;">Select by Order ID</button>
                     <h1><span class="glyphicon glyphicon-th-list"></span>&nbsp;All Orders:</h1>
                     <div class="table-responsive">
-                    <table class="table table-hover">
-                        <th>Number</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>More info</th>
+                        <table class="table table-hover">
+                            <th>Number</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>More info</th>
 
-                        <tr class="success">
-                            <td>Order #11</td>
-                            <td>Carport CUH02</td>
-                            <td>Carport whit flat roof type, which can hold up to 2 compact vehicles.</td>
-                            <td><button type="button" class="btn btn-info">Info</button></td>
-                        </tr>
-                        <tr class="success">
-                            <td>Order #22</td>
-                            <td>Carport CRH15</td>
-                            <td>Carport with "erected" roof for 1 car with max length 3.15 meters</td>
-                            <td><button type="button" class="btn btn-info">Info</button></td>
-                        </tr>
-                        <tr class="success">
-                            <td>Order #33</td>
-                            <td>Carport HXYF4</td>
-                            <td>Carport for 2 cars</td>
-                            <td><button type="button" class="btn btn-info">Info</button></td>
-                        </tr>
-                        <tr class="success">
-                            <td>Order #43</td>
-                            <td>Carport HXYF4</td>
-                            <td>Carport for 2 cars</td>
-                            <td><button type="button" class="btn btn-info">Info</button></td>
-                        </tr>
-                        <tr class="success">
-                            <td>Order #53</td>
-                            <td>Carport GASYF4</td>
-                            <td>Carport for blq blq...</td>
-                            <td><button type="button" class="btn btn-info">Info</button></td>
-                        </tr>
-                        <tr class="success">
-                            <td>Order #63</td>
-                            <td>Carport ABC14</td>
-                            <td>Carport for blq blq.</td>
-                            <td><button type="button" class="btn btn-info">Info</button></td>
-                        </tr>
-                        <tr class="success">
-                            <td>Order #73</td>
-                            <td>Carport HXYF14</td>
-                            <td>Carport for blq blq...</td>
-                            <td><button type="button" class="btn btn-info">Info</button></td>
-                        </tr>
-                    </table>
+                            <tr class="success">
+                                <td>Order #11</td>
+                                <td>Carport CUH02</td>
+                                <td>Carport whit flat roof type, which can hold up to 2 compact vehicles.</td>
+                                <td><button type="button" class="btn btn-info">Info</button></td>
+                            </tr>
+                            <tr class="success">
+                                <td>Order #22</td>
+                                <td>Carport CRH15</td>
+                                <td>Carport with "erected" roof for 1 car with max length 3.15 meters</td>
+                                <td><button type="button" class="btn btn-info">Info</button></td>
+                            </tr>
+                            <tr class="success">
+                                <td>Order #33</td>
+                                <td>Carport HXYF4</td>
+                                <td>Carport for 2 cars</td>
+                                <td><button type="button" class="btn btn-info">Info</button></td>
+                            </tr>
+                            <tr class="success">
+                                <td>Order #43</td>
+                                <td>Carport HXYF4</td>
+                                <td>Carport for 2 cars</td>
+                                <td><button type="button" class="btn btn-info">Info</button></td>
+                            </tr>
+                            <tr class="success">
+                                <td>Order #53</td>
+                                <td>Carport GASYF4</td>
+                                <td>Carport for blq blq...</td>
+                                <td><button type="button" class="btn btn-info">Info</button></td>
+                            </tr>
+                            <tr class="success">
+                                <td>Order #63</td>
+                                <td>Carport ABC14</td>
+                                <td>Carport for blq blq.</td>
+                                <td><button type="button" class="btn btn-info">Info</button></td>
+                            </tr>
+                            <tr class="success">
+                                <td>Order #73</td>
+                                <td>Carport HXYF14</td>
+                                <td>Carport for blq blq...</td>
+                                <td><button type="button" class="btn btn-info">Info</button></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <div class="tab-pane fade" role="tabpanel" id="delivery" style="box-shadow: 10px 10px 5px #888888;">
-                    
+
                     <button type="button" class="btn btn-default" style="box-shadow: 10px 10px 5px #888888;">Select Pending</button>
                     <button type="button" class="btn btn-default" style="box-shadow: 10px 10px 5px #888888;">Select by Date</button>
                     <button type="button" class="btn btn-default" style="box-shadow: 10px 10px 5px #888888;">Select by Order ID</button>
                     <h1><span class="glyphicon glyphicon-send"></span>&nbsp;Delivery:</h1>
                     <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <th>Order ID</th>
-                        <th>Delivery ID</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Ordered on</th>
-                        <th>Ordered for</th>
-                        <th>Customer email</th>
-                        <th>Customer ID</th>
-                        <th>Sales Rep email</th>
-                        <th>Change Date</th>
+                        <table class="table table-bordered">
+                            <th>Order ID</th>
+                            <th>Delivery ID</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Ordered on</th>
+                            <th>Ordered for</th>
+                            <th>Customer email</th>
+                            <th>Customer ID</th>
+                            <th>Sales Rep email</th>
+                            <th>Change Date</th>
 
-                        <tr class="info">
-                            <td>#0001</td>
-                            <td>#0001</td>
-                            <td>Carport CUH02</td>
-                            <td>3.495,- dkk</td>
-                            <td>2017-05-18</td>
-                            <td>Pending</td>
-                            <td>andrian@fog.dk</td>
-                            <td>0245</td>
-                            <td>admin1@fog.dk</td>
-                            <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Change</button></td>
-                        </tr>
-                        <tr class="success">
-                            <td>#0002</td>
-                            <td>#0002</td>
-                            <td>Carport CUH02</td>
-                            <td>3.495,- dkk</td>
-                            <td>2017-05-18</td>
-                            <td>2017-05-23<br>Sent</td>
-                            <td>peter@fog.dk</td>
-                            <td>0345</td>
-                            <td>admin2@fog.dk</td>
-                            <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Change</button></td>
-                        </tr>
-                        <tr class="danger">
-                            <td>#0003</td>
-                            <td>#0003</td>
-                            <td>Carport CUR01RH</td>
-                            <td>7.495,- dkk</td>
-                            <td>2017-04-19</td>
-                            <td>2017-05-23 <br>Canceled</td>
-                            <td>peter@fog.dk</td>
-                            <td>0345</td>
-                            <td>admin2@fog.dk</td>
-                            <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Change</button></td>
-                        </tr>
-                        <tr class="info">
-                            <td>#0004</td>
-                            <td>#0004</td>
-                            <td>Carport CUR02H</td>
-                            <td>12.495,- dkk</td>
-                            <td>2017-05-18</td>
-                            <td>Pending</td>
-                            <td>callub21emo@fog.dk</td>
-                            <td>0045</td>
-                            <td>admin1@fog.dk</td>
-                            <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Change</button></td>
-                        </tr>
-                    </table>
+                            <tr class="info">
+                                <td>#0001</td>
+                                <td>#0001</td>
+                                <td>Carport CUH02</td>
+                                <td>3.495,- dkk</td>
+                                <td>2017-05-18</td>
+                                <td>Pending</td>
+                                <td>andrian@fog.dk</td>
+                                <td>0245</td>
+                                <td>admin1@fog.dk</td>
+                                <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Change</button></td>
+                            </tr>
+                            <tr class="success">
+                                <td>#0002</td>
+                                <td>#0002</td>
+                                <td>Carport CUH02</td>
+                                <td>3.495,- dkk</td>
+                                <td>2017-05-18</td>
+                                <td>2017-05-23<br>Sent</td>
+                                <td>peter@fog.dk</td>
+                                <td>0345</td>
+                                <td>admin2@fog.dk</td>
+                                <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Change</button></td>
+                            </tr>
+                            <tr class="danger">
+                                <td>#0003</td>
+                                <td>#0003</td>
+                                <td>Carport CUR01RH</td>
+                                <td>7.495,- dkk</td>
+                                <td>2017-04-19</td>
+                                <td>2017-05-23 <br>Canceled</td>
+                                <td>peter@fog.dk</td>
+                                <td>0345</td>
+                                <td>admin2@fog.dk</td>
+                                <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Change</button></td>
+                            </tr>
+                            <tr class="info">
+                                <td>#0004</td>
+                                <td>#0004</td>
+                                <td>Carport CUR02H</td>
+                                <td>12.495,- dkk</td>
+                                <td>2017-05-18</td>
+                                <td>Pending</td>
+                                <td>callub21emo@fog.dk</td>
+                                <td>0045</td>
+                                <td>admin1@fog.dk</td>
+                                <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Change</button></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <div class="tab-pane fade" role="tabpanel" id="invoice" style="box-shadow: 10px 10px 5px #888888;">
@@ -288,17 +295,17 @@
         </footer>
 
         <script>
-                        // Get the modal
-                        var modal = document.getElementById('adminTools');
+            // Get the modal
+            var modal = document.getElementById('adminTools');
 
-                        // When the user clicks anywhere outside of the modal, close it
-                        window.onclick = function (event) {
-                            if (event.target === modal) {
-                                modal.style.display = "none";
-                            }
-                        }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
         </script>
-        
+
         <!-- Calls logout on button click -->
         <script>
             $('#logoutFunction').click(function ()
@@ -313,6 +320,9 @@
                 return false;
             });
 
+        </script>
+        <script>
+            $('#mydata').dataTable();
         </script>
     </body>
 </html>

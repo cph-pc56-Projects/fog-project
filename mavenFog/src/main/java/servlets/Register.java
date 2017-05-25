@@ -1,5 +1,6 @@
 package servlets;
 
+import data.DB;
 import exceptions.ConnectionException;
 import data.UserMapper;
 import exceptions.ConnectionException.CreateCustomerException;
@@ -54,7 +55,7 @@ public class Register extends HttpServlet {
                 response.sendRedirect("error/failRegister.jsp");
             } finally {
                 //Close the connection to the Database
-                mapper.getDb().releaseConnection(mapper.getCon());
+                DB.releaseConnection(mapper.getCon());
             }
         } catch (ConnectionException ce) {
             //JSP ERROR PAGE - Failed to connect to the Database!

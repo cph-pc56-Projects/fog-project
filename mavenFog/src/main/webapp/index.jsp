@@ -198,7 +198,6 @@
         <div id="logout" class="modal">
             <form class="modal-content animate">
                 <div class="imgcontainer">
-
                     <h1 class="w3-container ">You are logged out!</h1>
                     <p class="w3-container ">(You will be redirected after 3 seconds...)</p>
                 </div>

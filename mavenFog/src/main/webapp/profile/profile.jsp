@@ -108,7 +108,7 @@
                             </tr>                        
                             <tr>
                                 <th>Address:</th>
-                                <td><%= user.getAdress()%></td>
+                                <td><%= user.getAddress()%></td>
                             </tr>
                             <tr>
                                 <th>ZipCode:</th>
@@ -139,7 +139,7 @@
                                 </tr>
                                 <tr>
                                     <td>Address: </td>
-                                    <td><input type="text" name="address" placeholder="<%=user.getAdress()%>"></td>        
+                                    <td><input type="text" name="address" placeholder="<%=user.getAddress()%>"></td>        
                                 </tr>
                                 <tr>
                                     <td>Phone: </td>

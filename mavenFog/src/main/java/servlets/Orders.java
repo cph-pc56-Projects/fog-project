@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import exceptions.ConnectionException;
 import data.OrderMapper;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,10 +13,6 @@ import javax.servlet.http.HttpSession;
 import model.Order;
 import model.User;
 
-/**
- *
- * @author trez__000
- */
 @WebServlet(name = "Orders", urlPatterns = {"/Orders"})
 public class Orders extends HttpServlet {
 
@@ -35,7 +24,6 @@ public class Orders extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws exceptions.ConnectionException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,14 +32,24 @@ public class Orders extends HttpServlet {
             HttpSession session = request.getSession();
             OrderMapper mapper = new OrderMapper();
             User user = (User) session.getAttribute("user");
-            ArrayList<Order> orders = mapper.findOrdersByCustomer(user.getAccountID());
-            session.setAttribute("orders", (Object) orders);
-            response.sendRedirect(request.getParameter("from"));
+            if (user.getRole() == 0) {
+                ArrayList<Order> orders = mapper.findOrdersByCustomer(user.getAccountID());
+                session.setAttribute("orders", (Object) orders);
+                response.sendRedirect(request.getParameter("from"));
+            } else if (user.getRole() == 1 || user.getRole() == 2) {
+                ArrayList<Order> orders = mapper.getAllOrders();
+                session.setAttribute("orders", (Object) orders);
+                response.sendRedirect("admin/admin.jsp");
+            }
         } catch (ConnectionException r) {
             HttpSession session = request.getSession();
             session.setAttribute("error", "connectionException");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException.QueryException ex) {
+            HttpSession session = request.getSession();
+            session.setAttribute("error", "queryException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (ConnectionException.GetAllOrders ex) {
             HttpSession session = request.getSession();
             session.setAttribute("error", "queryException");
             response.sendRedirect(request.getParameter("from"));
