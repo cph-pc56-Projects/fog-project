@@ -15,19 +15,20 @@ import model.Order;
 
 public class OrderMapper {
 
-    private final Connection con;
+    private static Connection con;
 
-    public OrderMapper() throws ConnectionException {
-        con = DB.createConnection();
+    public static void setConnection() throws ConnectionException {
+        con = DB.createConnection(); 
     }
 
-    public Connection getCon() {
+
+    public static Connection getCon() {
         return con;
     }
 
     //Creates a new Order in the Database with status pending
     //Throws Create Order Exception if the input is not the right data type or the querry is wrong
-    public void createOrder(double price, int customer_id, int product_id) throws CreateOrderException {
+    public static void createOrder(double price, int customer_id, int product_id) throws CreateOrderException {
         String sqlOrders = "INSERT into orders (price, creation_date, customer_id, order_status)"
                 + " VALUES (?,CURDATE(),?, 0)";
         String sqlOrderDetails = "INSERT into order_details (order_id, product_id) VALUES (?,?)";
@@ -54,7 +55,7 @@ public class OrderMapper {
 
     //Finds the order_id by the price and customer_id, used by the createOrder method
     //Throws SQLException if the query failes
-    private int getOrderIDbyPriceAndCustomerID(double price, int customer_id) throws SQLException {
+    private static int getOrderIDbyPriceAndCustomerID(double price, int customer_id) throws SQLException {
         int order_id = 0;
         String sql = "SELECT order_id FROM orders WHERE price = " + price + " AND customer_id = " + customer_id + "";
         PreparedStatement stmt = con.prepareStatement(sql);
@@ -75,7 +76,7 @@ public class OrderMapper {
     }//getOrderIDbyPriceAndCustomerID
 
     //Deletes an order for the createOrder method in case of failure
-    private void deleteOrder(int order_id) {
+    private static void deleteOrder(int order_id) {
         String sql = "DELETE FROM orders WHERE order_id = " + order_id + "";
         PreparedStatement stmt = null;
         try {
@@ -91,7 +92,7 @@ public class OrderMapper {
 
     // Creates a list with all the orders a customer has
     // Throws Data Access Exception if not possible to execute
-    public ArrayList<Order> findOrdersByCustomer(int customerID) throws QueryException {
+    public static ArrayList<Order> findOrdersByCustomer(int customerID) throws QueryException {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders LEFT JOIN order_details ON orders.order_id = order_details.order_id WHERE customer_id = " + customerID + "";
         int order_id, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus;
@@ -128,7 +129,7 @@ public class OrderMapper {
     
     //Returns an ArrayList with all the orders in the Database
     //Throws GetAllOrders Exception if the method is not executable or the list is empty
-    public ArrayList<Order> getAllOrders() throws GetAllOrdersException {
+    public static ArrayList<Order> getAllOrders() throws GetAllOrdersException {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders LEFT JOIN order_details ON orders.order_id = order_details.order_id";
         int order_id, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus;
@@ -166,7 +167,7 @@ public class OrderMapper {
 
     //Used to automatically update the sales rep who finilized an order
     //Throws Update OrderDetails Exception if the update fails
-    public void updateSalesRep(int salesRep_id, int order_id) throws UpdateOrderDetailsException {
+    public static void updateSalesRep(int salesRep_id, int order_id) throws UpdateOrderDetailsException {
         String sql = "UPDATE order_details SET sales_rep_id = " + salesRep_id + " WHERE order_id = " + order_id + "";
         PreparedStatement stmt = null;
         try {
@@ -181,7 +182,7 @@ public class OrderMapper {
 
     //Used to automatically update the delivery ID when delivery is created
     //Throws Update OrderDetails Exception if the update fails
-    public void updateDeliveryID(int delivery_id, int order_id) throws UpdateOrderDetailsException {
+    public static void updateDeliveryID(int delivery_id, int order_id) throws UpdateOrderDetailsException {
         String sql = "UPDATE order_details SET delivery_id = " + delivery_id + " WHERE order_id = " + order_id + "";
         PreparedStatement stmt = null;
         try {
@@ -196,7 +197,7 @@ public class OrderMapper {
 
     //Used to automatically update the invoice ID when invoice is created
     //Throws Update OrderDetails Exception if the update fails
-    public void updateInvoiceID(int invoice_id, int order_id) throws UpdateOrderDetailsException {
+    public static void updateInvoiceID(int invoice_id, int order_id) throws UpdateOrderDetailsException {
         String sql = "UPDATE order_details SET invoice_id = " + invoice_id + " WHERE order_id = " + order_id + "";
         PreparedStatement stmt = null;
         try {

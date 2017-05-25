@@ -12,19 +12,21 @@ import java.util.ArrayList;
 import model.Product;
 
 public class ProductMapper {
-    private final Connection con;
+    
+    private static Connection con;
 
-    public ProductMapper() throws ConnectionException {
-        con = DB.createConnection();
+    public static void setConnection() throws ConnectionException {
+        con = DB.createConnection(); 
     }
 
-    public Connection getCon() {
+
+    public static Connection getCon() {
         return con;
     }
     
     //Creates new Product in the database
     //Throws CreateProductException if the insertion fails
-    public void createProduct(Product product) throws CreateProductException {
+    public static void createProduct(Product product) throws CreateProductException {
         String sql = "INSERT INTO products (price, inner_height, width, length, has_shed, rooftop_type, shed_length, shed_width, rooftop_angle, rooftop_height, name) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = null;
         try {
@@ -51,7 +53,7 @@ public class ProductMapper {
     
     //finds the productID with the information from he product
     //Throws Query Exception if the query is not executable
-    public int findProductID(Product product) throws QueryException {
+    public static int findProductID(Product product) throws QueryException {
         int productID = 0;
         String sql = "SELECCT product_id FROM products WHERE price = " + product.getPrice() + " AND inner_height = " + product.getInnerHeight() + " AND width = " + product.getWidth()
                 + " AND length = " + product.getLength() + " AND has_shed = " + product.getHasShed() + " AND rooftop_type = " + product.getRooftopType()
@@ -79,7 +81,7 @@ public class ProductMapper {
     
     //Returns an ArrayList with all the products in the Database
     //Throws GetAllProducts Exception if the method is not executable or the list is empty
-    public ArrayList<Product> getAllProducts() throws GetAllProductsException {
+    public static ArrayList<Product> getAllProducts() throws GetAllProductsException {
         ArrayList<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";
         int productID, rooftopType, hasShed, roofAngle;
