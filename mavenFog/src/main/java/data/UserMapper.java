@@ -83,7 +83,29 @@ public class UserMapper {
 
     }//CreateCustomer
     
-    public void CreateSalesRep
+    //Takes input from the admin form and creates new Salesep in the Database. 
+    //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
+    public static void createSalesRep(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateCustomerException {
+        String sql = "INSERT INTO users (email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date)"
+                + " VALUES (?,?,?,?,?,?,?,1, CURDATE())";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            stmt.setString(3, fName);
+            stmt.setString(4, lName);
+            stmt.setInt(5, Integer.parseInt(phone));
+            stmt.setString(6, adress);
+            stmt.setInt(7, Integer.parseInt(zipCode));
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new CreateCustomerException();
+        } finally {
+            DB.closeStmt(stmt);
+        }
+
+    }//createSalesRep
 
     //Returns an ArrayList with all the users in the Database
     //Throws GetAllUsers Exception if the method is not executable or the list is empty
