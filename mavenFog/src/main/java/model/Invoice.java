@@ -3,37 +3,50 @@ package model;
 import java.sql.Date;
 
 public class Invoice {
-    private final int invoice_id, product_id;
+    private final int invoiceID, orderID, productID, customerID, salesRepID;
     private final Date creationDate;
-    private final double price;
+    private final double totalPrice;
 
-    public Invoice(int invoice_id, int product_id, Date creationDate, double price) {
-        this.invoice_id = invoice_id;
-        this.product_id = product_id;
+    public Invoice(int invoiceID, int orderID, int productID, int customerID, int salesRepID, Date creationDate, double totalPrice) {
+        this.invoiceID = invoiceID;
+        this.orderID = orderID;
+        this.productID = productID;
+        this.customerID = customerID;
+        this.salesRepID = salesRepID;
         this.creationDate = creationDate;
-        this.price = price;
+        this.totalPrice = totalPrice;
     }
 
-    public int getInvoice_id() {
-        return invoice_id;
+    public int getInvoiceID() {
+        return invoiceID;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public int getSalesRepID() {
+        return salesRepID;
     }
 
     public Date getCreationDate() {
         return creationDate;
     }
 
-    public double getPrice() {
-        return price;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    @Override
-    public String toString() {
-        return "Invoice{" + "invoice_id=" + invoice_id + ", product_id=" + product_id + ", creationDate=" + creationDate + ", price=" + price + '}';
-    }
+    
+    
     
     
 }

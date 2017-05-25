@@ -28,7 +28,7 @@ public class UserMapper {
     //Validates the user`s input
     //Throws Login error if the email or password is not in the databse or the password doesn`t match
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public void validateLoginDetails(String email, String Password) throws LoginError, QueryException {
+    public void validateLoginDetails(String email, String password) throws LoginError, QueryException {
         String passwordDB = "NotFound";
         String sqlEmail = "SELECT email FROM users WHERE email = '" + email + "'";
         String sqlPass = "SELECT password FROM users WHERE email = '" + email + "'";
@@ -37,11 +37,13 @@ public class UserMapper {
         try {
             stmt = con.prepareStatement(sqlEmail);
             rs = stmt.executeQuery();
+            //if email does not exist in the DB
             if (!rs.next()) {
                 throw new LoginError();
             }
             stmt = con.prepareStatement(sqlPass);
             rs = stmt.executeQuery();
+            //gets the password for the current email
             if (rs.next()) {
                 passwordDB = rs.getString("password");
             } else {
@@ -54,7 +56,7 @@ public class UserMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (!passwordDB.equals(passwordDB)) {
+        if (!password.equals(passwordDB)) {
             throw new LoginError();
         }
     }//validateLoginDetails

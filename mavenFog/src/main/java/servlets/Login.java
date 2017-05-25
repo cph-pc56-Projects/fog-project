@@ -34,12 +34,11 @@ public class Login extends HttpServlet {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            //Create object mapper which opens a connection to DB
+            //Create object mapper which OPENS a connection to DB
             mapper = new UserMapper();
 
-            //Check if we have email and password in the DB and IF NOT throws LoginEroor();
-            mapper.getEmail(email);
-            mapper.getPassword(email, password);
+            //Check if the email and password match IF NOT throws LoginEroor();
+            mapper.validateLoginDetails(email,password);
 
             int role = mapper.getRole(email);
             //Creates a new User obj with the input data
@@ -48,13 +47,10 @@ public class Login extends HttpServlet {
             //Creates a new session and sends the user object
             HttpSession session = request.getSession();
             session.setAttribute("user", (Object) user);
+            
             // Send to customer visible page if customer, send to admin if admin
             if (role == 2) {
                 session.setAttribute("admin", "superAdmin");
-            }
-            if (request.getParameter("from").equals("/mavenFog/customShed.jsp") || request.getParameter("from").equals("/mavenFog/custompage.jsp") || request.getParameter("from").equals("/mavenFog/customFinalDetails.jsp")) {
-                response.sendRedirect("index.jsp");
-                return;
             }
             // Here will redirect to the Orders Servlet, so everything will be loaded on login (see Orders Servlet for more info! comment#34)
             request.getRequestDispatcher("Orders").forward(request, response);
@@ -68,8 +64,8 @@ public class Login extends HttpServlet {
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
             HttpSession session = request.getSession();
-            session.setAttribute("error", "queryException");
-            response.sendRedirect("error/DBconnection.jsp");
+            session.setAttribute("error", "connectionException");
+            response.sendRedirect(request.getParameter("from"));
         } finally {
             //Close the connection to the DB 
             DB.releaseConnection(mapper.getCon());

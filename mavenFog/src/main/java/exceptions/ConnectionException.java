@@ -73,4 +73,9 @@ public class ConnectionException extends SQLException {
     public static class CreateInvoiceException extends Exception {
         //We can`t create this invoice at the moment
     }
+    
+    //Thrown by getAllInvoices method in Invoice Mapper if extration fails
+    public static class GetAllInvoicesException extends Exception {
+        //We can`t show you the invoices at the moment
+    }
 }

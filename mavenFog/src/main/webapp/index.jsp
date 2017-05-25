@@ -123,7 +123,7 @@
                     }
                 </script>
                 <div class="imgcontainer alert alert-danger">
-                    <strong> We can`t process your request at the moment!<br> Error code: Connection Exception  </strong>
+                    <strong> We can`t access the DataBase at the moment!<br> Error code: Connection Exception  </strong>
                 </div>              
                 <% }%>
 

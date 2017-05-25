@@ -2,12 +2,16 @@ package data;
 
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateInvoiceException;
+import exceptions.ConnectionException.GetAllInvoicesException;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import model.Invoice;
 
 public class InvoiceMapper {
     private final Connection con;
@@ -87,4 +91,40 @@ public class InvoiceMapper {
             DB.closeStmt(stmt);
         }
     }//deleteInvoice
+    
+    //Returns an ArrayList with all the invoices in the Database
+    //Throws GetAllInvoicesException if the method is not executable or the list is empty
+    public ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException {
+        ArrayList<Invoice> deliveries = new ArrayList<>();
+        String sql = "SELECT * FROM invoice";
+        int invoiceID, orderID, productID, customerID, salesRepID;
+        Date invoiceDate;
+        double totalPrice;
+        Invoice invoice;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                invoiceID = rs.getInt("invoice_id");
+                orderID = rs.getInt("order_id");
+                productID = rs.getInt("product_id");
+                customerID = rs.getInt("customer_ID");
+                salesRepID = rs.getInt("sales_rep_id");
+                invoiceDate = rs.getDate("creation_date");
+                totalPrice = rs.getDouble("total_price");
+                invoice = new Invoice(invoiceID, orderID, productID, customerID, salesRepID, invoiceDate, totalPrice);
+                deliveries.add(invoice);
+            }
+        } catch (SQLException x) {
+            x.printStackTrace();
+            throw new GetAllInvoicesException();
+        } finally {
+            DB.closeRs(rs);
+            DB.closeStmt(stmt);
+        }
+        if (deliveries.isEmpty()) {throw new GetAllInvoicesException();}
+        return deliveries;
+    }//getAllInvoice
 }
