@@ -119,4 +119,42 @@ public class ProductMapper {
         if (products.isEmpty()) {throw new GetAllProductsException();}
         return products;
     }//getAllProducts
+    
+    //Returns an ArrayList with all the products in the Database
+    //Throws GetAllProducts Exception if the method is not executable or the list is empty
+    public static Product getProduct(int productID) throws QueryException {
+        Product product = null;
+        String sql = "SELECT * FROM products WHERE product_id = " + productID + "";
+        int rooftopType, hasShed, roofAngle;
+        double price, innerHeight, width, length, shedLength, shedWidth, rooftopHeight;
+        String name;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                productID = rs.getInt("product_id");
+                rooftopType = rs.getInt("rooftop_type");
+                hasShed = rs.getInt("has_shed");
+                roofAngle = rs.getInt("roof_angle");
+                price = rs.getDouble("price");
+                innerHeight = rs.getDouble("inner_height");
+                width = rs.getDouble("width");
+                length = rs.getDouble("length");
+                shedLength = rs.getDouble("shed_length");
+                shedWidth = rs.getDouble("shed_width");
+                rooftopHeight = rs.getDouble("rooftop_height");
+                name = rs.getString("name");
+                product = new Product(productID, rooftopType, hasShed, roofAngle, price, innerHeight, width, length, shedLength, shedWidth, rooftopHeight, name);
+            }
+        } catch (SQLException x) {
+            x.printStackTrace();
+            throw new QueryException();
+        } finally {
+            DB.closeRs(rs);
+            DB.closeStmt(stmt);
+        }
+        return product;
+    }//getAllProducts
 }

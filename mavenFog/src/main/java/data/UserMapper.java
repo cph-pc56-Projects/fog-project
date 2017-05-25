@@ -442,7 +442,7 @@ public class UserMapper {
         }
     }//updateZipcode
     
-    //Deletes an /!\admin/!\ from the Database
+    //Deletes an /!\customer/!\ from the Database
     public static void deleteUser(String email) {
         String sql = "DELETE FROM users WHERE email = '" + email + "'";
         PreparedStatement stmt = null;

@@ -1,7 +1,8 @@
 package servlets;
 
 import data.*;
-import exceptions.*;
+import exceptions.ConnectionException;
+import exceptions.ConnectionException.*;
 import model.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,32 +29,30 @@ public class Orders extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        OrderMapper oMapper = null;
-        DeliveryMapper dMapper = null;
-        InvoiceMapper iMapper = null;
-        UserMapper uMapper = null;
-        ProductMapper pMapper = null;
         try {
-            response.setContentType("text/html;charset=UTF-8");
-            //Create objects which OPEN a connection to DB
-            oMapper = new OrderMapper();
-            dMapper = new DeliveryMapper();
-            iMapper = new InvoiceMapper();
-            uMapper = new UserMapper();
-            pMapper = new ProductMapper();
 
+            ////Create connections to DB
+            OrderMapper.setConnection();
+            DeliveryMapper.setConnection();
+            InvoiceMapper.setConnection();
+            UserMapper.setConnection();
+            ProductMapper.setConnection();
+
+            //Get the user from the current session and fetch orders for that user(/!\if admin - take all orders)
             User user = (User) session.getAttribute("user");
             if (user.getRole() == 0) {
-                ArrayList<Order> orders = oMapper.findOrdersByCustomer(user.getAccountID());
+                ArrayList<Order> orders = OrderMapper.findOrdersByCustomer(user.getAccountID());
                 session.setAttribute("orders", (Object) orders);
                 response.sendRedirect(request.getParameter("from"));
             } else {
-                ArrayList<Order> orders = oMapper.getAllOrders();
-                ArrayList<Delivery> deliveries = dMapper.getAllDelivery();
-                ArrayList<Invoice> invoices = iMapper.getAllInvoice();
-                ArrayList<User> users = uMapper.getAllUsers();
-                ArrayList<Product> products = pMapper.getAllProducts();
+                //fetch all data, so admin can browse everything from the DB
+                ArrayList<Order> orders = OrderMapper.getAllOrders();
+                ArrayList<Delivery> deliveries = DeliveryMapper.getAllDelivery();
+                ArrayList<Invoice> invoices = InvoiceMapper.getAllInvoice();
+                ArrayList<User> users = UserMapper.getAllUsers();
+                ArrayList<Product> products = ProductMapper.getAllProducts();
                 session.setAttribute("orders", (Object) orders);
                 session.setAttribute("deliveries", (Object) deliveries);
                 session.setAttribute("invoices", (Object) invoices);
@@ -61,28 +60,33 @@ public class Orders extends HttpServlet {
                 session.setAttribute("products", (Object) products);
                 response.sendRedirect("admin/admin.jsp");
             }
+        } catch (QueryException ex) {
+            session.setAttribute("error", "QueryException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (GetAllOrdersException ex) {
+            session.setAttribute("error", "GetAllOrdersException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (GetAllDeliveryException ex) {
+            session.setAttribute("error", "GetAllDeliveryException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (GetAllInvoicesException ex) {
+            session.setAttribute("error", "GetAllInvoicesException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (GetAllUsersException ex) {
+            session.setAttribute("error", "GetAllUsersException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (GetAllProductsException ex) {
+            session.setAttribute("error", "GetAllProductsException");
+            response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException r) {
-            session.setAttribute("error", "connectionException");
+            session.setAttribute("error", "ConnectionException");
             response.sendRedirect(request.getParameter("from"));
-        } catch (ConnectionException.QueryException ex) {
-            session.setAttribute("error", "queryException");
-            response.sendRedirect(request.getParameter("from"));
-        } catch (ConnectionException.GetAllOrdersException ex) {
-            Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException.GetAllDeliveryException ex) {
-            Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException.GetAllInvoicesException ex) {
-            Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException.GetAllUsersException ex) {
-            Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException.GetAllProductsException ex) {
-            Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DB.releaseConnection(oMapper.getCon());
-            DB.releaseConnection(dMapper.getCon());
-            DB.releaseConnection(iMapper.getCon());
-            DB.releaseConnection(uMapper.getCon());
-            DB.releaseConnection(pMapper.getCon());
+            DB.releaseConnection(OrderMapper.getCon());
+            DB.releaseConnection(DeliveryMapper.getCon());
+            DB.releaseConnection(InvoiceMapper.getCon());
+            DB.releaseConnection(UserMapper.getCon());
+            DB.releaseConnection(ProductMapper.getCon());
         }
 
     }

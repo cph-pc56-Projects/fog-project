@@ -93,7 +93,7 @@ public class InvoiceMapper {
     
     //Returns an ArrayList with all the invoices in the Database
     //Throws GetAllInvoicesException if the method is not executable or the list is empty
-    public ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException {
+    public static ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException {
         ArrayList<Invoice> deliveries = new ArrayList<>();
         String sql = "SELECT * FROM invoice";
         int invoiceID, orderID, productID, customerID, salesRepID;

@@ -35,7 +35,7 @@ public class Login extends HttpServlet {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            //Create object UserMapper which OPENS a connection to DB
+            //Create connection to DB
             UserMapper.setConnection();
 
             //Check if the email and password match IF NOT throws LoginEroor();

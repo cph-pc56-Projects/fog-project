@@ -1,6 +1,5 @@
 package servlets;
 
-import data.DB;
 import exceptions.ConnectionException;
 import data.UserMapper;
 import exceptions.ConnectionException.CreateCustomerException;
@@ -12,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
@@ -28,7 +28,7 @@ public class Register extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        HttpSession session = request.getSession();
         try {
             //Get the data from register form
             String email, password, fName, lName, phone, adress, zipCode;
@@ -40,7 +40,7 @@ public class Register extends HttpServlet {
             adress = request.getParameter("adress");
             zipCode = request.getParameter("zipCode");
 
-            //
+            //Create connection to DB
             UserMapper.setConnection();
             
             //Create new user in the database
@@ -50,9 +50,11 @@ public class Register extends HttpServlet {
             response.sendRedirect("index.jsp");
 
         } catch (CreateCustomerException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            session.setAttribute("error", "CreateCustomerException"); //We are sorry, we could not create your profile! Probably cause is that you already have an account!
+            response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+            session.setAttribute("error", "connectionException");
+            response.sendRedirect(request.getParameter("from"));
         }
     }
 
