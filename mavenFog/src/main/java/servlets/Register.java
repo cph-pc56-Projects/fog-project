@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
-public class Register extends HttpServlet {    
+public class Register extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,39 +28,34 @@ public class Register extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         try {
-            UserMapper mapper = new UserMapper();
-            try {
-                //Get the data from register form
-                String email, password, fName, lName, phone, adress, zipCode;
-                email = request.getParameter("email");
-                password = request.getParameter("password");
-                fName = request.getParameter("fName");
-                lName = request.getParameter("lName");
-                phone = request.getParameter("phone");
-                adress = request.getParameter("adress");
-                zipCode = request.getParameter("zipCode");
+            //Get the data from register form
+            String email, password, fName, lName, phone, adress, zipCode;
+            email = request.getParameter("email");
+            password = request.getParameter("password");
+            fName = request.getParameter("fName");
+            lName = request.getParameter("lName");
+            phone = request.getParameter("phone");
+            adress = request.getParameter("adress");
+            zipCode = request.getParameter("zipCode");
 
-                //Create new user in the database
-                mapper.createCustomer(email, password, fName, lName, phone, adress, zipCode);
-                
-                //If successful go to index, otherwise go to error page
-                response.sendRedirect("index.jsp");
-                
+            //
+            UserMapper.setConnection();
+            
+            //Create new user in the database
+            UserMapper.createCustomer(email, password, fName, lName, phone, adress, zipCode);
 
-            } catch (CreateCustomerException cue) {
-                //Redirect to error page if we can`t create the profile.
-                cue.printStackTrace();
-                response.sendRedirect("error/failRegister.jsp");
-            } finally {
-                //Close the connection to the Database
-                DB.releaseConnection(mapper.getCon());
-            }
-        } catch (ConnectionException ce) {
-            //JSP ERROR PAGE - Failed to connect to the Database!
-        }   
+            //If successful go to index, otherwise go to error page
+            response.sendRedirect("index.jsp");
+
+        } catch (CreateCustomerException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionException ex) {
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

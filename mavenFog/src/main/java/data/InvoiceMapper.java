@@ -14,18 +14,17 @@ import java.util.ArrayList;
 import model.Invoice;
 
 public class InvoiceMapper {
-    private final Connection con;
-
-    public InvoiceMapper() throws ConnectionException {
-        con = DB.createConnection();
+    private static Connection con;
+    
+    public static void setConnection() throws ConnectionException {
+        con = DB.createConnection(); 
     }
 
-
-    public Connection getCon() {
+    public static Connection getCon() {
         return con;
     }
     
-    public void createInvoice(int productID, int customerID, int salesRepID, double totalPrice, int orderID) throws CreateInvoiceException {
+    public static void createInvoice(int productID, int customerID, int salesRepID, double totalPrice, int orderID) throws CreateInvoiceException {
         String sql = "INSERT INTO invoice (product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (? , ?, ?, curdate(), ?)";
         PreparedStatement stmt = null;
         int invoiceID = 0;
@@ -55,7 +54,7 @@ public class InvoiceMapper {
 
     //Finds the InvoiceID by order_id
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public int getInvoiceID(int order_id) throws QueryException {
+    public static int getInvoiceID(int order_id) throws QueryException {
         int invoiceID = 0;
         String sql = "SELECT invoice_id FROM invoice WHERE order_id = " + order_id + "";
         PreparedStatement stmt = null;
@@ -79,7 +78,7 @@ public class InvoiceMapper {
     }//getInvoiceID
     
     //Deletes an invoice input from the Database in case of failure in the createInvoice() method
-    private void deleteInvoice(int invoiceID) {
+    private static void deleteInvoice(int invoiceID) {
         String sql = "DELETE FROM invoice WHERE invoice_id = " + invoiceID + "";
         PreparedStatement stmt = null;
         try {

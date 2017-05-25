@@ -134,7 +134,7 @@
 
                     <label><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" title="at least 8 characters" pattern=".{8,}" id="passwordLog" required>
-                    <!-- current URL passed like a hidden field, so after Log in, the Servlet will redirect the user back here -->
+                    <!-- current URL passed like a hidden field, so after Log in, the Servlet will redirect the user back to the same page -->
                     <input type="hidden" name="from" value="${pageContext.request.requestURI}">
 
                     <button type="submit" >Login</button>
@@ -187,6 +187,8 @@
                     <input type="text" placeholder="Firskovvej 20" name="adress" title="e.g. Street" required>
                     <label><b>Zip code</b></label>
                     <input type="text" placeholder="Local post code" name="zipCode" title="e.g. 2800" pattern="[0-9]{4}" required>
+                     <!-- current URL passed like a hidden field, so after Register, the Servlet will redirect the user back to the same page -->
+                    <input type="hidden" name="from" value="${pageContext.request.requestURI}">
 
                     <button type="submit" class="btn" id="RegButton">Register</button>
                     <button type="button" onclick="document.getElementById('id02').style.display = 'none'" class="cancelbtn">Close</button>

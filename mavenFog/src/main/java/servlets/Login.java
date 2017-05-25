@@ -2,6 +2,7 @@ package servlets;
 
 import data.DB;
 import data.UserMapper;
+import model.User;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.LoginError;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.User;
+
 
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
@@ -28,24 +29,23 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        UserMapper mapper = null;
+        HttpSession session = request.getSession();
         try {
             //Taking the email and password when submit the Log in form       
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            //Create object mapper which OPENS a connection to DB
-            mapper = new UserMapper();
+            //Create object UserMapper which OPENS a connection to DB
+            UserMapper.setConnection();
 
             //Check if the email and password match IF NOT throws LoginEroor();
-            mapper.validateLoginDetails(email,password);
+            UserMapper.validateLoginDetails(email, password);
 
-            int role = mapper.getRole(email);
-            //Creates a new User obj with the input data
-            User user = new User(email, mapper.getFirstName(email), mapper.getLastName(email), mapper.getAdress(email), mapper.getZipCode(email), mapper.getPhone(email), role, mapper.getAccountID(email));
+            int role = UserMapper.getRole(email);
+            //Creates a new User obj with the input data from JSP
+            User user = new User(email, UserMapper.getFirstName(email), UserMapper.getLastName(email), UserMapper.getAdress(email), UserMapper.getZipCode(email), UserMapper.getPhone(email), role, UserMapper.getAccountID(email));
 
-            //Creates a new session and sends the user object
-            HttpSession session = request.getSession();
+            //Add to the session our new user object
             session.setAttribute("user", (Object) user);
             
             // Send to customer visible page if customer, send to admin if admin
@@ -55,20 +55,17 @@ public class Login extends HttpServlet {
             // Here will redirect to the Orders Servlet, so everything will be loaded on login (see Orders Servlet for more info! comment#34)
             request.getRequestDispatcher("Orders").forward(request, response);
         } catch (LoginError x) {
-            HttpSession session = request.getSession();
             session.setAttribute("error", "login");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException.QueryException ex) {
-            HttpSession session = request.getSession();
             session.setAttribute("error", "queryException");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
-            HttpSession session = request.getSession();
             session.setAttribute("error", "connectionException");
             response.sendRedirect(request.getParameter("from"));
         } finally {
             //Close the connection to the DB 
-            DB.releaseConnection(mapper.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 

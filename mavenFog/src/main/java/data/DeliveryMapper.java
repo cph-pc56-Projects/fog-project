@@ -15,21 +15,21 @@ import model.Delivery;
 
 public class DeliveryMapper {
 
-    private final Connection con;
+    private static Connection con;
 
-    public DeliveryMapper() throws ConnectionException {
-        con = DB.createConnection();
+    public static void setConnection() throws ConnectionException {
+        con = DB.createConnection(); 
     }
 
 
-    public Connection getCon() {
+    public static Connection getCon() {
         return con;
     }
 
     //Creates new delivery in the Database
     //Throws ConnectionException if we cant connect to the OrderMapper
     //Throws CreateDelivery Exception if we cant execute the query
-    public void createDelivery(Date date, int orderID, String moreInfo, double price) throws ConnectionException, CreateDeliveryException {
+    public static void createDelivery(Date date, int orderID, String moreInfo, double price) throws ConnectionException, CreateDeliveryException {
         String sql = "INSERT into delivery (delivery_date, delivery_status, order_id, more_info, price) VALUES (? , 0, ?, ?, ?)";
         OrderMapper oMapper = new OrderMapper();
         PreparedStatement stmt = null;
@@ -58,7 +58,7 @@ public class DeliveryMapper {
 
     //Finds the deliveryID by order_id
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public int getDeliveryID(int order_id) throws QueryException {
+    public static int getDeliveryID(int order_id) throws QueryException {
         int deliveryID = 0;
         String sql = "SELECT delivery_id FROM delivery WHERE order_id = " + order_id + "";
         PreparedStatement stmt = null;
@@ -83,7 +83,7 @@ public class DeliveryMapper {
     }
 
     //Deletes a delivery input from the Database in case of failure in the createDelivery() method
-    private void deleteDelivery(int delivery_id) {
+    private static void deleteDelivery(int delivery_id) {
         String sql = "DELETE FROM delivery WHERE delivery_id = " + delivery_id + "";
         PreparedStatement stmt = null;
         try {
@@ -98,7 +98,7 @@ public class DeliveryMapper {
 
     //Returns an ArrayList with all the deliveries in the Database
     //Throws GetAllDeliveries Exception if the method is not executable or the list is empty
-    public ArrayList<Delivery> getAllDelivery() throws GetAllDeliveryException {
+    public static ArrayList<Delivery> getAllDelivery() throws GetAllDeliveryException {
         ArrayList<Delivery> deliveries = new ArrayList<>();
         String sql = "SELECT * FROM delivery";
         int deliveryID, deliveryStatus, orderID;
@@ -134,7 +134,7 @@ public class DeliveryMapper {
     
     //Updates the Delivery status when the delivery is cancelled or completed
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public void updateDeliveryStatus(int delivery_status, int delivery_id) throws QueryException {
+    public static void updateDeliveryStatus(int delivery_status, int delivery_id) throws QueryException {
         String sql = "UPDATE delivery SET delivery_status = " + delivery_status + " WHERE delivery_id = " + delivery_id + "";
         PreparedStatement stmt = null;
         try {

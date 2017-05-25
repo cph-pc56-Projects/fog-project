@@ -15,20 +15,20 @@ import model.User;
 
 public class UserMapper {
 
-    private final Connection con;
+    private static Connection con;
 
-    public UserMapper() throws ConnectionException {
-        con = DB.createConnection();
+    public static void setConnection() throws ConnectionException {
+        con = DB.createConnection(); 
     }
 
-    public Connection getCon() {
+    public static Connection getCon() {
         return con;
     }
 
     //Validates the user`s input
     //Throws Login error if the email or password is not in the databse or the password doesn`t match
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public void validateLoginDetails(String email, String password) throws LoginError, QueryException {
+    public static void validateLoginDetails(String email, String password) throws LoginError, QueryException {
         String passwordDB = "NotFound";
         String sqlEmail = "SELECT email FROM users WHERE email = '" + email + "'";
         String sqlPass = "SELECT password FROM users WHERE email = '" + email + "'";
@@ -63,7 +63,7 @@ public class UserMapper {
     
     //Takes input from the register form and creates new Customer in the Database. 
     //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
-    public void createCustomer(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateCustomerException {
+    public static void createCustomer(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateCustomerException {
         String sql = "INSERT INTO users (email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date)"
                 + " VALUES (?,?,?,?,?,?,?,0, CURDATE())";
         PreparedStatement stmt = null;
@@ -84,10 +84,13 @@ public class UserMapper {
         }
 
     }//CreateCustomer
+    
+    public void CreateSalesRep
 
     //Returns an ArrayList with all the users in the Database
     //Throws GetAllUsers Exception if the method is not executable or the list is empty
-    public ArrayList<User> getAllUsers() throws GetAllUsersException {
+
+    public static ArrayList<User> getAllUsers() throws GetAllUsersException {
         ArrayList<User> users = new ArrayList<>();
         String sql = "SELECT * FROM users";
         String email, fName, lName, address;
@@ -125,7 +128,7 @@ public class UserMapper {
 
     //Searches for the email of the user by account_id
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public String getEmail(int accountID) throws QueryException {
+    public static String getEmail(int accountID) throws QueryException {
         String email = null;
         String sql = "SELECT email FROM users WHERE account_id = " + accountID + "";
         PreparedStatement stmt = null;
@@ -147,7 +150,7 @@ public class UserMapper {
     
     //Searches for the password of the user by account_id
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public String getPassword(int accountID) throws QueryException {
+    public static String getPassword(int accountID) throws QueryException {
         String pass = null;
         String sql = "SELECT password FROM users WHERE account_id = " + accountID + "";
         PreparedStatement stmt = null;
@@ -169,7 +172,7 @@ public class UserMapper {
 
     //Searches for the role of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public int getRole(String email) throws QueryException {
+    public static int getRole(String email) throws QueryException {
         int role = 0;
         String sql = "SELECT role FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
@@ -194,7 +197,7 @@ public class UserMapper {
 
     //Searches for the account id of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public int getAccountID(String email) throws QueryException {
+    public static int getAccountID(String email) throws QueryException {
         int id = 0;
         String sql = "SELECT account_id FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
@@ -219,7 +222,7 @@ public class UserMapper {
 
     //Searches for the zip code of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public int getZipCode(String email) throws QueryException {
+    public static int getZipCode(String email) throws QueryException {
         int zipCode = 0;
         String sql = "SELECT zip_code FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
@@ -244,7 +247,7 @@ public class UserMapper {
 
     //Searches for the first name of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public String getFirstName(String email) throws QueryException {
+    public static String getFirstName(String email) throws QueryException {
         String fName = null;
         String sql = "SELECT first_name FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
@@ -269,7 +272,7 @@ public class UserMapper {
 
     //Searches for the last name of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public String getLastName(String email) throws QueryException {
+    public static String getLastName(String email) throws QueryException {
         String lName = null;
         String sql = "SELECT last_name FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
@@ -294,7 +297,7 @@ public class UserMapper {
 
     //Searches for the phone of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public int getPhone(String email) throws QueryException {
+    public static int getPhone(String email) throws QueryException {
         int phone = 0;
         String sql = "SELECT phone_number FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
@@ -319,7 +322,7 @@ public class UserMapper {
 
     //Searches for the address of the user by email
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public String getAdress(String email) throws QueryException {
+    public static String getAdress(String email) throws QueryException {
         String adress = null;
         String sql = "SELECT address FROM users WHERE email = " + "'" + email + "'";
         PreparedStatement stmt = null;
@@ -344,7 +347,7 @@ public class UserMapper {
 
     //Updates the email from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public void updateEmail(String email, int acc_id) throws UpdateUserInfoException {
+    public static void updateEmail(String email, int acc_id) throws UpdateUserInfoException {
         String sql = "UPDATE users SET email = '" + email + "' WHERE account_id = " + acc_id + "";
         PreparedStatement stmt = null;
         try {
@@ -359,7 +362,7 @@ public class UserMapper {
 
     //Updates the password from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public void updatePassword(String password, int acc_id) throws UpdateUserInfoException {
+    public static void updatePassword(String password, int acc_id) throws UpdateUserInfoException {
         String sql = "UPDATE users SET password = '" + password + "' WHERE account_id = " + acc_id + "";
         PreparedStatement stmt = null;
         try {
@@ -374,7 +377,7 @@ public class UserMapper {
 
     //Updates the address from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public void updateAdress(String adress, int acc_id) throws UpdateUserInfoException {
+    public static void updateAdress(String adress, int acc_id) throws UpdateUserInfoException {
         String sql = "UPDATE users SET address = '" + adress + "' WHERE account_id = " + acc_id + "";
         PreparedStatement stmt = null;
         try {
@@ -389,7 +392,7 @@ public class UserMapper {
 
     //Updates the phone from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public void updatePhone(String phone, int acc_id) throws UpdateUserInfoException {
+    public static void updatePhone(String phone, int acc_id) throws UpdateUserInfoException {
         String sql = "UPDATE users SET phone_number = '" + Integer.parseInt(phone) + "' WHERE account_id = " + acc_id + "";
         PreparedStatement stmt = null;
         try {
@@ -404,7 +407,7 @@ public class UserMapper {
 
     //Updates the zip zode from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public void updateZipcode(String zipCode, int acc_id) throws UpdateUserInfoException {
+    public static void updateZipcode(String zipCode, int acc_id) throws UpdateUserInfoException {
         String sql = "UPDATE users SET zip_code = " + Integer.parseInt(zipCode) + " WHERE account_id = " + acc_id + "";
         PreparedStatement stmt = null;
         try {
@@ -418,7 +421,7 @@ public class UserMapper {
     }//updateZipcode
     
     //Deletes an /!\admin/!\ from the Database
-    public void deleteUser(String email) {
+    public static void deleteUser(String email) {
         String sql = "DELETE FROM users WHERE email = '" + email + "'";
         PreparedStatement stmt = null;
         try {
@@ -432,7 +435,7 @@ public class UserMapper {
     }//delete
     
     //Deletes an /!\admin/!\ from the Database
-    public boolean deleteSalesRep (int accountID) {
+    public static boolean deleteSalesRep (int accountID) {
         boolean deleted = true;
         String sqlDelete = "DELETE FROM users WHERE account_id = " + accountID + "";
         String sqlUpdate = "UPDATE FROM order_details WHERE sales_rep_id = " + accountID + "";
