@@ -2,7 +2,7 @@ package data;
 
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateOrderException;
-import exceptions.ConnectionException.GetAllOrders;
+import exceptions.ConnectionException.GetAllOrdersException;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.sql.Connection;
@@ -128,7 +128,7 @@ public class OrderMapper {
     
     //Returns an ArrayList with all the orders in the Database
     //Throws GetAllOrders Exception if the method is not executable or the list is empty
-    public ArrayList<Order> getAllOrders() throws GetAllOrders {
+    public ArrayList<Order> getAllOrders() throws GetAllOrdersException {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders LEFT JOIN order_details ON orders.order_id = order_details.order_id";
         int order_id, customer_id, product_id, salesRep_id, delivery_id, invoice_id, orderStatus;
@@ -155,12 +155,12 @@ public class OrderMapper {
             }
         } catch (SQLException x) {
             x.printStackTrace();
-            throw new GetAllOrders();
+            throw new GetAllOrdersException();
         } finally {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (orders.isEmpty()) {throw new GetAllOrders();}
+        if (orders.isEmpty()) {throw new GetAllOrdersException();}
         return orders;
     }//getAllOrders
 

@@ -2,7 +2,7 @@ package data;
 
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateDeliveryException;
-import exceptions.ConnectionException.GetAllDelivery;
+import exceptions.ConnectionException.GetAllDeliveryException;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.sql.Connection;
@@ -29,7 +29,7 @@ public class DeliveryMapper {
     //Creates new delivery in the Database
     //Throws ConnectionException if we cant connect to the OrderMapper
     //Throws CreateDelivery Exception if we cant execute the query
-    public void createDelivery(Date date, int order_id, String moreInfo, double price) throws ConnectionException, CreateDeliveryException {
+    public void createDelivery(Date date, int orderID, String moreInfo, double price) throws ConnectionException, CreateDeliveryException {
         String sql = "INSERT into delivery (delivery_date, delivery_status, order_id, more_info, price) VALUES (? , 0, ?, ?, ?)";
         OrderMapper oMapper = new OrderMapper();
         PreparedStatement stmt = null;
@@ -37,14 +37,14 @@ public class DeliveryMapper {
         try {
             stmt = con.prepareStatement(sql);
             stmt.setDate(1, date);
-            stmt.setInt(2, order_id);
+            stmt.setInt(2, orderID);
             stmt.setString(3, moreInfo);
             stmt.setDouble(4, price);
             stmt.executeUpdate();
 
             //Updates the delivery_id in orderDetails throws UpdateOrderDetailsException or QueryException
-            delivery_id = getDeliveryID(order_id);
-            oMapper.updateDeliveryID(delivery_id, order_id);
+            delivery_id = getDeliveryID(orderID);
+            oMapper.updateDeliveryID(delivery_id, orderID);
         } catch (SQLException e) {
             throw new CreateDeliveryException();
         } catch (UpdateOrderDetailsException | QueryException ee) {
@@ -98,7 +98,7 @@ public class DeliveryMapper {
 
     //Returns an ArrayList with all the deliveries in the Database
     //Throws GetAllDeliveries Exception if the method is not executable or the list is empty
-    public ArrayList<Delivery> getAllDelivery() throws GetAllDelivery {
+    public ArrayList<Delivery> getAllDelivery() throws GetAllDeliveryException {
         ArrayList<Delivery> deliveries = new ArrayList<>();
         String sql = "SELECT * FROM delivery";
         int deliveryID, deliveryStatus, orderID;
@@ -123,12 +123,12 @@ public class DeliveryMapper {
             }
         } catch (SQLException x) {
             x.printStackTrace();
-            throw new GetAllDelivery();
+            throw new GetAllDeliveryException();
         } finally {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (deliveries.isEmpty()) {throw new GetAllDelivery();}
+        if (deliveries.isEmpty()) {throw new GetAllDeliveryException();}
         return deliveries;
     }//getAllDelivery
     

@@ -28,12 +28,14 @@ public class DB {
     
     //Closes the connection to the Database
     public static void releaseConnection(Connection con) {
-        try {
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Couldn't close connection!");
-        }
+        if (con!=null) {    
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Couldn't close connection!");
+            }
+        }    
     }
     
     //Closes a given PreparedStatement

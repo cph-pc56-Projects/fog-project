@@ -2,7 +2,7 @@ package data;
 
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateProductException;
-import exceptions.ConnectionException.GetAllProducts;
+import exceptions.ConnectionException.GetAllProductsException;
 import exceptions.ConnectionException.QueryException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -79,7 +79,7 @@ public class ProductMapper {
     
     //Returns an ArrayList with all the products in the Database
     //Throws GetAllProducts Exception if the method is not executable or the list is empty
-    public ArrayList<Product> getAllProducts() throws GetAllProducts {
+    public ArrayList<Product> getAllProducts() throws GetAllProductsException {
         ArrayList<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";
         int productID, rooftopType, hasShed, roofAngle;
@@ -109,12 +109,12 @@ public class ProductMapper {
             }
         } catch (SQLException x) {
             x.printStackTrace();
-            throw new GetAllProducts();
+            throw new GetAllProductsException();
         } finally {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (products.isEmpty()) {throw new GetAllProducts();}
+        if (products.isEmpty()) {throw new GetAllProductsException();}
         return products;
     }//getAllProducts
 }
