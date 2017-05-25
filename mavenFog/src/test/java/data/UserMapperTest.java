@@ -50,16 +50,15 @@ public class UserMapperTest {
     @Test
     public void testCreateCustomer() {
         String email = "testEmail", password = "testPass", fName = "testFrist", lName = "testLast", phone = "69696969", adress = "testAddress", zipCode = "6969";
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            instance.createCustomer(email, password, fName, lName, phone, adress, zipCode);
-            assertEquals(fName, instance.getFirstName(email));
-            instance.deleteUser(email);
+            UserMapper.setConnection();
+            UserMapper.createCustomer(email, password, fName, lName, phone, adress, zipCode);
+            assertEquals(fName, UserMapper.getFirstName(email));
+            UserMapper.deleteUser(email);
         } catch (CreateCustomerException | ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -68,15 +67,14 @@ public class UserMapperTest {
      */
     @Test
     public void testGetAllUsers() {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            ArrayList<User> result = instance.getAllUsers();
+            UserMapper.setConnection();
+            ArrayList<User> result = UserMapper.getAllUsers();
             assertEquals(result.size(), 7);
         } catch (ConnectionException | GetAllUsersException ex) {
             ex.printStackTrace();
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
        
     }
@@ -86,15 +84,14 @@ public class UserMapperTest {
      */
     @Test
     public void testGetRole() {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            int result = instance.getRole("fog_admin@gmail.com");
+            UserMapper.setConnection();
+            int result = UserMapper.getRole("fog_admin@gmail.com");
             assertEquals(2, result);
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -103,15 +100,14 @@ public class UserMapperTest {
      */
     @Test
     public void testGetAccountID() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            int result = instance.getAccountID("fog_admin@gmail.com");
+            UserMapper.setConnection();
+            int result = UserMapper.getAccountID("fog_admin@gmail.com");
             assertEquals(1, result);
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -120,15 +116,14 @@ public class UserMapperTest {
      */
     @Test
     public void testGetZipCode() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            int result = instance.getZipCode("fog_admin@gmail.com");
+            UserMapper.setConnection();
+            int result = UserMapper.getZipCode("fog_admin@gmail.com");
             assertEquals(3456, result);
         } catch (ConnectionException | QueryException ex) {
            
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -137,15 +132,14 @@ public class UserMapperTest {
      */
     @Test
     public void testGetFirstName() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            String result = instance.getFirstName("fog_admin@gmail.com");
+            UserMapper.setConnection();
+            String result = UserMapper.getFirstName("fog_admin@gmail.com");
             assertEquals("Admin", result);
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -154,15 +148,14 @@ public class UserMapperTest {
      */
     @Test
     public void testGetLastName() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            String result = instance.getLastName("fog_admin@gmail.com");
+            UserMapper.setConnection();
+            String result = UserMapper.getLastName("fog_admin@gmail.com");
             assertEquals("Fog", result);
         } catch (ConnectionException | QueryException ex) {
            
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -171,15 +164,14 @@ public class UserMapperTest {
      */
     @Test
     public void testGetPhone() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            int result = instance.getPhone("fog_admin@gmail.com");
+            UserMapper.setConnection();
+            int result = UserMapper.getPhone("fog_admin@gmail.com");
             assertEquals(12345678, result);
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -188,15 +180,14 @@ public class UserMapperTest {
      */
     @Test
     public void testGetAdress() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            String result = instance.getAdress("fog_admin@gmail.com");
+            UserMapper.setConnection();
+            String result = UserMapper.getAdress("fog_admin@gmail.com");
             assertEquals("Fog Admin 34", result);
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -205,17 +196,16 @@ public class UserMapperTest {
      */
     @Test
     public void testUpdateEmail() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            instance.updateEmail("update", 1);
-            assertEquals("update", instance.getEmail(1));
-            instance.updateEmail("fog_admin@gmail.com", 1);
-            assertEquals("fog_admin@gmail.com", instance.getEmail(1));
+            UserMapper.setConnection();
+            UserMapper.updateEmail("update", 1);
+            assertEquals("update", UserMapper.getEmail(1));
+            UserMapper.updateEmail("fog_admin@gmail.com", 1);
+            assertEquals("fog_admin@gmail.com", UserMapper.getEmail(1));
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -224,17 +214,16 @@ public class UserMapperTest {
      */
     @Test
     public void testUpdatePassword() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            instance.updatePassword("update", 1);
-            assertEquals("update", instance.getPassword(1));
-            instance.updatePassword("fog_admin", 1);
-            assertEquals("fog_admin", instance.getPassword(1));            
+            UserMapper.setConnection();
+            UserMapper.updatePassword("update", 1);
+            assertEquals("update", UserMapper.getPassword(1));
+            UserMapper.updatePassword("fog_admin", 1);
+            assertEquals("fog_admin", UserMapper.getPassword(1));            
         } catch (ConnectionException | QueryException ex) {
            
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -243,17 +232,16 @@ public class UserMapperTest {
      */
     @Test
     public void testUpdateAdress() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            instance.updateAdress("update", 1);
-            assertEquals("update", instance.getAdress("fog_admin@gmail.com"));
-            instance.updateAdress("Fog Admin 34", 1);
-            assertEquals("Fog Admin 34", instance.getAdress("fog_admin@gmail.com"));        
+            UserMapper.setConnection();
+            UserMapper.updateAdress("update", 1);
+            assertEquals("update", UserMapper.getAdress("fog_admin@gmail.com"));
+            UserMapper.updateAdress("Fog Admin 34", 1);
+            assertEquals("Fog Admin 34", UserMapper.getAdress("fog_admin@gmail.com"));        
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -262,17 +250,16 @@ public class UserMapperTest {
      */
     @Test
     public void testUpdatePhone() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            instance.updatePhone("6969", 1);
-            assertEquals(6969, instance.getPhone("fog_admin@gmail.com"));
-            instance.updatePhone("12345678", 1);
-            assertEquals(12345678, instance.getPhone("fog_admin@gmail.com"));        
+            UserMapper.setConnection();
+            UserMapper.updatePhone("6969", 1);
+            assertEquals(6969, UserMapper.getPhone("fog_admin@gmail.com"));
+            UserMapper.updatePhone("12345678", 1);
+            assertEquals(12345678, UserMapper.getPhone("fog_admin@gmail.com"));        
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -281,17 +268,16 @@ public class UserMapperTest {
      */
     @Test
     public void testUpdateZipcode() throws Exception {
-        UserMapper instance = null;
         try {
-            instance = new UserMapper();
-            instance.updateZipcode("6969", 1);
-            assertEquals(6969, instance.getZipCode("fog_admin@gmail.com"));
-            instance.updateZipcode("3456", 1);
-            assertEquals(3456, instance.getZipCode("fog_admin@gmail.com"));        
+            UserMapper.setConnection();
+            UserMapper.updateZipcode("6969", 1);
+            assertEquals(6969, UserMapper.getZipCode("fog_admin@gmail.com"));
+            UserMapper.updateZipcode("3456", 1);
+            assertEquals(3456, UserMapper.getZipCode("fog_admin@gmail.com"));        
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
-            DB.releaseConnection(instance.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
     
