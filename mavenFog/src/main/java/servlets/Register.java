@@ -1,8 +1,11 @@
 package servlets;
 
+import data.DB;
 import exceptions.ConnectionException;
 import data.UserMapper;
 import exceptions.ConnectionException.CreateCustomerException;
+import exceptions.ConnectionException.CreateSalesRepException;
+import exceptions.ConnectionException.DeleteSalesRepException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -31,6 +34,8 @@ public class Register extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         try {
+            int userType = Integer.parseInt((String) request.getParameter("userType"));
+            
             //Get the data from register form
             String email, password, fName, lName, phone, adress, zipCode;
             email = request.getParameter("email");
@@ -44,18 +49,40 @@ public class Register extends HttpServlet {
             //Create connection to DB
             UserMapper.setConnection();
             
-            //Create new user in the database
-            UserMapper.createCustomer(email, password, fName, lName, phone, adress, zipCode);
+            switch (userType) {
+                case 0:
+                     //Create new user in the database
+                    UserMapper.createCustomer(email, password, fName, lName, phone, adress, zipCode);
+                    break;
+                case 1:
+                    //Create new SalesRep in the DB
+                    UserMapper.createSalesRep(email, password, fName, lName, phone, adress, zipCode);
+                    break;
+                case 3:
+                    //Deletes a Sales Rep profile form DB
+                    String id = (String) request.getParameter("deleteAccountID");
+                    UserMapper.deleteSalesRep(id);
+            }
+            
+           
 
-            //If successful go to index, otherwise go to error page
-            response.sendRedirect("index.jsp");
+            //If successful go back
+            response.sendRedirect(request.getParameter("from"));
 
         } catch (CreateCustomerException ex) {
             session.setAttribute("error", "CreateCustomerException"); //We are sorry, we could not create your profile! Probably cause is that you already have an account!
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
-            session.setAttribute("error", "connectionException");
+            session.setAttribute("error", "ConnectionException");
             response.sendRedirect(request.getParameter("from"));
+        } catch (CreateSalesRepException ex) {
+            session.setAttribute("error", "CreateSalesRepException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (DeleteSalesRepException ex) {
+            session.setAttribute("error", "DeleteSalesRepException");
+            response.sendRedirect(request.getParameter("from"));
+        } finally {
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 

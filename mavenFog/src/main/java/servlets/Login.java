@@ -56,12 +56,15 @@ public class Login extends HttpServlet {
             // Here will redirect to the Orders Servlet, so everything will be loaded on login (see Orders Servlet for more info! comment#34)
             request.getRequestDispatcher("Orders").forward(request, response);
         } catch (LoginError x) {
+            x.printStackTrace();
             session.setAttribute("error", "login");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException.QueryException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "queryException");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "connectionException");
             response.sendRedirect(request.getParameter("from"));
         } finally {

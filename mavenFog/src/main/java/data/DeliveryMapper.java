@@ -29,62 +29,35 @@ public class DeliveryMapper {
     //Creates new delivery in the Database
     //Throws ConnectionException if we cant connect to the OrderMapper
     //Throws CreateDelivery Exception if we cant execute the query
-    public static void createDelivery(Date date, int orderID, String moreInfo, double price) throws ConnectionException, CreateDeliveryException {
-        String sql = "INSERT into delivery (delivery_date, delivery_status, order_id, more_info, price) VALUES (? , 0, ?, ?, ?)";
-        OrderMapper oMapper = new OrderMapper();
+    public static void createDelivery(String orderID, String moreInfo, double price) throws ConnectionException, CreateDeliveryException {
+        String sql = "INSERT into delivery (delivery_id, delivery_status, more_info, price) VALUES (? , 0, ?, ?)";
         PreparedStatement stmt = null;
-        int delivery_id = 0;
+        String deliveryID = null;
         try {
+            deliveryID = DB.generateID("delivery", "delivery_id", con);
             stmt = con.prepareStatement(sql);
-            stmt.setDate(1, date);
-            stmt.setInt(2, orderID);
-            stmt.setString(3, moreInfo);
-            stmt.setDouble(4, price);
+            stmt.setString(1, deliveryID);
+            stmt.setString(2, moreInfo);
+            stmt.setDouble(3, price);
             stmt.executeUpdate();
 
             //Updates the delivery_id in orderDetails throws UpdateOrderDetailsException or QueryException
-            delivery_id = getDeliveryID(orderID);
-            oMapper.updateDeliveryID(delivery_id, orderID);
+            OrderMapper.setConnection();
+            OrderMapper.updateDeliveryID(deliveryID, orderID);
         } catch (SQLException e) {
             throw new CreateDeliveryException();
         } catch (UpdateOrderDetailsException | QueryException ee) {
-                deleteDelivery(delivery_id);
+                deleteDelivery(deliveryID);
                 throw new CreateDeliveryException();
         } finally {
             DB.closeStmt(stmt);
-            DB.releaseConnection(oMapper.getCon());
+            DB.releaseConnection(OrderMapper.getCon());
         }
     }//createDelivery
 
-    //Finds the deliveryID by order_id
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static int getDeliveryID(int order_id) throws QueryException {
-        int deliveryID = 0;
-        String sql = "SELECT delivery_id FROM delivery WHERE order_id = " + order_id + "";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                deliveryID = rs.getInt("delivery_id");
-            }
-        } catch (SQLException x) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-            if (deliveryID == 0) {
-                throw new QueryException();
-            }
-        }
-        return deliveryID;
-    }
-
     //Deletes a delivery input from the Database in case of failure in the createDelivery() method
-    private static void deleteDelivery(int delivery_id) {
-        String sql = "DELETE FROM delivery WHERE delivery_id = " + delivery_id + "";
+    private static void deleteDelivery(String deliveryID) {
+        String sql = "DELETE FROM delivery WHERE delivery_id = '" + deliveryID + "'";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -100,11 +73,11 @@ public class DeliveryMapper {
     //Throws GetAllDeliveries Exception if the method is not executable or the list is empty
     public static ArrayList<Delivery> getAllDelivery() throws GetAllDeliveryException {
         ArrayList<Delivery> deliveries = new ArrayList<>();
-        String sql = "SELECT * FROM delivery";
-        int deliveryID, deliveryStatus, orderID;
+        String sql = "SELECT * FROM delivery NATURAL JOIN order_details WHERE invoice.delivery_id = order_details.delivery_id";
+        int deliveryStatus;
         Date deliveryDate;
         double price;
-        String moreInfo;
+        String deliveryID, moreInfo, orderID, customerID, salesRepID;
         Delivery delivery;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -112,13 +85,15 @@ public class DeliveryMapper {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                deliveryID = rs.getInt("delivery_id");
+                deliveryID = rs.getString("delivery_id");
                 deliveryStatus = rs.getInt("delivery_status");
-                orderID = rs.getInt("order_id");
+                orderID = rs.getString("order_id");
                 deliveryDate = rs.getDate("delivery_date");
                 price = rs.getDouble("price");
                 moreInfo = rs.getString("more_info");
-                delivery = new Delivery(deliveryID, deliveryStatus, orderID, deliveryDate, price, moreInfo);
+                customerID = rs.getString("customer_id");
+                salesRepID = rs.getString("sales_rep_id");
+                delivery = new Delivery(deliveryID, deliveryStatus, orderID, customerID, salesRepID, deliveryDate, price, moreInfo);
                 deliveries.add(delivery);
             }
         } catch (SQLException x) {
@@ -134,8 +109,8 @@ public class DeliveryMapper {
     
     //Updates the Delivery status when the delivery is cancelled or completed
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static void updateDeliveryStatus(int delivery_status, int delivery_id) throws QueryException {
-        String sql = "UPDATE delivery SET delivery_status = " + delivery_status + " WHERE delivery_id = " + delivery_id + "";
+    public static void updateDeliveryStatus(int delivery_status, String deliveryID) throws QueryException {
+        String sql = "UPDATE delivery SET delivery_status = " + delivery_status + " WHERE delivery_id = '" + deliveryID + "'";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -146,4 +121,19 @@ public class DeliveryMapper {
             DB.closeStmt(stmt);
         }
     }//updateDeliveryStatus
+    
+    //Updates the Delivery date 
+    //Throws QueryException if the input is not the right data type or the querry is wrong
+    public static void updateDeliveryDate(Date date, String deliveryID) throws QueryException {
+        String sql = "UPDATE delivery SET delivery_date = '" + date.toString() + "' WHERE delivery_id = '" + deliveryID + "'";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new QueryException();
+        } finally {
+            DB.closeStmt(stmt);
+        }
+    }//updateDeliveryDate
 }

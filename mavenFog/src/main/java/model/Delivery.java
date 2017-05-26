@@ -3,21 +3,23 @@ package model;
 import java.sql.Date;
 
 public class Delivery {
-    private final int deliveryID, deliveryStatus, orderID;
+    private final String deliveryID, moreInfo, orderID, customerID, salesRepID;
+    private final int deliveryStatus;
     private final Date deliveryDate;
     private final double price;
-    private final String moreInfo;
-
-    public Delivery(int deliveryID, int deliveryStatus, int orderID, Date deliveryDate, double price, String moreInfo) {
+    
+    public Delivery(String deliveryID, int deliveryStatus, String orderID, String customerID, String salesRepID, Date deliveryDate, double price, String moreInfo) {
         this.deliveryID = deliveryID;
         this.deliveryStatus = deliveryStatus;
         this.orderID = orderID;
+        this.customerID = customerID;
+        this.salesRepID = salesRepID;
         this.deliveryDate = deliveryDate;
         this.price = price;
         this.moreInfo = moreInfo;
     }
 
-    public int getDeliveryID() {
+    public String getDeliveryID() {
         return deliveryID;
     }
 
@@ -25,8 +27,16 @@ public class Delivery {
         return deliveryStatus;
     }
 
-    public int getOrderID() {
+    public String getOrderID() {
         return orderID;
+    }
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public String getSalesRepID() {
+        return salesRepID;
     }
 
     public Date getDeliveryDate() {
@@ -40,11 +50,4 @@ public class Delivery {
     public String getMoreInfo() {
         return moreInfo;
     }
-
-    @Override
-    public String toString() {
-        return "Delivery{" + "deliveryID=" + deliveryID + ", deliveryStatus=" + deliveryStatus + ", orderID=" + orderID + ", deliveryDate=" + deliveryDate + ", price=" + price + ", moreInfo=" + moreInfo + '}';
-    }
-
-    
 }

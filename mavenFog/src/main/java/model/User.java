@@ -1,10 +1,10 @@
 package model;
 
 public class User {
-    private final String email, fName, lName, address;
-    private final int zipCode, phone, role, accountID;
+    private final String email, fName, lName, address, accountID;
+    private final int zipCode, phone, role;
 
-    public User(String email, String fName, String lName, String address, int zipCode, int phone, int role, int accountID) {
+    public User(String email, String fName, String lName, String address, int zipCode, int phone, int role, String accountID) {
         this.email = email;
         this.fName = fName;
         this.lName = lName;
@@ -43,7 +43,7 @@ public class User {
         return role;
     }
 
-    public int getAccountID() {
+    public String getAccountID() {
         return accountID;
     }
 

@@ -1,11 +1,13 @@
 package data;
 
 import exceptions.ConnectionException;
+import exceptions.ConnectionException.QueryException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class DB {
     private final static String driver = "com.mysql.jdbc.Driver";
@@ -61,4 +63,40 @@ public class DB {
             }
         }
     }
+    
+    //Returns a unique ID for the DB
+    public static String generateID(String table, String column, Connection con) throws QueryException {
+        String uniqueID = randomID();
+        String sql = "SELECT " + column + " FROM " + table + " WHERE " + column + " = '" + uniqueID +"'";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try{
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                generateID(table, column, con);
+            } else {
+                return uniqueID;
+            }
+        } catch (SQLException e) {
+            throw new QueryException();
+        
+        } finally {
+            closeStmt(stmt);
+            closeRs(rs);
+        }
+        return uniqueID;
+    }
+    
+    //Creates random String IDs with 10 integers
+    private static String randomID() {
+        String uniqueID = "";
+        Random rand = new Random();
+        while (uniqueID.length()<11) {
+            uniqueID += Integer.toString(rand.nextInt(10) + 0);
+        }
+        return uniqueID;
+    }
+    
+    
 }

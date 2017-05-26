@@ -1,11 +1,11 @@
 package model;
 
 public class Product {
-    private final int productID, rooftopType, hasShed, roofAngle;
+    private final int rooftopType, hasShed, roofAngle;
+    private final String productID, name;
     private final double price, innerHeight, width, length, shedLength, shedWidth, rooftopHeight;
-    private final String name;
 
-    public Product(int productID, int rooftopType, int hasShed, int roofAngle, double price, double innerHeight, double width, double length, double shedLength, double shedWidth, double rooftopHeight, String name) {
+    public Product(String productID, int rooftopType, int hasShed, int roofAngle, double price, double innerHeight, double width, double length, double shedLength, double shedWidth, double rooftopHeight, String name) {
         this.productID = productID;
         this.rooftopType = rooftopType;
         this.hasShed = hasShed;
@@ -19,8 +19,15 @@ public class Product {
         this.rooftopHeight = rooftopHeight;
         this.name = name;
     }
-
-    public int getProductID() {
+    
+    public double calculatePrice(double height, double length, double width, int rooftopType, int hasShed, double shedLength) {
+        double totalPrice = height*length*width*300;
+        if (rooftopType == 1) {totalPrice += 3000;}
+        if (hasShed == 1) {totalPrice += 1500*shedLength;}
+        return totalPrice;
+    }
+    
+    public String getProductID() {
         return productID;
     }
 
