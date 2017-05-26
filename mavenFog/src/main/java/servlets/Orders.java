@@ -64,26 +64,32 @@ public class Orders extends HttpServlet {
         } catch (GetAllOrdersException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "GetAllOrdersException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllDeliveryException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "GetAllDeliveryException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllInvoicesException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "GetAllInvoicesException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllUsersException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "GetAllUsersException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllProductsException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "GetAllProductsException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException r) {
             r.printStackTrace();
             session.setAttribute("error", "ConnectionException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } finally {
             DB.releaseConnection(OrderMapper.getCon());

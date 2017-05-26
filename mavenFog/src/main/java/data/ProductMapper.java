@@ -69,7 +69,7 @@ public class ProductMapper {
                 productID = rs.getString("product_id");
                 rooftopType = rs.getInt("rooftop_type");
                 hasShed = rs.getInt("has_shed");
-                roofAngle = rs.getInt("roof_angle");
+                roofAngle = rs.getInt("rooftop_angle");
                 price = rs.getDouble("price");
                 innerHeight = rs.getDouble("inner_height");
                 width = rs.getDouble("width");
@@ -109,7 +109,7 @@ public class ProductMapper {
                 productID = rs.getString("product_id");
                 rooftopType = rs.getInt("rooftop_type");
                 hasShed = rs.getInt("has_shed");
-                roofAngle = rs.getInt("roof_angle");
+                roofAngle = rs.getInt("rooftop_angle");
                 price = rs.getDouble("price");
                 innerHeight = rs.getDouble("inner_height");
                 width = rs.getDouble("width");

@@ -5,6 +5,11 @@
 <!DOCTYPE html>
 <% User user = null; %>
 <% user = (User) session.getAttribute("user"); %>
+<%
+    if (user.getRole() != 1 || user.getRole() != 2) {
+        response.sendRedirect("../index.jsp");
+    }
+%>
 <% ArrayList<Order> orders = null; %>
 <% orders = (ArrayList<Order>) session.getAttribute("orders"); %>
 <html>
@@ -19,8 +24,8 @@
         <link rel="stylesheet" href="../css/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <!-- DataTables -->
-        <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script> 
+        <!-- Data Tables -->
+        <script src="../js/jquery.dataTables.min.js"></script>
         <script src="../js/dataTables.bootstrap.min.js"></script>
     </head>
     <body>
@@ -126,6 +131,7 @@
                                                     <th class="center-table">Finalise</th>
                                             </thead>
                                             <tbody>
+                                                <% for (int i=0; i<10; i++) { %>
                                                 <tr>
                                                     <td>WEEEK</td>
                                                     <td>DAYYY12312</td>
@@ -135,6 +141,16 @@
                                                     <td>123123123231</td>
                                                     <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
                                                 </tr>
+                                                <tr>
+                                                    <td>KAKA</td>
+                                                    <td>PAPA</td>
+                                                    <td>CICI</td>
+                                                    <td>12:30</td>
+                                                    <td>00:30</td>
+                                                    <td>123123123231</td>
+                                                    <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
+                                                </tr>
+                                                <% } %>
                                             </tbody>
                                         </table>
                                     </div><!-- table responsive -->
