@@ -1,5 +1,6 @@
 package data;
 
+import data.DB;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateProductException;
 import exceptions.ConnectionException.GetAllProductsException;
@@ -27,7 +28,7 @@ public class ProductMapper {
     //Creates new Product in the database
     //Throws CreateProductException if the insertion fails
     public static void createProduct(Product product) throws CreateProductException {
-        String sql = "INSERT INTO products (price, inner_height, width, length, has_shed, rooftop_type, shed_length, shed_width, rooftop_angle, rooftop_height, name) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO products (price, inner_height, width, length, has_shed, rooftop_type, shed_length, shed_width, rooftop_angle, rooftop_height, name, product_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -42,51 +43,23 @@ public class ProductMapper {
             stmt.setInt(9, product.getRoofAngle());
             stmt.setDouble(10, product.getRooftopHeight());
             stmt.setString(11, product.getName());
+            stmt.setString(12, DB.generateID("products", "product_id", con));
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException | QueryException e) {
             throw new CreateProductException();
         } finally {
             DB.closeStmt(stmt);
         }
     }//createProduct
     
-    //finds the productID with the information from he product
-    //Throws Query Exception if the query is not executable
-    public static int findProductID(Product product) throws QueryException {
-        int productID = 0;
-        String sql = "SELECCT product_id FROM products WHERE price = " + product.getPrice() + " AND inner_height = " + product.getInnerHeight() + " AND width = " + product.getWidth()
-                + " AND length = " + product.getLength() + " AND has_shed = " + product.getHasShed() + " AND rooftop_type = " + product.getRooftopType()
-                + " AND shed_length = " + product.getShedLength() + " AND shed_width = " + product.getShedWidth() + " AND rooftop_angle = " + product.getRoofAngle()
-                + " AND rooftop_height = " + product.getRooftopHeight() + " AND name = " + product.getName() + "";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                productID = rs.getInt("product_id");
-            } else {
-                throw new QueryException();
-            }
-
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return productID;
-    }//findProductID
-    
     //Returns an ArrayList with all the products in the Database
     //Throws GetAllProducts Exception if the method is not executable or the list is empty
     public static ArrayList<Product> getAllProducts() throws GetAllProductsException {
         ArrayList<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";
-        int productID, rooftopType, hasShed, roofAngle;
+        String productID, name;
+        int rooftopType, hasShed, roofAngle;
         double price, innerHeight, width, length, shedLength, shedWidth, rooftopHeight;
-        String name;
         Product product;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -94,7 +67,7 @@ public class ProductMapper {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                productID = rs.getInt("product_id");
+                productID = rs.getString("product_id");
                 rooftopType = rs.getInt("rooftop_type");
                 hasShed = rs.getInt("has_shed");
                 roofAngle = rs.getInt("rooftop_angle");
@@ -122,18 +95,19 @@ public class ProductMapper {
     
     //Returns an ArrayList with all the products in the Database
     //Throws GetAllProducts Exception if the method is not executable or the list is empty
-    public static Product getProduct(int productID) throws QueryException {
+    public static Product getProduct(String productID) throws QueryException {
         Product product = null;
-        String sql = "SELECT * FROM products WHERE product_id = " + productID + "";
+        String sql = "SELECT * FROM products WHERE product_id = '" + productID + "'";
+        String name;
         int rooftopType, hasShed, roofAngle;
         double price, innerHeight, width, length, shedLength, shedWidth, rooftopHeight;
-        String name;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                productID = rs.getString("product_id");
                 rooftopType = rs.getInt("rooftop_type");
                 hasShed = rs.getInt("has_shed");
                 roofAngle = rs.getInt("rooftop_angle");
@@ -148,7 +122,6 @@ public class ProductMapper {
                 product = new Product(productID, rooftopType, hasShed, roofAngle, price, innerHeight, width, length, shedLength, shedWidth, rooftopHeight, name);
             }
         } catch (SQLException x) {
-            x.printStackTrace();
             throw new QueryException();
         } finally {
             DB.closeRs(rs);

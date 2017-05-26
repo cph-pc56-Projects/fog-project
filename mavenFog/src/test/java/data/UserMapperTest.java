@@ -102,8 +102,8 @@ public class UserMapperTest {
     public void testGetAccountID() throws Exception {
         try {
             UserMapper.setConnection();
-            int result = UserMapper.getAccountID("fog_admin@gmail.com");
-            assertEquals(1, result);
+            String result = UserMapper.getAccountID("fog_admin@gmail.com");
+            assertEquals("1", result);
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
@@ -198,10 +198,10 @@ public class UserMapperTest {
     public void testUpdateEmail() throws Exception {
         try {
             UserMapper.setConnection();
-            UserMapper.updateEmail("update", 1);
-            assertEquals("update", UserMapper.getEmail(1));
-            UserMapper.updateEmail("fog_admin@gmail.com", 1);
-            assertEquals("fog_admin@gmail.com", UserMapper.getEmail(1));
+            UserMapper.updateEmail("update", "1");
+            assertEquals("update", UserMapper.getEmail("1"));
+            UserMapper.updateEmail("fog_admin@gmail.com", "1");
+            assertEquals("fog_admin@gmail.com", UserMapper.getEmail("1"));
         } catch (ConnectionException | QueryException ex) {
             
         } finally {
@@ -216,10 +216,10 @@ public class UserMapperTest {
     public void testUpdatePassword() throws Exception {
         try {
             UserMapper.setConnection();
-            UserMapper.updatePassword("update", 1);
-            assertEquals("update", UserMapper.getPassword(1));
-            UserMapper.updatePassword("fog_admin", 1);
-            assertEquals("fog_admin", UserMapper.getPassword(1));            
+            UserMapper.updatePassword("update", "1");
+            assertEquals("update", UserMapper.getPassword("1"));
+            UserMapper.updatePassword("fog_admin", "1");
+            assertEquals("fog_admin", UserMapper.getPassword("1"));            
         } catch (ConnectionException | QueryException ex) {
            
         } finally {
@@ -234,9 +234,9 @@ public class UserMapperTest {
     public void testUpdateAdress() throws Exception {
         try {
             UserMapper.setConnection();
-            UserMapper.updateAdress("update", 1);
+            UserMapper.updateAdress("update", "1");
             assertEquals("update", UserMapper.getAdress("fog_admin@gmail.com"));
-            UserMapper.updateAdress("Fog Admin 34", 1);
+            UserMapper.updateAdress("Fog Admin 34", "1");
             assertEquals("Fog Admin 34", UserMapper.getAdress("fog_admin@gmail.com"));        
         } catch (ConnectionException | QueryException ex) {
             
@@ -252,9 +252,9 @@ public class UserMapperTest {
     public void testUpdatePhone() throws Exception {
         try {
             UserMapper.setConnection();
-            UserMapper.updatePhone("6969", 1);
+            UserMapper.updatePhone("6969", "1");
             assertEquals(6969, UserMapper.getPhone("fog_admin@gmail.com"));
-            UserMapper.updatePhone("12345678", 1);
+            UserMapper.updatePhone("12345678", "1");
             assertEquals(12345678, UserMapper.getPhone("fog_admin@gmail.com"));        
         } catch (ConnectionException | QueryException ex) {
             
@@ -270,9 +270,9 @@ public class UserMapperTest {
     public void testUpdateZipcode() throws Exception {
         try {
             UserMapper.setConnection();
-            UserMapper.updateZipcode("6969", 1);
+            UserMapper.updateZipcode("6969", "1");
             assertEquals(6969, UserMapper.getZipCode("fog_admin@gmail.com"));
-            UserMapper.updateZipcode("3456", 1);
+            UserMapper.updateZipcode("3456", "1");
             assertEquals(3456, UserMapper.getZipCode("fog_admin@gmail.com"));        
         } catch (ConnectionException | QueryException ex) {
             

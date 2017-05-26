@@ -41,6 +41,8 @@ public class Orders extends HttpServlet {
 
             //Get the user from the current session and fetch orders for that user(/!\if admin - take all orders)
             User user = (User) session.getAttribute("user");
+            
+            //Print all orders a user has
             if (user.getRole() == 0) {
                 ArrayList<Order> orders = OrderMapper.findOrdersByCustomer(user.getAccountID());
                 session.setAttribute("orders", (Object) orders);
@@ -59,31 +61,33 @@ public class Orders extends HttpServlet {
                 session.setAttribute("products", (Object) products);
                 response.sendRedirect("admin/admin.jsp");
             }
-        } catch (QueryException ex) {
-            session.setAttribute("error", "QueryException");
-            session.removeAttribute("user");
-            response.sendRedirect(request.getParameter("from"));
         } catch (GetAllOrdersException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "GetAllOrdersException");
             session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllDeliveryException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "GetAllDeliveryException");
             session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllInvoicesException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "GetAllInvoicesException");
             session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllUsersException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "GetAllUsersException");
             session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllProductsException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "GetAllProductsException");
             session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException r) {
+            r.printStackTrace();
             session.setAttribute("error", "ConnectionException");
             session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));

@@ -1,9 +1,7 @@
 package exceptions;
 
-import java.sql.SQLException;
-
-//Thrown by the DB class if the connection cannot be established
-public class ConnectionException extends SQLException {
+//Thrown when the connection with DB can`t be established
+public class ConnectionException extends Exception {
     
     //Thrown by the Prepared Statements 
     public static class QueryException extends Exception {
@@ -13,6 +11,11 @@ public class ConnectionException extends SQLException {
     //Thrown by the createCustomer method in User Mapper 
     public static class CreateCustomerException extends Exception {
         //We can`t create your username at the moment
+    }
+    
+    //Thrown by the createSalesRep method in User Mapper 
+    public static class CreateSalesRepException extends Exception {
+        //We can`t create a salesRep account at the moment
     }
     
     //Thrown by the getEmail and getPassword in User Mapper method when logging in

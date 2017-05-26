@@ -1,5 +1,6 @@
 package servlets;
 
+import data.DB;
 import data.UserMapper;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.QueryException;
@@ -43,10 +44,11 @@ public class Profile extends HttpServlet {
             address = request.getParameter("address");
             phone = request.getParameter("phone");
             zipCode = request.getParameter("zipcode");
-            int accountId = user.getAccountID();
+            String accountId = user.getAccountID();
 
             //Create connection to DB
             UserMapper.setConnection();
+            
             //Update user info
             if (!email.equals("empty")) {
                 UserMapper.updateEmail(email, accountId);
@@ -70,16 +72,22 @@ public class Profile extends HttpServlet {
             user = new User(email, UserMapper.getFirstName(email), UserMapper.getLastName(email), UserMapper.getAdress(email), UserMapper.getZipCode(email), UserMapper.getPhone(email), UserMapper.getRole(email), UserMapper.getAccountID(email));
             session.setAttribute("user", (Object) user);
             
+            
             response.sendRedirect("profile/profile.jsp");
         } catch (UpdateUserInfoException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "connectionException");
             response.sendRedirect("profile/profile.jsp");
         } catch (QueryException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "connectionException");
             response.sendRedirect("profile/profile.jsp");
         } catch (ConnectionException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "connectionException");
             response.sendRedirect("profile/profile.jsp");
+        } finally {
+            DB.releaseConnection(UserMapper.getCon());
         }
     }//servlet
 

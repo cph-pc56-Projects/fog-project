@@ -3,48 +3,26 @@ package model;
 import java.sql.Date;
 
 public class Order {
-    private final int orderID, customerID;
-    private int productID, salesRepID, deliveryID, invoiceID, orderStatus;
-    private double price;
-    private Date date;
+    private final String orderID, productID, salesRepID, deliveryID, invoiceID, customerID;
+    private final int orderStatus;
+    private final Date date;
 
-    public Order(int orderID, double price, Date date, int customerID, int productID, int salesRepID,  int deliveryID, int invoiceID, int orderStatus) {
+    public Order(String orderID, Date date, String customerID, String productID, String salesRepID,  String deliveryID, String invoiceID, int orderStatus) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.productID = productID;
         this.salesRepID = salesRepID;
-        this.price = price;
         this.deliveryID = deliveryID;
         this.invoiceID = invoiceID;
         this.date = date;
         this.orderStatus = orderStatus;
     }
 
-    public void setOrderStatus(int orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-    
-    public void setProductID(int productID) {
-        this.productID = productID;
-    }
-
-    public void setSalesRepID(int salesRepID) {
-        this.salesRepID = salesRepID;
-    }
-
-    public void setDeliveryID(int deliveryID) {
-        this.deliveryID = deliveryID;
-    }
-
-    public void setInvoiveID(int invoiveID) {
-        this.invoiceID = invoiveID;
-    }
-
     public int getOrderStatus() {
         return orderStatus;
     }
 
-    public int getOrderID() {
+    public String getOrderID() {
         return orderID;
     }
 
@@ -52,33 +30,29 @@ public class Order {
         return date;
     }
 
-    public int getCustomerID() {
+    public String getCustomerID() {
         return customerID;
     }
 
-    public int getProductID() {
+    public String getProductID() {
         return productID;
     }
 
-    public int getSalesRepID() {
+    public String getSalesRepID() {
         return salesRepID;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public int getDeliveryID() {
+    public String getDeliveryID() {
         return deliveryID;
     }
 
-    public int getInvoiceID() {
+    public String getInvoiceID() {
         return invoiceID;
     }
 
     @Override
     public String toString() {
-        return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", productID=" + productID + ", salesRepID=" + salesRepID + ", deliveryID=" + deliveryID + ", invoiceID=" + invoiceID + ", orderStatus=" + orderStatus + ", price=" + price + ", date=" + date + '}';
+        return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", productID=" + productID + ", salesRepID=" + salesRepID + ", deliveryID=" + deliveryID + ", invoiceID=" + invoiceID + ", orderStatus=" + orderStatus + ", date=" + date + '}';
     }
 
     

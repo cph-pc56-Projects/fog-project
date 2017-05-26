@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +36,7 @@ public class Carport extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        String productID;
         Product product;
         try {
             //Get the user from the current session
@@ -45,11 +45,11 @@ public class Carport extends HttpServlet {
             //Create connection to DB
             ProductMapper.setConnection();
             
-            int productID = 0;
-            productID = Integer.parseInt((String)session.getAttribute("productID")); //id of the PRODUCT / PREMADE
-            //if it is a premade carport
-            if (productID == 1 || productID == 2 || productID == 3 || productID == 4) {
-                //Creates an object with all the details of premade carport 
+            //id of the PRODUCT / PREMADE
+            productID = (String)session.getAttribute("productID"); //id of the PRODUCT / PREMADE
+            
+            //if it is a premade carport Creates an object with all the details of premade carport 
+            if (productID.equals("1") || productID.equals("2") || productID.equals("3") || productID.equals("4")) {
                 product = ProductMapper.getProduct(productID);
             } else {
                 product = (Product) session.getAttribute("product"); // Add it to the session in the JSP!!! THE OBJECT
@@ -58,18 +58,23 @@ public class Carport extends HttpServlet {
             
             //Create connection to DB
             OrderMapper.setConnection();
-            OrderMapper.createOrder(product.getPrice(), user.getAccountID(), product.getProductID());
+            
+            //Creates order for the particular product that user wants to buy
+            OrderMapper.createOrder(user.getAccountID(), product.getProductID());
             
             response.sendRedirect("thankyou.jsp");
             
-        } catch (QueryException ex) {
-            session.setAttribute("error", "QueryException");
-            response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "ConnectionException");
             response.sendRedirect(request.getParameter("from"));
         } catch (CreateOrderException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "CreateOrderException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (QueryException ex) {
+            ex.printStackTrace();
+            session.setAttribute("error", "QueryException");
             response.sendRedirect(request.getParameter("from"));
         } finally {
             DB.releaseConnection(ProductMapper.getCon());
@@ -84,7 +89,6 @@ public class Carport extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
@@ -136,7 +140,7 @@ public class Carport extends HttpServlet {
             out.println("<title>Server Failure</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Our servers are down at the moment. We are trying to fix this as soon as possible. Please try again later.");
+            out.println("<h1>Our servers can`t handle your request at the moment. We are trying to fix this as soon as possible. Please try again later.");
             out.println("</body>");
             out.println("</html>");
         } catch (IOException ex) {

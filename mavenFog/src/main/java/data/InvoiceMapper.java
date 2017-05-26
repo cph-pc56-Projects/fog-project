@@ -24,62 +24,37 @@ public class InvoiceMapper {
         return con;
     }
     
-    public static void createInvoice(int productID, int customerID, int salesRepID, double totalPrice, int orderID) throws CreateInvoiceException {
-        String sql = "INSERT INTO invoice (product_id, customer_id, sales_rep_id, creation_date, total_price) VALUES (? , ?, ?, curdate(), ?)";
+    public static void createInvoice(double totalPrice, String orderID) throws CreateInvoiceException, ConnectionException {
+        String sql = "INSERT INTO invoice (invoice_id, creation_date, total_price) VALUES (?, curdate(), ?)";
+        String invoiceID = "";
         PreparedStatement stmt = null;
-        int invoiceID = 0;
-        OrderMapper oMapper = null;
         try {
-            oMapper = new OrderMapper();
             stmt = con.prepareStatement(sql);
-            stmt.setInt(1, productID);
-            stmt.setInt(2, customerID);
-            stmt.setInt(3, salesRepID);
-            stmt.setDouble(4, totalPrice);
+            invoiceID = DB.generateID("invoice", "invoice_id", con);
+            stmt.setString(1, invoiceID);
+            stmt.setDouble(2, totalPrice);
             stmt.executeUpdate();
 
             //Updates the invoice_id in orderDetails throws UpdateOrderDetailsException or QueryException
-            invoiceID = getInvoiceID(orderID);
-            oMapper.updateInvoiceID(invoiceID, orderID);
+            OrderMapper.setConnection();
+            OrderMapper.updateInvoiceID(invoiceID, orderID);
         } catch (SQLException e) {
             throw new CreateInvoiceException();
         } catch (UpdateOrderDetailsException | QueryException ee) {
                 deleteInvoice(invoiceID);
                 throw new CreateInvoiceException();
+        } catch (ConnectionException ex) {
+            deleteInvoice(invoiceID);
+            throw new ConnectionException();
         } finally {
             DB.closeStmt(stmt);
-            DB.releaseConnection(oMapper.getCon());
+            DB.releaseConnection(OrderMapper.getCon());
         }
     }
-
-    //Finds the InvoiceID by order_id
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static int getInvoiceID(int order_id) throws QueryException {
-        int invoiceID = 0;
-        String sql = "SELECT invoice_id FROM invoice WHERE order_id = " + order_id + "";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                invoiceID = rs.getInt("invoice_id");
-            }
-        } catch (SQLException x) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-            if (invoiceID == 0) {
-                throw new QueryException();
-            }
-        }
-        return invoiceID;
-    }//getInvoiceID
     
     //Deletes an invoice input from the Database in case of failure in the createInvoice() method
-    private static void deleteInvoice(int invoiceID) {
-        String sql = "DELETE FROM invoice WHERE invoice_id = " + invoiceID + "";
+    private static void deleteInvoice(String invoiceID) {
+        String sql = "DELETE FROM invoice WHERE invoice_id = '" + invoiceID + "'";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -93,12 +68,12 @@ public class InvoiceMapper {
     
     //Returns an ArrayList with all the invoices in the Database
     //Throws GetAllInvoicesException if the method is not executable or the list is empty
-    public static ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException {
-        ArrayList<Invoice> deliveries = new ArrayList<>();
-        String sql = "SELECT * FROM invoice";
-        int invoiceID, orderID, productID, customerID, salesRepID;
-        Date invoiceDate;
+    public static ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException, ConnectionException {
+        ArrayList<Invoice> invoices = new ArrayList<>();
+        String sql = "SELECT * FROM invoice NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id";
+        String invoiceID,orderID, productID, customerID, salesRepID;
         double totalPrice;
+        Date invoiceDate;
         Invoice invoice;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -106,24 +81,23 @@ public class InvoiceMapper {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                invoiceID = rs.getInt("invoice_id");
-                orderID = rs.getInt("order_id");
-                productID = rs.getInt("product_id");
-                customerID = rs.getInt("customer_ID");
-                salesRepID = rs.getInt("sales_rep_id");
-                invoiceDate = rs.getDate("creation_date");
+                invoiceID = rs.getString("invoice_id");
                 totalPrice = rs.getDouble("total_price");
-                invoice = new Invoice(invoiceID, orderID, productID, customerID, salesRepID, invoiceDate, totalPrice);
-                deliveries.add(invoice);
+                invoiceDate = rs.getDate("creation_date");
+                orderID = rs.getString("order_id");
+                productID = rs.getString("product_id");
+                customerID = rs.getString("customer_id");
+                salesRepID = rs.getString("sales_rep_id");
+                invoice = new Invoice(invoiceID, orderID, productID, customerID, salesRepID,  invoiceDate, totalPrice);
+                invoices.add(invoice);
             }
         } catch (SQLException x) {
-            x.printStackTrace();
             throw new GetAllInvoicesException();
         } finally {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (deliveries.isEmpty()) {throw new GetAllInvoicesException();}
-        return deliveries;
+        if (invoices.isEmpty()) {throw new GetAllInvoicesException();}
+        return invoices;
     }//getAllInvoice
 }
