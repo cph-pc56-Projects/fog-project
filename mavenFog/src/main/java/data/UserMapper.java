@@ -460,7 +460,7 @@ public class UserMapper {
     public static boolean deleteSalesRep (int accountID) {
         boolean deleted = true;
         String sqlDelete = "DELETE FROM users WHERE account_id = " + accountID + "";
-        String sqlUpdate = "UPDATE FROM order_details WHERE sales_rep_id = " + accountID + "";
+        String sqlUpdate = "UPDATE order_details SET sales_rep_id = NULL WHERE sales_rep_id = " + accountID + "";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sqlUpdate);
