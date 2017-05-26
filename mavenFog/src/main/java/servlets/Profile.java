@@ -69,11 +69,11 @@ public class Profile extends HttpServlet {
             session.removeAttribute("user");
 
             //Updating User Object in session               
-            user = new User(email, UserMapper.getFirstName(email), UserMapper.getLastName(email), UserMapper.getAdress(email), UserMapper.getZipCode(email), UserMapper.getPhone(email), UserMapper.getRole(email), UserMapper.getAccountID(email));
+            user = UserMapper.getUser(user.getEmail());
             session.setAttribute("user", (Object) user);
             
-            
             response.sendRedirect("profile/profile.jsp");
+            
         } catch (UpdateUserInfoException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "connectionException");

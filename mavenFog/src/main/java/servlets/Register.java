@@ -5,11 +5,9 @@ import exceptions.ConnectionException;
 import data.UserMapper;
 import exceptions.ConnectionException.CreateCustomerException;
 import exceptions.ConnectionException.CreateSalesRepException;
-import exceptions.ConnectionException.DeleteSalesRepException;
+import exceptions.ConnectionException.UpdateStatusException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -61,7 +59,7 @@ public class Register extends HttpServlet {
                 case 3:
                     //Deletes a Sales Rep profile form DB
                     String id = (String) request.getParameter("deleteAccountID");
-                    UserMapper.deleteSalesRep(id);
+                    UserMapper.updateUserStatus(0,id);
             }
             
            
@@ -70,16 +68,20 @@ public class Register extends HttpServlet {
             response.sendRedirect(request.getParameter("from"));
 
         } catch (CreateCustomerException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "CreateCustomerException"); //We are sorry, we could not create your profile! Probably cause is that you already have an account!
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "ConnectionException");
             response.sendRedirect(request.getParameter("from"));
         } catch (CreateSalesRepException ex) {
+            ex.printStackTrace();
             session.setAttribute("error", "CreateSalesRepException");
             response.sendRedirect(request.getParameter("from"));
-        } catch (DeleteSalesRepException ex) {
-            session.setAttribute("error", "DeleteSalesRepException");
+        } catch (UpdateStatusException ex) {
+            ex.printStackTrace();
+            session.setAttribute("error", "UpdateStatusException");
             response.sendRedirect(request.getParameter("from"));
         } finally {
             DB.releaseConnection(UserMapper.getCon());
