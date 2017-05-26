@@ -10,6 +10,8 @@ import exceptions.ConnectionException.CreateOrderException;
 import exceptions.ConnectionException.QueryException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -62,10 +64,6 @@ public class Carport extends HttpServlet {
             
             response.sendRedirect("thankyou.jsp");
             
-        } catch (QueryException ex) {
-            ex.printStackTrace();
-            session.setAttribute("error", "QueryException");
-            response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "ConnectionException");
@@ -73,6 +71,10 @@ public class Carport extends HttpServlet {
         } catch (CreateOrderException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "CreateOrderException");
+            response.sendRedirect(request.getParameter("from"));
+        } catch (QueryException ex) {
+            ex.printStackTrace();
+            session.setAttribute("error", "QueryException");
             response.sendRedirect(request.getParameter("from"));
         } finally {
             DB.releaseConnection(ProductMapper.getCon());
