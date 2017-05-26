@@ -9,8 +9,6 @@ import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateOrderException;
 import exceptions.ConnectionException.QueryException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -67,7 +65,8 @@ public class Carport extends HttpServlet {
             session.setAttribute("error", "ConnectionException");
             response.sendRedirect(request.getParameter("from"));
         } catch (CreateOrderException ex) {
-            Logger.getLogger(Carport.class.getName()).log(Level.SEVERE, null, ex);
+            session.setAttribute("error", "CreateOrderException");
+            response.sendRedirect(request.getParameter("from"));
         } finally {
             DB.releaseConnection(ProductMapper.getCon());
             DB.releaseConnection(OrderMapper.getCon());

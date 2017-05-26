@@ -6,8 +6,6 @@ import exceptions.ConnectionException.*;
 import model.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -62,24 +60,31 @@ public class Orders extends HttpServlet {
             }
         } catch (QueryException ex) {
             session.setAttribute("error", "QueryException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllOrdersException ex) {
             session.setAttribute("error", "GetAllOrdersException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllDeliveryException ex) {
             session.setAttribute("error", "GetAllDeliveryException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllInvoicesException ex) {
             session.setAttribute("error", "GetAllInvoicesException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllUsersException ex) {
             session.setAttribute("error", "GetAllUsersException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllProductsException ex) {
             session.setAttribute("error", "GetAllProductsException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException r) {
             session.setAttribute("error", "ConnectionException");
+            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } finally {
             DB.releaseConnection(OrderMapper.getCon());

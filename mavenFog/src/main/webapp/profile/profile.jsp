@@ -3,8 +3,25 @@
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%User user = null;%>
-<%user = (User) session.getAttribute("user");%>
+<% User user = null; %>
+<%! String firstName, lastName, address, email;
+    int phone, zipCode, accountID;
+%>
+<%
+    if (session.getAttribute("user") == null) {
+        response.sendRedirect("../index.jsp");
+    } else {
+        user = (User) session.getAttribute("user");
+
+        firstName = user.getfName();
+        lastName = user.getlName();
+        phone = user.getPhone();
+        address = user.getAddress();
+        zipCode = user.getZipCode();
+        email = user.getEmail();
+        accountID = user.getAccountID();
+
+    }%>
 <%ArrayList<Order> orders = null; %>
 <%orders = (ArrayList<Order>) session.getAttribute("orders");%>
 <html>
@@ -48,7 +65,7 @@
                         <% if (user != null) {%>
                         <!-- HERE WHEN LOGGED IN DIV -->
                         <li>
-                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%=user.getEmail()%>&nbsp;<span class="caret"></span></a>
+                            <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%= email %>&nbsp;<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
                                 <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>
@@ -59,7 +76,7 @@
                         <% } else {%>
                         <!-- ELSE THE COMMON ONE WITH LOGIN -->
                         <li><a href="#" onclick="document.getElementById('id01').style.display = 'block'">Login</a></li>
-                            <% } %>
+                            <% }%>
                         <li><a href="../support.jsp">Support</a></li>
                     </ul>
                 </div>
@@ -80,15 +97,15 @@
         <div class="w3-white w3-card-2 w3-container w3-margin w3-padding-32">
             <h1>Your page:</h1>
             <ul class="nav nav-tabs">
-                 
+
                 <li role="presentation" class="active"><a href="#pending" id="pending-tab" role="tab" data-toggle="tab"> Profile Info&nbsp;</a></li>
-                
-                
+
+
                 <li role="presentation" class=""><a href="#completed" role="tab" id="profile" data-toggle="tab" >Orders&nbsp;</a></li>
-                       
+
                 <li role="presentation" class=""><a href="#cancelled" role="tab" id="profile-tab" data-toggle="tab">Add info&nbsp;</a></li>
             </ul>
-                
+
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade active in" role="tabpanel" id="pending">
                     <h1>Profile Info:</h1>  
@@ -96,42 +113,42 @@
                         <table class="w3-table w3-bordered w3-padding" cellpadding="5">
                             <tr>
                                 <th>First Name:</th>
-                                <td><%= user.getfName()%></td>
+                                <td><%= firstName %></td>
                             </tr>
                             <tr>
                                 <th>Last Name:</th>
-                                <td><%= user.getlName()%></td>
+                                <td><%= lastName %></td>
                             </tr>
                             <tr>
                                 <th>Email:</th>
-                                <td><%= user.getEmail()%></td>
+                                <td><%= email %></td>
                             </tr>                        
                             <tr>
                                 <th>Address:</th>
-                                <td><%= user.getAddress()%></td>
+                                <td><%= address %></td>
                             </tr>
                             <tr>
                                 <th>ZipCode:</th>
-                                <td><%= user.getZipCode()%></td>
+                                <td><%= zipCode %></td>
                             </tr>
                             <tr>
                                 <th>Phone number:</th>
-                                <td><%= user.getPhone()%></td>
+                                <td><%= phone %></td>
                             </tr>
                             <tr>
                                 <th>Account ID: </th>
-                                <td><%= user.getAccountID()%></td>
+                                <td><%= accountID %></td>
                             </tr>
                         </table>
                     </div>
-                
-                      
+
+
                     <div id="id02">
                         <form action="../Profile" method="post">
                             <table  cellpadding="5">
                                 <tr>
                                     <td>Email: </td>        
-                                    <td><input type="text" name="email" placeholder="<%=user.getEmail()%>"></td>
+                                    <td><input type="text" name="email" placeholder="<%= email %>"></td>
                                 </tr>
                                 <tr>
                                     <td>Password: </td>
@@ -139,23 +156,23 @@
                                 </tr>
                                 <tr>
                                     <td>Address: </td>
-                                    <td><input type="text" name="address" placeholder="<%=user.getAddress()%>"></td>        
+                                    <td><input type="text" name="address" placeholder="<%= address %>"></td>        
                                 </tr>
                                 <tr>
                                     <td>Phone: </td>
-                                    <td><input type="number" name="phone" placeholder="<%=user.getPhone()%>"></td>        
+                                    <td><input type="number" name="phone" placeholder="<%= phone %>"></td>        
                                 </tr>
                                 <tr>
                                     <td>ZipCode: </td>
-                                    <td><input type="number" name="zipcode" placeholder="<%=user.getZipCode()%>"></td>        
+                                    <td><input type="number" name="zipcode" placeholder="<%= zipCode %>"></td>        
                                 </tr> 
                             </table>
                             <button class="w3-button w3-green" type="submit"> Submit</button>
                         </form>
                     </div>
-                            <div class="w3-padding-16 w3-margin-32 w3-left">
+                    <div class="w3-padding-16 w3-margin-32 w3-left">
                         <a id="edit" class="w3-button w3-yellow" onclick="toggle()">Edit</a>
-                     </div>
+                    </div>
                     <script>
                         function toggle() {
                             var x = document.getElementById('id01');
@@ -174,35 +191,47 @@
                             }
                         }
                     </script>
-                    
+
                 </div>
                 <div class="tab-pane fade col-xs-12" role="tabpanel" id="completed">
                     <div class="table-responsive">
-                    <h1>Orders</h1>
-                    <table class="table table-hover">
-                        <th>Order ID</th>
-                        <th>Price</th>
-                        <th>Description</th>
-                        <th>More info</th>                         
-                        <% for (Order order: orders) {%>                      
-                                <tr class="<%if (order.getOrderStatus() == 0) {out.print("warning");} else if (order.getOrderStatus() == 1) {out.print("success");} else {out.print("danger");};%>">
-                                    <td>Order ID: <%=order.getOrderID()%></td>
-                                    <td>Price: <%=order.getPrice()%></td>
-                                    <td><p>Carport whit flat roof type, which can hold up to 2 compact vehicles.</p>
+                        <h1>Orders</h1>
+                        <table class="table table-hover">
+                            <th>Order ID</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>More info</th>                         
+                                <% for (Order order : orders) {%>                      
+                            <tr class="<%if (order.getOrderStatus() == 0) {
+                                    out.print("warning");
+                                } else if (order.getOrderStatus() == 1) {
+                                    out.print("success");
+                                } else {
+                                    out.print("danger");
+                                };%>">
+                                <td>Order ID: <%=order.getOrderID()%></td>
+                                <td>Price: <%=order.getPrice()%></td>
+                                <td><p>Carport whit flat roof type, which can hold up to 2 compact vehicles.</p>
                                     <div class="collapse" id="<%=order.getOrderID()%>">                                           
-                                           <p>Date: <%=order.getDate()%></p>                                           
-                                           <p>Product ID: <%=order.getProductID()%></p>                                           
-                                           <p>Customer ID:<%=order.getCustomerID()%></p>
-                                           <p>Delivery ID:<%=order.getDeliveryID()%></p>
-                                           <p>Invoice ID:<%=order.getInvoiveID()%></p>
-                                           <p>Order Status: <%if (order.getOrderStatus() == 0) {out.print("Pending");} else if (order.getOrderStatus() == 1) {out.print("Completed");} else {out.print("Cancelled");};%></p>
-                                           <p>Sales Rep ID: <%=order.getSalesRepID()%></p>
+                                        <p>Date: <%=order.getDate()%></p>                                           
+                                        <p>Product ID: <%=order.getProductID()%></p>                                           
+                                        <p>Customer ID:<%=order.getCustomerID()%></p>
+                                        <p>Delivery ID:<%=order.getDeliveryID()%></p>
+                                        <p>Invoice ID:<%=order.getInvoiveID()%></p>
+                                        <p>Order Status: <%if (order.getOrderStatus() == 0) {
+                                                out.print("Pending");
+                                            } else if (order.getOrderStatus() == 1) {
+                                                out.print("Completed");
+                                            } else {
+                                                out.print("Cancelled");
+                                            };%></p>
+                                        <p>Sales Rep ID: <%=order.getSalesRepID()%></p>
                                     </div></td>
-                                    <td><button type="button" data-toggle="collapse" data-target="#<%=order.getOrderID()%>" >Info</button></td>
-                                </tr>
-                                
-                        <% }%>
-                    </table>
+                                <td><button type="button" data-toggle="collapse" data-target="#<%=order.getOrderID()%>" >Info</button></td>
+                            </tr>
+
+                            <% }%>
+                        </table>
                     </div>
                 </div>
 
@@ -220,8 +249,8 @@
 
         </footer>
         <!-- Calls logout on button click -->
-        
-            
+
+
         <script>
             $('#logoutFunction').click(function ()
             {
@@ -237,8 +266,8 @@
 
         </script>    
         <script>
-            function demo(){
-                document.getElementById('demo').style.display='block';
+            function demo() {
+                document.getElementById('demo').style.display = 'block';
             }
         </script>
     </body>

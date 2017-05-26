@@ -129,7 +129,7 @@ public class UserMapper {
                 lName = rs.getString("last_name");
                 address = rs.getString("address");
                 zipCode = rs.getInt("zip_code");
-                phone = rs.getInt("phone_bumber");
+                phone = rs.getInt("phone_number");
                 role = rs.getInt("role");
                 accountID = rs.getInt("account_id");
                 user = new User(email, fName, lName, address, zipCode, phone, role, accountID);
