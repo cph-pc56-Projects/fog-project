@@ -92,7 +92,7 @@ public class DB {
     private static String randomID() {
         String uniqueID = "";
         Random rand = new Random();
-        while (uniqueID.length()<11) {
+        while (uniqueID.length()<10) {
             uniqueID += Integer.toString(rand.nextInt(10) + 0);
         }
         return uniqueID;

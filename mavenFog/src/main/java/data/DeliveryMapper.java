@@ -73,11 +73,11 @@ public class DeliveryMapper {
     //Throws GetAllDeliveries Exception if the method is not executable or the list is empty
     public static ArrayList<Delivery> getAllDelivery() throws GetAllDeliveryException {
         ArrayList<Delivery> deliveries = new ArrayList<>();
-        String sql = "SELECT * FROM delivery NATURAL JOIN order_details WHERE invoice.delivery_id = order_details.delivery_id";
+        String sql = "SELECT * FROM delivery,orders NATURAL JOIN order_details WHERE delivery.delivery_id = order_details.delivery_id";
         int deliveryStatus;
         Date deliveryDate;
         double price;
-        String deliveryID, moreInfo, orderID, customerID, salesRepID;
+        String deliveryID, moreInfo, orderID, customerID, salesRepID, productID;
         Delivery delivery;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -86,13 +86,14 @@ public class DeliveryMapper {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 deliveryID = rs.getString("delivery_id");
-                deliveryStatus = rs.getInt("delivery_status");
-                orderID = rs.getString("order_id");
                 deliveryDate = rs.getDate("delivery_date");
-                price = rs.getDouble("price");
+                deliveryStatus = rs.getInt("delivery_status");
                 moreInfo = rs.getString("more_info");
-                customerID = rs.getString("customer_id");
+                price = rs.getDouble("price");
+                orderID = rs.getString("order_id");
+                productID = rs.getString("product_id");
                 salesRepID = rs.getString("sales_rep_id");
+                customerID = rs.getString("customer_id");
                 delivery = new Delivery(deliveryID, deliveryStatus, orderID, customerID, salesRepID, deliveryDate, price, moreInfo);
                 deliveries.add(delivery);
             }

@@ -70,7 +70,7 @@ public class InvoiceMapper {
     //Throws GetAllInvoicesException if the method is not executable or the list is empty
     public static ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException, ConnectionException {
         ArrayList<Invoice> invoices = new ArrayList<>();
-        String sql = "SELECT * FROM invoice NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id";
+        String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id";
         String invoiceID,orderID, productID, customerID, salesRepID;
         double totalPrice;
         Date invoiceDate;

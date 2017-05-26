@@ -91,19 +91,19 @@ public class UserMapper {
     //Takes input from the admin form and creates new Salesep in the Database. 
     //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
     public static void createSalesRep(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateSalesRepException {
-        String sql = "INSERT INTO users (email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date, account_id)"
-                + " VALUES (?,?,?,?,?,?,?,1, CURDATE())";
+        String sql = "INSERT INTO users (account_id, email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date)"
+                + " VALUES (?,?,?,?,?,?,?,?,1, CURDATE())";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
-            stmt.setString(1, email);
-            stmt.setString(2, password);
-            stmt.setString(3, fName);
-            stmt.setString(4, lName);
-            stmt.setInt(5, Integer.parseInt(phone));
-            stmt.setString(6, adress);
-            stmt.setInt(7, Integer.parseInt(zipCode));
-            stmt.setString(8, DB.generateID("users", "account_id", con));
+            stmt.setString(1, DB.generateID("users", "account_id", con));
+            stmt.setString(2, email);
+            stmt.setString(3, password);
+            stmt.setString(4, fName);
+            stmt.setString(5, lName);
+            stmt.setInt(6, Integer.parseInt(phone));
+            stmt.setString(7, adress);
+            stmt.setInt(8, Integer.parseInt(zipCode));
             stmt.executeUpdate();
         } catch (SQLException | QueryException e) {
             throw new CreateSalesRepException();
@@ -462,8 +462,8 @@ public class UserMapper {
     
     //Deletes an /!\admin/!\ from the Database
     public static void deleteSalesRep (String accountID) throws DeleteSalesRepException {
-        String sqlDelete = "DELETE FROM users WHERE account_id = " + accountID + "";
-        String sqlUpdate = "UPDATE order_details SET sales_rep_id = NULL WHERE sales_rep_id = " + accountID + "";
+        String sqlDelete = "DELETE FROM users WHERE account_id = '" + accountID + "'";
+        String sqlUpdate = "UPDATE order_details SET sales_rep_id = NULL WHERE sales_rep_id = '" + accountID + "'";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sqlUpdate);

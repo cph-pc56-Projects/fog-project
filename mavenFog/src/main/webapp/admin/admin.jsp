@@ -72,7 +72,7 @@
 
         <!-- Create NEW Sales Rep -->
         <div id="CreateSalesRep" class="modal" style="overflow-y: scroll; z-index: 4;">
-            <form class="modal-content animate" action="Register" method="post">
+            <form class="modal-content animate" action="../Register" method="post">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('CreateSalesRep').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Create new Sales Rep</h1>
@@ -104,7 +104,7 @@
                     <label><b>Phone number</b></label>
                     <input type="text" placeholder="e.g. Mobile min. 8 numericals" name="phone" title="e.g. 45871001 (8 numericals)" pattern="[0-9]{8,8}" class="inputFields" required>
                     <label><b>Address</b></label>
-                    <input type="text" placeholder="Firskovvej 20" name="adress" title="e.g. Street" class="inputFields" required>
+                    <input type="text" placeholder="Firskovvej 20" name="adress" title="e.g. Street" required>
                     <label><b>Zip code</b></label>
                     <input type="text" placeholder="Local post code" name="zipCode" title="e.g. 2800" pattern="[0-9]{4}" class="inputFields" required>
                     <!-- current URL passed like a hidden field, so after Register, the Servlet will redirect the user back to the same page -->
@@ -121,14 +121,14 @@
         
         <!-- Delete Sales Rep --> <!-- CHANGE !!!-->
         <div id="DeleteSalesRep" class="modal" style="overflow-y: scroll; z-index: 4;">
-            <form class="modal-content animate" action="Register" method="post">
+            <form class="modal-content animate" action="../Register" method="post">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('DeleteSalesRep').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Delete Sales Rep</h1>
                 </div>
                 <div class="loginContainer w3-center">
                     <label><b>Sales Rep Account ID:</b></label>
-                    <input type="text" placeholder="e.g 2349493941" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="customer@fog.dk" class="inputFields" required>
+                    <input type="text" placeholder="e.g 2349493941" name="email" pattern="[0-9]{1,10}$" title="SalesRepID (max.10)" class="inputFields" required>
                     <!-- current URL passed like a hidden field, so after Deleting, the Servlet will redirect the user back to the same page -->
                     <input type="hidden" name="from" value="${pageContext.request.requestURI}">
                     <!-- send  userType = 3 means that this user will be deleted from our DataBase--> 
@@ -176,7 +176,6 @@
                                                 <tr>
                                                     <th class="center-table">Order ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
                                                     <th class="center-table">Product ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                    <th class="center-table">Price&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
                                                     <th class="center-table">Ordered on&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
                                                     <th class="center-table">Customer ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
                                                     <th class="center-table">Finalise&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
@@ -186,7 +185,6 @@
                                                 <tr class="info">
                                                     <td><%= pending.getOrderID()%></td>
                                                     <td><%= pending.getProductID()%></td>
-                                                    <td><%= pending.getPrice()%></td>
                                                     <td><%= pending.getDate()%></td>
                                                     <td><%= pending.getCustomerID()%></td>
                                                     <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
@@ -214,7 +212,6 @@
                                                 <tr>
                                                     <th class="center-table">Order ID</th>
                                                     <th class="center-table">Product ID</th>
-                                                    <th class="center-table">Price</th>
                                                     <th class="center-table">Ordered on</th>
                                                     <th class="center-table">Customer ID</th>
                                                     <th class="center-table">SalesRep ID</th>
@@ -232,7 +229,6 @@
                                                     };%>">
                                                     <td><%= completed.getOrderID()%></td>
                                                     <td><%= completed.getProductID()%></td>
-                                                    <td><%= completed.getPrice()%></td>
                                                     <td><%= completed.getDate()%></td>
                                                     <td><%= completed.getCustomerID()%></td>
                                                     <td><%= completed.getSalesRepID()%></td>
