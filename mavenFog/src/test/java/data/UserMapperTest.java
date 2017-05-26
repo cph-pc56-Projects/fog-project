@@ -68,9 +68,13 @@ public class UserMapperTest {
     @Test
     public void testGetAllUsers() {
         try {
+            int i =0;
             UserMapper.setConnection();
             ArrayList<User> result = UserMapper.getAllUsers();
-            assertEquals(result.size(), 7);
+            for (User users : result) {
+               i++;
+            }
+            assertEquals(result.size(), i);
         } catch (ConnectionException | GetAllUsersException ex) {
             ex.printStackTrace();
         } finally {
