@@ -147,9 +147,9 @@
                     <label><b>Email</b></label>
                     <input type="text" placeholder="customer@fog.dk" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="customer@fog.dk" class="inputFields" required>
                     <label><b>Password</b></label>
-                    <input type="password" placeholder="Best min. 8 characters" name="password" title="at least 8 characters" pattern=".{8,}" class="inputFields" required>
+                    <input type="password" placeholder="Best min. 8 characters" name="password" title="at least 8 characters" pattern=".{8,}" class="inputFields" id="passwordReg" required>
                     <label><b>Re-type Password</b></label>
-                    <input type="password" placeholder="Just to check ;)" name="repassword" title="type the same password" pattern=".{8,}" class="inputFields" required>
+                    <input type="password" placeholder="Just to check ;)" name="repassword" title="type the same password" pattern=".{8,}" class="inputFields" id="repasswordReg" required>
                     <div><p id="pCheckPassword" style="color: red"></p></div>
                     <label><b>First name</b></label>
                     <input type="text" placeholder="Johannes" name="fName" class="inputFields" required>

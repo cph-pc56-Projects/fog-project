@@ -72,7 +72,7 @@ public class Order {
         return deliveryID;
     }
 
-    public int getInvoiveID() {
+    public int getInvoiceID() {
         return invoiceID;
     }
 
