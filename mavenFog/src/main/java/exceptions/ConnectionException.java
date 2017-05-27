@@ -67,9 +67,9 @@ public class ConnectionException extends Exception {
         //We can`t show you the users at the moment
     }
     
-    //Trown by deleteSalesRep method in User Mapper if deletion not successful
-    public static class DeleteSalesRepException extends Exception {
-        //We can`t delete the user at the moment
+    //Trown by deleteSalesRep method in User Mapper if update not successful
+    public static class UpdateStatusException extends Exception {
+        //We can`t update the status at the moment
     }
     
     //Thrown by createInvoice method in Invoice Mappper if insertion fails

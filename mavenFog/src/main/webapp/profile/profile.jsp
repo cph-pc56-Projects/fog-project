@@ -4,8 +4,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <% User user = null; %>
-<%! String firstName, lastName, address, email;
-    int phone, zipCode, accountID;
+<%! String firstName, lastName, address, email, accountID;
+    int phone, zipCode;
 %>
 <%
     if (session.getAttribute("user") == null) {
@@ -198,7 +198,6 @@
                         <h1>Orders</h1>
                         <table class="table table-hover">
                             <th>Order ID</th>
-                            <th>Price</th>
                             <th>Description</th>
                             <th>More info</th>                         
                                 <% for (Order order : orders) {%>                      
@@ -210,14 +209,13 @@
                                     out.print("danger");
                                 };%>">
                                 <td>Order ID: <%=order.getOrderID()%></td>
-                                <td>Price: <%=order.getPrice()%></td>
                                 <td><p>Carport whit flat roof type, which can hold up to 2 compact vehicles.</p>
-                                    <div class="collapse" id="<%=order.getOrderID()%>">                                           
+                                    <div class="collapse" id="<%= order.getOrderID() %>">                                           
                                         <p>Date: <%=order.getDate()%></p>                                           
                                         <p>Product ID: <%=order.getProductID()%></p>                                           
                                         <p>Customer ID:<%=order.getCustomerID()%></p>
                                         <p>Delivery ID:<%=order.getDeliveryID()%></p>
-                                        <p>Invoice ID:<%=order.getInvoiveID()%></p>
+                                        <p>Invoice ID:<%=order.getInvoiceID() %></p>
                                         <p>Order Status: <%if (order.getOrderStatus() == 0) {
                                                 out.print("Pending");
                                             } else if (order.getOrderStatus() == 1) {

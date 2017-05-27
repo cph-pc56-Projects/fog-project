@@ -3,12 +3,13 @@ package data;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateCustomerException;
 import exceptions.ConnectionException.CreateSalesRepException;
-import exceptions.ConnectionException.DeleteSalesRepException;
 import exceptions.ConnectionException.GetAllUsersException;
 import exceptions.ConnectionException.LoginError;
 import exceptions.ConnectionException.QueryException;
+import exceptions.ConnectionException.UpdateStatusException;
 import exceptions.ConnectionException.UpdateUserInfoException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -115,12 +116,11 @@ public class UserMapper {
 
     //Returns an ArrayList with all the users in the Database
     //Throws GetAllUsers Exception if the method is not executable or the list is empty
-
     public static ArrayList<User> getAllUsers() throws GetAllUsersException {
         ArrayList<User> users = new ArrayList<>();
         String sql = "SELECT * FROM users";
         String accountID, email, fName, lName, address;
-        int zipCode, phone, role;
+        int zipCode, phone, role, userStatus;
         User user;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -136,7 +136,8 @@ public class UserMapper {
                 zipCode = rs.getInt("zip_code");
                 phone = rs.getInt("phone_number");
                 role = rs.getInt("role");
-                user = new User(email, fName, lName, address, zipCode, phone, role, accountID);
+                userStatus = rs.getInt("user_status");
+                user = new User(email, fName, lName, address, zipCode, phone, role, accountID, userStatus);
                 users.add(user);
             }
         } catch (SQLException x) {
@@ -151,230 +152,45 @@ public class UserMapper {
         }
         return users;
     }//getAllUsers
-
-    //Searches for the email of the user by account_id
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static String getEmail(String accountID) throws QueryException {
-        String email = null;
-        String sql = "SELECT email FROM users WHERE account_id = '" + accountID + "'";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                email = rs.getString("email");
-            }
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return email;
-    }//getEmail
     
-    //Searches for the password of the user by account_id
+    //Creates a user object to be returned
     //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static String getPassword(String accountID) throws QueryException {
-        String pass = null;
-        String sql = "SELECT password FROM users WHERE account_id = '" + accountID + "'";
+    public static User getUser(String email) throws QueryException {
+        User user = null;
+        String accountID, fName, lName, address;
+        int phone, zipCode, role, userStatus;
+        Date date;
+        String sql = "SELECT * FROM users WHERE email = '" + email + "'";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                pass = rs.getString("password");
-            }
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return pass;
-    }//getPassword
-
-    //Searches for the role of the user by email
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static int getRole(String email) throws QueryException {
-        int role = 0;
-        String sql = "SELECT role FROM users WHERE email = " + "'" + email + "'";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                role = rs.getInt("role");
-            } else {
-                throw new QueryException();
-            }
-
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return role;
-    }//getRole
-
-    //Searches for the account id of the user by email
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static String getAccountID(String email) throws QueryException {
-        String id = "";
-        String sql = "SELECT account_id FROM users WHERE email = '" + email + "'";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                id = rs.getString("account_id");
-            } else {
-                throw new QueryException();
-            }
-
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return id;
-    }//getAccountID
-
-    //Searches for the zip code of the user by email
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static int getZipCode(String email) throws QueryException {
-        int zipCode = 0;
-        String sql = "SELECT zip_code FROM users WHERE email = " + "'" + email + "'";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                zipCode = rs.getInt("zip_code");
-            } else {
-                throw new QueryException();
-            }
-
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return zipCode;
-    }//getZipCode
-
-    //Searches for the first name of the user by email
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static String getFirstName(String email) throws QueryException {
-        String fName = null;
-        String sql = "SELECT first_name FROM users WHERE email = " + "'" + email + "'";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
+                accountID = rs.getString("account_id");
                 fName = rs.getString("first_name");
-            } else {
-                throw new QueryException();
-            }
-
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return fName;
-    }//getFirstName
-
-    //Searches for the last name of the user by email
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static String getLastName(String email) throws QueryException {
-        String lName = null;
-        String sql = "SELECT last_name FROM users WHERE email = " + "'" + email + "'";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
                 lName = rs.getString("last_name");
-            } else {
-                throw new QueryException();
-            }
-
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return lName;
-    }//getLastName
-
-    //Searches for the phone of the user by email
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static int getPhone(String email) throws QueryException {
-        int phone = 0;
-        String sql = "SELECT phone_number FROM users WHERE email = " + "'" + email + "'";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
+                address = rs.getString("address");
                 phone = rs.getInt("phone_number");
-            } else {
-                throw new QueryException();
+                zipCode = rs.getInt("zip_code");
+                role = rs.getInt("role");
+                date = rs.getDate("creation_date");
+                userStatus = rs.getInt("user_status");
+                user = new User(email, fName, lName, address, zipCode, phone, role, accountID, userStatus);
             }
-
         } catch (SQLException e) {
             throw new QueryException();
         } finally {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        return phone;
-    }//getPhone
-
-    //Searches for the address of the user by email
-    //Throws QueryException if the input is not the right data type or the querry is wrong
-    public static String getAdress(String email) throws QueryException {
-        String adress = null;
-        String sql = "SELECT address FROM users WHERE email = " + "'" + email + "'";
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                adress = rs.getString("address");
-            } else {
-                throw new QueryException();
-            }
-
-        } catch (SQLException e) {
-            throw new QueryException();
-        } finally {
-            DB.closeRs(rs);
-            DB.closeStmt(stmt);
-        }
-        return adress;
-    }//getAddress
-
+        return user;
+    }
+    
     //Updates the email from the update details form
     //Throws UpdateUserInfoException if the update fails
     public static void updateEmail(String email, String acc_id) throws UpdateUserInfoException {
-        String sql = "UPDATE users SET email = '" + email + "' WHERE account_id = '" + acc_id + "'";
+        String sql = "SET SQL_SAFE_UPDATES = 0; UPDATE users SET email = '" + email + "' WHERE account_id = '" + acc_id + "'; SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -389,7 +205,9 @@ public class UserMapper {
     //Updates the password from the update details form
     //Throws UpdateUserInfoException if the update fails
     public static void updatePassword(String password, String acc_id) throws UpdateUserInfoException {
-        String sql = "UPDATE users SET password = '" + password + "' WHERE account_id = '" + acc_id + "'";
+        String sql = "SET SQL_SAFE_UPDATES = 0; "
+                + "UPDATE users SET password = '" + password + "' WHERE account_id = '" + acc_id + "'; "
+                + "SET SQL_SAFE_UPDATES = 1; ";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -404,7 +222,9 @@ public class UserMapper {
     //Updates the address from the update details form
     //Throws UpdateUserInfoException if the update fails
     public static void updateAdress(String adress, String acc_id) throws UpdateUserInfoException {
-        String sql = "UPDATE users SET address = '" + adress + "' WHERE account_id = '" + acc_id + "'";
+        String sql = "SET SQL_SAFE_UPDATES = 0; "
+                + "UPDATE users SET address = '" + adress + "' WHERE account_id = '" + acc_id + "'; "
+                + "SET SQL_SAFE_UPDATES = 1; ";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -419,7 +239,9 @@ public class UserMapper {
     //Updates the phone from the update details form
     //Throws UpdateUserInfoException if the update fails
     public static void updatePhone(String phone, String acc_id) throws UpdateUserInfoException {
-        String sql = "UPDATE users SET phone_number = '" + Integer.parseInt(phone) + "' WHERE account_id = '" + acc_id + "'";
+        String sql = "SET SQL_SAFE_UPDATES = 0; "
+                + "UPDATE users SET phone_number = '" + Integer.parseInt(phone) + "' WHERE account_id = '" + acc_id + "'; "
+                + "SET SQL_SAFE_UPDATES = 1; ";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -434,7 +256,9 @@ public class UserMapper {
     //Updates the zip zode from the update details form
     //Throws UpdateUserInfoException if the update fails
     public static void updateZipcode(String zipCode, String acc_id) throws UpdateUserInfoException {
-        String sql = "UPDATE users SET zip_code = " + Integer.parseInt(zipCode) + " WHERE account_id = '" + acc_id + "'";
+        String sql = "SET SQL_SAFE_UPDATES = 0; "
+                + "UPDATE users SET zip_code = " + Integer.parseInt(zipCode) + " WHERE account_id = '" + acc_id + "'; "
+                + "SET SQL_SAFE_UPDATES = 1; ";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -446,9 +270,12 @@ public class UserMapper {
         }
     }//updateZipcode
     
-    //Deletes an /!\customer/!\ from the Database
+    //Deletes a /!\customer/!\ from the Database
+    //Used for the testing 
     public static void deleteUser(String email) {
-        String sql = "DELETE FROM users WHERE email = '" + email + "'";
+        String sql = "SET SQL_SAFE_UPDATES = 0; "
+                + "DELETE FROM users WHERE email = '" + email + "'; "
+                + "SET SQL_SAFE_UPDATES = 1; ";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -460,18 +287,17 @@ public class UserMapper {
         }
     }//delete
     
-    //Deletes an /!\admin/!\ from the Database
-    public static void deleteSalesRep (String accountID) throws DeleteSalesRepException {
-        String sqlDelete = "DELETE FROM users WHERE account_id = '" + accountID + "'";
-        String sqlUpdate = "UPDATE order_details SET sales_rep_id = NULL WHERE sales_rep_id = '" + accountID + "'";
+    //Updates an /!\admin/!\ from the Database
+    public static void updateUserStatus (int status, String accountID) throws UpdateStatusException {
+        String sql = "SET SQL_SAFE_UPDATES = 0; "
+                + "UPDATE users SET user_status = " + status + " WHERE account_id = '" + accountID + "'; "
+                + "SET SQL_SAFE_UPDATES = 1; ";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sqlUpdate);
-            stmt.executeUpdate();
-            stmt = con.prepareStatement(sqlDelete);
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DeleteSalesRepException();
+            throw new UpdateStatusException();
         } finally {
             DB.closeStmt(stmt);
         }

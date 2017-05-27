@@ -57,7 +57,7 @@
                                 <li><a onclick="document.getElementById('DeleteSalesRep').style.display = 'block'" href="#">Delete Sales Rep</a></li>
                             </ul>
                         </li>
-                                <% }%>
+                        <% }%>
                         <!-- HERE WHEN LOGGED IN DIV -->
                         <li>
                             <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%= user.getEmail()%>&nbsp;<span class="caret"></span></a>
@@ -118,8 +118,8 @@
             </form>
         </div>
         <!-- Create NEW Sales Rep END -->
-        
-        <!-- Delete Sales Rep --> <!-- CHANGE !!!-->
+
+        <!-- Delete Sales Rep -->
         <div id="DeleteSalesRep" class="modal" style="overflow-y: scroll; z-index: 4;">
             <form class="modal-content animate" action="../Register" method="post">
                 <div class="imgcontainer">
@@ -133,14 +133,113 @@
                     <input type="hidden" name="from" value="${pageContext.request.requestURI}">
                     <!-- send  userType = 3 means that this user will be deleted from our DataBase--> 
                     <input type="hidden" name="userType" value="3">
-                    
+
                     <button type="submit" class="btn" id="RegButton">Delete Sales Rep</button>
                     <button type="button" onclick="document.getElementById('DeleteSalesRep').style.display = 'none'" class="cancelbtn">Close</button>
                 </div>
             </form>
         </div>
         <!-- Delete Sales Rep END -->
-                            
+
+        <!-- Finalise -->
+        <div id="Finalise" class="modal" style="overflow-y: scroll; z-index: 4;">
+            <form class="modal-content animate" action="../FinaliseOrder" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('Finalise').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Finalise an Order</h1>
+                </div>
+                <div class="loginContainer">
+                    <!--customer info-->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-bordered table-responsive">
+                                            <h2><span class="label label-default">Customer information:</span></h2>
+                                            <thead>
+                                                <tr>
+                                                    <th>Account ID</th>
+                                                    <th>Email</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Phone</th>
+                                                    <th>Address</th>
+                                                    <th>Zip Code</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="active">
+                                                    <td><%= user.getAccountID()%></td>
+                                                    <td><%= user.getEmail()%></td>
+                                                    <td><%= user.getfName()%></td>
+                                                    <td><%= user.getlName()%></td>
+                                                    <td><%= user.getPhone()%></td>
+                                                    <td><%= user.getAddress()%></td>
+                                                    <td><%= user.getZipCode()%></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- product info -->
+                                        <table class="table table-hover table-bordered table-responsive">
+                                            <h2><span class="label label-default">Product information:</span></h2>
+                                            <thead>
+                                                <tr>
+                                                    <th>Product ID</th>
+                                                    <th>Price</th>
+                                                    <th>Inner Height</th>
+                                                    <th>Width</th>
+                                                    <th>Length</th>
+                                                    <th>Has Shed?</th>
+                                                    <th>Rooftop Type</th>
+                                                    <th>Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="warning">
+                                                    <td><%= user.getAccountID()%></td>
+                                                    <td><%= user.getEmail()%></td>
+                                                    <td><%= user.getfName()%></td>
+                                                    <td><%= user.getlName()%></td>
+                                                    <td><%= user.getPhone()%></td>
+                                                    <td><%= user.getAddress()%></td>
+                                                    <td><%= user.getZipCode()%></td>
+                                                    <td><%= user.getZipCode()%></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- order info -->
+                                        <table class="table table-hover table-bordered table-responsive">
+                                            <h2><span class="label label-default">Order information:</span></h2>
+                                            <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Creation Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="info">
+                                                    <td><%= user.getAccountID()%></td>
+                                                    <td><%= user.getEmail()%></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- 5-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                                                <button type="button" onclick="document.getElementById('Finalise').style.display = 'none'" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Delete</button>
+                    <button type="button" onclick="document.getElementById('Finalise').style.display = 'none'" class="btn btn-default btn-lg">Pick Date</button>
+                    <button type="button" onclick="document.getElementById('Finalise').style.display = 'none'" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create Invoice</button>
+                    <button type="button" onclick="document.getElementById('Finalise').style.display = 'none'" class="btn btn-danger pull-right">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- Finalise END -->
+
         <!--Logout modal -->
         <div id="logout" class="modal">
             <form class="modal-content animate">
@@ -187,7 +286,7 @@
                                                     <td><%= pending.getProductID()%></td>
                                                     <td><%= pending.getDate()%></td>
                                                     <td><%= pending.getCustomerID()%></td>
-                                                    <td><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
+                                                    <td><button type="button" onclick="document.getElementById('Finalise').style.display = 'block'" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
                                                 </tr>
                                                 <% }%>
                                             </tbody>
@@ -221,7 +320,7 @@
                                             </thead>
                                             <tbody>
                                                 <% for (Order completed : orders) {
-                                                if (completed.getOrderStatus() != 0) {%>
+                                                        if (completed.getOrderStatus() != 0) {%>
                                                 <tr class="<% if (completed.getOrderStatus() == 1) {
                                                         out.print("success");
                                                     } else {
@@ -469,21 +568,23 @@
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
         </footer>
 
-       <!-- Close Create new and Delete Sales Rep modals -->
+        <!-- Close Create new ,Delete Sales Rep, Finalise modals -->
         <script>
             // Get the modal
             var Createmodal = document.getElementById('CreateSalesRep');
             var Deletemodal = document.getElementById('DeleteSalesRep');
+            var Finalisemodal = document.getElementById('Finalise');
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {
-                if (event.target == Createmodal || event.target == Deletemodal) {
+                if (event.target == Createmodal || event.target == Deletemodal || event.target == Finalise) {
                     Createmodal.style.display = "none";
                     Deletemodal.style.display = "none";
+                    Finalise.style.display = "none";
                 }
             }
         </script>
-        
+
         <!-- Prevent "space" button script -->
         <script>
             $(function () {

@@ -5,6 +5,7 @@ import data.UserMapper;
 import model.User;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.LoginError;
+import exceptions.ConnectionException.QueryException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -39,13 +40,14 @@ public class Login extends HttpServlet {
             //Create connection to DB
             UserMapper.setConnection();
 
-            //Check if the email and password match IF NOT throws LoginEroor();
+            //Check if the email and password match IF NOT throws LoginError();
             UserMapper.validateLoginDetails(email, password);
-
-            int role = UserMapper.getRole(email);
+            
             //Creates a new User obj with the input data from JSP
-            User user = new User(email, UserMapper.getFirstName(email), UserMapper.getLastName(email), UserMapper.getAdress(email), UserMapper.getZipCode(email), UserMapper.getPhone(email), role, UserMapper.getAccountID(email));
+            User user = UserMapper.getUser(email);
 
+            int role = user.getRole();
+            
             //Add to the session our new user object
             session.setAttribute("user", (Object) user);
             
@@ -59,7 +61,7 @@ public class Login extends HttpServlet {
             x.printStackTrace();
             session.setAttribute("error", "login");
             response.sendRedirect(request.getParameter("from"));
-        } catch (ConnectionException.QueryException ex) {
+        } catch (QueryException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "queryException");
             response.sendRedirect(request.getParameter("from"));
