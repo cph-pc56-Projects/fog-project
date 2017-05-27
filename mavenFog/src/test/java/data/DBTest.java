@@ -12,6 +12,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class DBTest {
     
@@ -106,6 +107,22 @@ public class DBTest {
         } catch (SQLException ex) {
             
         } 
+    }
+
+    /**
+     * Test of generateID method, of class DB.
+     */
+    @Test
+    public void testGenerateID() throws Exception {
+        System.out.println("generateID");
+        String table = "";
+        String column = "";
+        Connection con = null;
+        String expResult = "";
+        String result = DB.generateID(table, column, con);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     

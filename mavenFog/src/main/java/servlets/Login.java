@@ -5,6 +5,7 @@ import data.UserMapper;
 import model.User;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.LoginError;
+import exceptions.ConnectionException.QueryException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -60,7 +61,7 @@ public class Login extends HttpServlet {
             x.printStackTrace();
             session.setAttribute("error", "login");
             response.sendRedirect(request.getParameter("from"));
-        } catch (ConnectionException.QueryException ex) {
+        } catch (QueryException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "queryException");
             response.sendRedirect(request.getParameter("from"));
