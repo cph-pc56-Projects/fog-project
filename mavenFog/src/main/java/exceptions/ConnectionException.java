@@ -62,6 +62,11 @@ public class ConnectionException extends Exception {
         //We can`t show you the deliveries at the moment
     }
     
+    //Thrown by the deleteOrder method in Order Mapper
+    public static class DeleteOrderException extends Exception {
+        //we cant delete this order at the moment
+    }
+    
     //Thrown by getAllUsers method in User Mapper if extration fails
     public static class GetAllUsersException extends Exception {
         //We can`t show you the users at the moment

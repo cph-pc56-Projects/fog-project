@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Order;
 
 public class OrderMapper {
@@ -45,8 +47,12 @@ public class OrderMapper {
             stmt.setString(2, productID);
             stmt.executeUpdate();
         } catch (SQLException | QueryException e) {
-            //Deletes the input if we fail to finish all queries
-            deleteOrder(orderID);
+            try {
+                //Deletes the input if we fail to finish all queries
+                deleteOrder(orderID);
+            } catch (ConnectionException.DeleteOrderException ex) {
+                ex.printStackTrace();
+            }
             throw new CreateOrderException();
         } finally {
             DB.closeStmt(stmt);
@@ -55,24 +61,27 @@ public class OrderMapper {
     }//createOrder
 
     //Deletes an order for the createOrder method in case of failure
-    public static void deleteOrder(String orderID) {
-        String sql = "DELETE FROM orders WHERE order_id = '" + orderID + "'";
+    public static void deleteOrder(String orderID) throws ConnectionException.DeleteOrderException {
+        String sql = "DELETE FROM orders WHERE order_id = '" + orderID + "';";
+        String orderDetails = "DELETE FROM order_details WHERE order_id = '" + orderID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(orderDetails);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new ConnectionException.DeleteOrderException();
         } finally {
             DB.closeStmt(stmt);
         }
-    }    
+    }//deleteOrder
 
     // Creates a list with all the orders a customer has
     // Throws GetAllOrdersException if not possible to execute
@@ -187,13 +196,14 @@ public class OrderMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new UpdateOrderDetailsException();
         } finally {
             DB.closeStmt(stmt);
@@ -208,13 +218,14 @@ public class OrderMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new UpdateOrderDetailsException();
         } finally {
             DB.closeStmt(stmt);
@@ -229,13 +240,14 @@ public class OrderMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new UpdateOrderDetailsException();
         } finally {
             DB.closeStmt(stmt);
@@ -250,13 +262,14 @@ public class OrderMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new UpdateOrderDetailsException();
         } finally {
             DB.closeStmt(stmt);

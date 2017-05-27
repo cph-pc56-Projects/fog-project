@@ -62,14 +62,14 @@ public class DeliveryMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace();            
         } finally {
             DB.closeStmt(stmt);
         }
@@ -122,13 +122,14 @@ public class DeliveryMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new QueryException();
         } finally {
             DB.closeStmt(stmt);
@@ -143,13 +144,14 @@ public class DeliveryMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new QueryException();
         } finally {
             DB.closeStmt(stmt);

@@ -5,6 +5,8 @@ import exceptions.ConnectionException.GetAllOrdersException;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Order;
 import model.User;
 import org.junit.After;
@@ -67,7 +69,7 @@ public class OrderMapperTest {
             Order order = OrderMapper.getOrder(orderID);
             OrderMapper.deleteOrder(orderID);
             assertEquals(user.getAccountID(), order.getCustomerID());
-        } catch (ConnectionException.CreateOrderException | ConnectionException.QueryException | ConnectionException ex) {
+        } catch (ConnectionException.CreateOrderException | ConnectionException.QueryException | ConnectionException | ConnectionException.DeleteOrderException ex) {
             
         }
     }

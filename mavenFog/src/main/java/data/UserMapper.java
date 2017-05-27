@@ -120,9 +120,9 @@ public class UserMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
@@ -206,6 +206,38 @@ public class UserMapper {
         return user;
     }
     
+    //Creates a user object to be returned
+    //Throws QueryException if the input is not the right data type or the querry is wrong
+    public static User getUserByID(String accountID) throws QueryException {
+        User user = null;
+        String email,fName, lName, address;
+        int phone, zipCode, role, userStatus;
+        String sql = "SELECT * FROM users WHERE accountID = '" + accountID + "'";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                email = rs.getString("email");
+                fName = rs.getString("first_name");
+                lName = rs.getString("last_name");
+                address = rs.getString("address");
+                phone = rs.getInt("phone_number");
+                zipCode = rs.getInt("zip_code");
+                role = rs.getInt("role");
+                userStatus = rs.getInt("user_status");
+                user = new User(email, fName, lName, address, zipCode, phone, role, accountID, userStatus);
+            }
+        } catch (SQLException e) {
+            throw new QueryException();
+        } finally {
+            DB.closeRs(rs);
+            DB.closeStmt(stmt);
+        }
+        return user;
+    }
+    
     //Updates the email from the update details form
     //Throws UpdateUserInfoException if the update fails
     public static void updateEmail(String email, String accountID) throws UpdateUserInfoException {
@@ -214,9 +246,9 @@ public class UserMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
@@ -235,9 +267,9 @@ public class UserMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
@@ -256,9 +288,9 @@ public class UserMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
@@ -277,9 +309,9 @@ public class UserMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
@@ -298,9 +330,9 @@ public class UserMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
@@ -318,9 +350,9 @@ public class UserMapper {
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
             stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
