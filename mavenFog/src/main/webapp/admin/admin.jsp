@@ -30,11 +30,18 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <!-- External links to documents -->
         <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <!-- Data Tables -->
         <script src="../js/jquery.dataTables.min.js"></script>
         <script src="../js/dataTables.bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>$(function () {
+                $("#datepicker").datepicker();
+                $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
+            });</script>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -77,17 +84,7 @@
                     <span onclick="document.getElementById('CreateSalesRep').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Create new Sales Rep</h1>
                 </div>
-                <script>
-                    // Get the modal
-                    var Createmodal = document.getElementById('CreateSalesRep');
 
-                    // When the user clicks anywhere outside of the modal, close it
-                    window.onclick = function (event) {
-                        if (event.target == Createmodal) {
-                            Createmodal.style.display = 'block';
-                        }
-                    }
-                </script>
 
                 <div class="loginContainer">
                     <label><b>Email</b></label>
@@ -135,15 +132,32 @@
                     <input type="hidden" name="userType" value="3">
 
                     <button type="submit" class="btn" id="RegButton">Delete Sales Rep</button>
-                    <button type="button" onclick="document.getElementById('DeleteSalesRep').style.display = 'none'" class="cancelbtn">Close</button>
+                    <button type="button" onclick="document.getElementById('DeleteSalesRep').style.display = 'none'" class="btn btn-danger">Close</button>
                 </div>
             </form>
         </div>
         <!-- Delete Sales Rep END -->
 
+        <!-- areYouSure modal -->
+        <div id="areYouSure" class="modal" style="overflow-y: scroll; z-index: 5;">
+            <form class="modal-content animate" action="../testchi.jsp" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('areYouSure').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Are you Sure ?</h1>
+                </div>
+                <div class="loginContainer w3-center">
+                    <label><b>(This will delete the order and cannot be undone!)</b></label><br>
+                    <input type="hidden" name="admin" value="deleteOrder">
+                    <button type="submit" class="btn btn-danger btn-lg" id="RegButton">Delete Order</button>
+                    <button type="button" class="btn btn-warning btn-lg" onclick="document.getElementById('areYouSure').style.display = 'none'">Cancel</button>
+                </div>
+            </form>
+        </div>
+        <!-- areYouSure modal END -->
+
         <!-- Finalise -->
         <div id="Finalise" class="modal" style="overflow-y: scroll; z-index: 4;">
-            <form class="modal-content animate" action="../FinaliseOrder" method="post">
+            <form class="modal-content animate" action="../testchi.jsp" method="post">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('Finalise').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Finalise an Order</h1>
@@ -230,11 +244,26 @@
                             </div>
                         </div>
                     </div>
-                    
-                                                <button type="button" onclick="document.getElementById('Finalise').style.display = 'none'" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Delete</button>
-                    <button type="button" onclick="document.getElementById('Finalise').style.display = 'none'" class="btn btn-default btn-lg">Pick Date</button>
-                    <button type="button" onclick="document.getElementById('Finalise').style.display = 'none'" class="btn btn-warning btn-lg"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create Invoice</button>
-                    <button type="button" onclick="document.getElementById('Finalise').style.display = 'none'" class="btn btn-danger pull-right">Close</button>
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">Pick Delivery Date:</div>
+                                    <div class="panel-body">
+                                        <input type="text" placeholder="Pick Date" id="datepicker" name="pickDate" size="30">
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="admin" value="createInvoice">
+                            <div class="col-lg-6">
+                                <button type="button" onclick="document.getElementById('areYouSure').style.display = 'block'" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Delete Order</button>
+                                <button type="button" onclick="<%%>" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Delete Order</button>
+                                <button type="submit" class="btn btn-warning btn-lg pull-right"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create Invoice</button>
+                            </div>
+                            <!-- form end-->
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -270,27 +299,31 @@
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped mydata">
-                                            <thead>
-                                                <tr>
-                                                    <th class="center-table">Order ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                    <th class="center-table">Product ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                    <th class="center-table">Ordered on&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                    <th class="center-table">Customer ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                    <th class="center-table">Finalise&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                            </thead>
-                                            <tbody>
-                                                <% for (Order pending : orders) {%>
-                                                <tr class="info">
-                                                    <td><%= pending.getOrderID()%></td>
-                                                    <td><%= pending.getProductID()%></td>
-                                                    <td><%= pending.getDate()%></td>
-                                                    <td><%= pending.getCustomerID()%></td>
-                                                    <td><button type="button" onclick="document.getElementById('Finalise').style.display = 'block'" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button></td>
-                                                </tr>
-                                                <% }%>
-                                            </tbody>
-                                        </table>
+                                        <form action="../FinaliseOrder">
+                                            <table class="table table-bordered table-hover table-striped mydata">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center-table">Order ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                        <th class="center-table">Product ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                        <th class="center-table">Ordered on&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                        <th class="center-table">Customer ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                        <th class="center-table">Finalise&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                </thead>
+                                                <tbody>
+                                                    <% for (Order pending : orders) {%>
+                                                    <tr class="info">
+                                                        <td><%= pending.getOrderID()%></td>
+                                                        <td><%= pending.getProductID()%></td>
+                                                        <td><%= pending.getDate()%></td>
+                                                        <td><%= pending.getCustomerID()%></td>
+                                                        <td><input type="hidden" name="orderID" value="<%=pending.getOrderID()%>">
+                                                            <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button>
+                                                        </td>
+                                                    </tr>
+                                                    <% }%>
+                                                </tbody>
+                                            </table>
+                                        </form>
                                     </div><!-- table responsive -->
                                 </div>
                             </div>
@@ -568,21 +601,23 @@
             <h3>Johannes Fog A/S - Firskovvej 20 - 2800 Lyngby - CVR-nr. 16314439</h3>
         </footer>
 
-        <!-- Close Create new ,Delete Sales Rep, Finalise modals -->
+        <!-- Close Create new ,Delete Sales Rep, Finalise, areYouSurel  modals -->
         <script>
-            // Get the modal
-            var Createmodal = document.getElementById('CreateSalesRep');
-            var Deletemodal = document.getElementById('DeleteSalesRep');
-            var Finalisemodal = document.getElementById('Finalise');
+                                    // Get the modal
+                                    var Createmodal = document.getElementById('CreateSalesRep');
+                                    var Deletemodal = document.getElementById('DeleteSalesRep');
+                                    var Finalisemodal = document.getElementById('Finalise');
+                                    var areYouSurel = document.getElementById('areYouSure');
 
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == Createmodal || event.target == Deletemodal || event.target == Finalise) {
-                    Createmodal.style.display = "none";
-                    Deletemodal.style.display = "none";
-                    Finalise.style.display = "none";
-                }
-            }
+                                    // When the user clicks anywhere outside of the modal, close it
+                                    window.onclick = function (event) {
+                                        if (event.target == Createmodal || event.target == Deletemodal || event.target == Finalise || event.target == areYouSurel) {
+                                            Createmodal.style.display = "none";
+                                            Deletemodal.style.display = "none";
+                                            Finalise.style.display = "none";
+                                            areYouSurel.style.display = "none";
+                                        }
+                                    }
         </script>
 
         <!-- Prevent "space" button script -->

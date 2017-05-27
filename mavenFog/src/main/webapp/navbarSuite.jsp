@@ -44,8 +44,6 @@
                             <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%=user.getEmail()%>&nbsp;<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li><a href="profile/profile.jsp">Profile page</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
                                 <li class="divider"></li>
                                 <li><a id="logoutFunction" href="#">Log out</a></li>
                             </ul>
@@ -67,7 +65,7 @@
                     <span onclick="document.getElementById('id01').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Log In</h1>
                 </div>
-                <% if ("login".equals(session.getAttribute("error"))) {
+                <% if ("LoginError".equals(session.getAttribute("error"))) {
                         session.removeAttribute("error"); %>
                 <!--Make modal Login to be visible if the first login attempt was failed-->
                 <script>
@@ -78,7 +76,7 @@
                 <div class="imgcontainer alert alert-danger">
                     <strong> Wrong Log In details </strong>
                 </div>
-                <%} else if ("queryException".equals(session.getAttribute("error"))) {
+                <%} else if ("QueryException".equals(session.getAttribute("error"))) {
                     session.removeAttribute("error"); %>
                 <script>
                     // Get the modal
@@ -89,7 +87,7 @@
                 <div class="imgcontainer alert alert-danger">
                     <strong> We can`t process your request at the moment!<br> Error code: Query Exception  </strong>
                 </div>
-                <%} else if ("connectionException".equals(session.getAttribute("error"))) {
+                <%} else if ("ConnectionException".equals(session.getAttribute("error"))) {
                     session.removeAttribute("error"); %>
                 <script>
                     // Get the modal
@@ -125,7 +123,7 @@
         <!-- LOGIN FORM END -->
         <!-- REGISTER FORM START -->
         <div id="id02" class="modal" style="overflow-y: scroll">
-            <form class="modal-content animate" action="Register" method="post">
+            <form class="modal-content animate" action="Register" method="POST">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('id02').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Register</h1>
@@ -163,6 +161,7 @@
                     <input type="text" placeholder="Local post code" name="zipCode" title="e.g. 2800" pattern="[0-9]{4}" class="inputFields" required>
                     <!-- current URL passed like a hidden field, so after Register, the Servlet will redirect the user back to the same page -->
                     <input type="hidden" name="from" value="${pageContext.request.requestURI}">
+                    <input type="hidden" name="userType" value="0">
 
                     <button type="submit" class="btn" id="RegButton">Register</button>
                     <button type="button" onclick="document.getElementById('id02').style.display = 'none'" class="cancelbtn">Close</button>

@@ -66,9 +66,7 @@
                         <!-- HERE WHEN LOGGED IN DIV -->
                         <li>
                             <a href="#" id="dropdownMenu1" data-toggle="dropdown"><%= email %>&nbsp;<span class="caret"></span></a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li class="divider"></li>
                                 <li><a id="logoutFunction" href="#">Log out</a></li>
                             </ul>
