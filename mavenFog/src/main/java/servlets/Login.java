@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+/**
+ * Login Servlet is used for validating the login information
+ */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
 
@@ -59,15 +61,15 @@ public class Login extends HttpServlet {
             request.getRequestDispatcher("Orders").forward(request, response);
         } catch (LoginError x) {
             x.printStackTrace();
-            session.setAttribute("error", "login");
+            session.setAttribute("error", "LoginError");
             response.sendRedirect(request.getParameter("from"));
         } catch (QueryException ex) {
             ex.printStackTrace();
-            session.setAttribute("error", "queryException");
+            session.setAttribute("error", "QueryException");
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
             ex.printStackTrace();
-            session.setAttribute("error", "connectionException");
+            session.setAttribute("error", "ConnectionException");
             response.sendRedirect(request.getParameter("from"));
         } finally {
             //Close the connection to the DB 
@@ -126,7 +128,6 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             PrintWriter out = response.getWriter();
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");

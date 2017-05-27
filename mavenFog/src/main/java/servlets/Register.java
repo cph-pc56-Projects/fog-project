@@ -5,7 +5,7 @@ import exceptions.ConnectionException;
 import data.UserMapper;
 import exceptions.ConnectionException.CreateCustomerException;
 import exceptions.ConnectionException.CreateSalesRepException;
-import exceptions.ConnectionException.UpdateStatusException;
+import exceptions.ConnectionException.UpdateUserInfoException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+/**
+ * Register Servlet is used for registering new customers and sales reps
+ * Used for deactivating an account from the God admin page
+ */
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
 
@@ -79,9 +84,9 @@ public class Register extends HttpServlet {
             ex.printStackTrace();
             session.setAttribute("error", "CreateSalesRepException");
             response.sendRedirect(request.getParameter("from"));
-        } catch (UpdateStatusException ex) {
+        } catch (UpdateUserInfoException ex) {
             ex.printStackTrace();
-            session.setAttribute("error", "UpdateStatusException");
+            session.setAttribute("error", "UpdateUserInfoException");
             response.sendRedirect(request.getParameter("from"));
         } finally {
             DB.releaseConnection(UserMapper.getCon());

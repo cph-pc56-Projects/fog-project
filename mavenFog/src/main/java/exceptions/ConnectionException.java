@@ -66,12 +66,7 @@ public class ConnectionException extends Exception {
     public static class GetAllUsersException extends Exception {
         //We can`t show you the users at the moment
     }
-    
-    //Trown by deleteSalesRep method in User Mapper if update not successful
-    public static class UpdateStatusException extends Exception {
-        //We can`t update the status at the moment
-    }
-    
+        
     //Thrown by createInvoice method in Invoice Mappper if insertion fails
     public static class CreateInvoiceException extends Exception {
         //We can`t create this invoice at the moment

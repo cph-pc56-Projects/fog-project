@@ -57,13 +57,18 @@ public class OrderMapper {
     //Deletes an order for the createOrder method in case of failure
     public static void deleteOrder(String orderID) {
         String sql = "DELETE FROM orders WHERE order_id = '" + orderID + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Could not delete order in OrderMapper.createOrder()");
         } finally {
             DB.closeStmt(stmt);
         }
@@ -178,9 +183,15 @@ public class OrderMapper {
     //Throws Update OrderDetails Exception if the update fails
     public static void updateOrderStatus(int status, String order_id) throws UpdateOrderDetailsException {
         String sql = "UPDATE orders SET order_status = " + status + " WHERE order_id = '" + order_id + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateOrderDetailsException();
@@ -193,9 +204,15 @@ public class OrderMapper {
     //Throws Update OrderDetails Exception if the update fails
     public static void updateSalesRep(String salesRep_id, String order_id) throws UpdateOrderDetailsException {
         String sql = "UPDATE order_details SET sales_rep_id = " + salesRep_id + " WHERE order_id = '" + order_id + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateOrderDetailsException();
@@ -208,9 +225,15 @@ public class OrderMapper {
     //Throws Update OrderDetails Exception if the update fails
     public static void updateDeliveryID(String delivery_id, String order_id) throws UpdateOrderDetailsException {
         String sql = "UPDATE order_details SET delivery_id = " + delivery_id + " WHERE order_id = '" + order_id + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateOrderDetailsException();
@@ -223,9 +246,15 @@ public class OrderMapper {
     //Throws Update OrderDetails Exception if the update fails
     public static void updateInvoiceID(String invoice_id, String order_id) throws UpdateOrderDetailsException {
         String sql = "UPDATE order_details SET invoice_id = " + invoice_id + " WHERE order_id = '" + order_id + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateOrderDetailsException();

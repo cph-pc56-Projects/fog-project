@@ -5,7 +5,7 @@ import exceptions.ConnectionException.CreateCustomerException;
 import exceptions.ConnectionException.GetAllUsersException;
 import exceptions.ConnectionException.LoginError;
 import exceptions.ConnectionException.QueryException;
-import exceptions.ConnectionException.UpdateStatusException;
+import exceptions.ConnectionException.UpdateUserInfoException;
 import java.util.ArrayList;
 import model.User;
 import org.junit.After;
@@ -167,7 +167,7 @@ public class UserMapperTest {
             UserMapper.updateEmail("update", user.getAccountID());
             UserMapper.updateEmail("fog_admin@gmail.com", user.getAccountID());
             assertTrue(!failed);
-        } catch (ConnectionException | QueryException | ConnectionException.UpdateUserInfoException ex) {
+        } catch (ConnectionException | QueryException | UpdateUserInfoException ex) {
             assertTrue(failed);
         } finally {
             DB.releaseConnection(UserMapper.getCon());
@@ -186,7 +186,7 @@ public class UserMapperTest {
             UserMapper.updatePassword("update", user.getAccountID());
             UserMapper.updatePassword("fog_admin", user.getAccountID());
             assertTrue(!failed);
-        } catch (ConnectionException | QueryException | ConnectionException.UpdateUserInfoException ex) {
+        } catch (ConnectionException | QueryException | UpdateUserInfoException ex) {
             assertTrue(failed);
         } finally {
             DB.releaseConnection(UserMapper.getCon());
@@ -206,7 +206,7 @@ public class UserMapperTest {
             UserMapper.updateAdress("update", user.getAccountID());
             UserMapper.updateAdress(user.getAddress(), user.getAccountID());
             assertTrue(!failed);
-        } catch (ConnectionException | QueryException | ConnectionException.UpdateUserInfoException ex) {
+        } catch (ConnectionException | QueryException | UpdateUserInfoException ex) {
             assertTrue(failed);
         } finally {
             DB.releaseConnection(UserMapper.getCon());
@@ -225,7 +225,7 @@ public class UserMapperTest {
             UserMapper.updatePhone("69696969", user.getAccountID());
             UserMapper.updatePhone(Integer.toString(user.getPhone()), user.getAccountID());
             assertTrue(!failed);
-        } catch (ConnectionException | QueryException | ConnectionException.UpdateUserInfoException ex) {
+        } catch (ConnectionException | QueryException | UpdateUserInfoException ex) {
             assertTrue(failed);
         } finally {
             DB.releaseConnection(UserMapper.getCon());
@@ -244,7 +244,7 @@ public class UserMapperTest {
             UserMapper.updateZipcode("69696", user.getAccountID());
             UserMapper.updateZipcode(Integer.toString(user.getZipCode()), user.getAccountID());
             assertTrue(!failed);
-        } catch (ConnectionException | QueryException | ConnectionException.UpdateUserInfoException ex) {
+        } catch (ConnectionException | QueryException | UpdateUserInfoException ex) {
             assertTrue(failed);
         } finally {
             DB.releaseConnection(UserMapper.getCon());
@@ -263,7 +263,7 @@ public class UserMapperTest {
             UserMapper.updateUserStatus(0, user.getAccountID());
             UserMapper.updateUserStatus(1, user.getAccountID());
             assertTrue(!failed);
-        } catch (ConnectionException |  UpdateStatusException | QueryException e) {
+        } catch (ConnectionException |  UpdateUserInfoException | QueryException e) {
             assertTrue(failed);
         } finally {
             DB.releaseConnection(UserMapper.getCon());

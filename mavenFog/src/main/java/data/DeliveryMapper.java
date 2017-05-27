@@ -58,9 +58,15 @@ public class DeliveryMapper {
     //Deletes a delivery input from the Database in case of failure in the createDelivery() method
     private static void deleteDelivery(String deliveryID) {
         String sql = "DELETE FROM delivery WHERE delivery_id = '" + deliveryID + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,9 +118,15 @@ public class DeliveryMapper {
     //Throws QueryException if the input is not the right data type or the querry is wrong
     public static void updateDeliveryStatus(int delivery_status, String deliveryID) throws QueryException {
         String sql = "UPDATE delivery SET delivery_status = " + delivery_status + " WHERE delivery_id = '" + deliveryID + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new QueryException();
@@ -127,9 +139,15 @@ public class DeliveryMapper {
     //Throws QueryException if the input is not the right data type or the querry is wrong
     public static void updateDeliveryDate(Date date, String deliveryID) throws QueryException {
         String sql = "UPDATE delivery SET delivery_date = '" + date.toString() + "' WHERE delivery_id = '" + deliveryID + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new QueryException();

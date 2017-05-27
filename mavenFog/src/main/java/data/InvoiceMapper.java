@@ -55,9 +55,15 @@ public class InvoiceMapper {
     //Deletes an invoice input from the Database in case of failure in the createInvoice() method
     private static void deleteInvoice(String invoiceID) {
         String sql = "DELETE FROM invoice WHERE invoice_id = '" + invoiceID + "'";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

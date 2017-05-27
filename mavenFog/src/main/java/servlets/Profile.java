@@ -7,8 +7,6 @@ import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateUserInfoException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.User;
 
+/**
+ * Profile Servlet is used for updating the user info from the profile page
+ */
 @WebServlet(name = "Profile", urlPatterns = {"/Profile"})
 public class Profile extends HttpServlet {
     /**
@@ -32,7 +33,7 @@ public class Profile extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        User user = null;
+        User user;
         try {
             //Get the user from the current session
             user = (User) session.getAttribute("user");
@@ -76,15 +77,15 @@ public class Profile extends HttpServlet {
             
         } catch (UpdateUserInfoException ex) {
             ex.printStackTrace();
-            session.setAttribute("error", "connectionException");
+            session.setAttribute("error", "UpdateUserInfoException");
             response.sendRedirect("profile/profile.jsp");
         } catch (QueryException ex) {
             ex.printStackTrace();
-            session.setAttribute("error", "connectionException");
+            session.setAttribute("error", "QueryException");
             response.sendRedirect("profile/profile.jsp");
         } catch (ConnectionException ex) {
             ex.printStackTrace();
-            session.setAttribute("error", "connectionException");
+            session.setAttribute("error", "ConnectionException");
             response.sendRedirect("profile/profile.jsp");
         } finally {
             DB.releaseConnection(UserMapper.getCon());

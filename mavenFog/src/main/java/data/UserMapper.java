@@ -6,7 +6,6 @@ import exceptions.ConnectionException.CreateSalesRepException;
 import exceptions.ConnectionException.GetAllUsersException;
 import exceptions.ConnectionException.LoginError;
 import exceptions.ConnectionException.QueryException;
-import exceptions.ConnectionException.UpdateStatusException;
 import exceptions.ConnectionException.UpdateUserInfoException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -209,11 +208,17 @@ public class UserMapper {
     
     //Updates the email from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public static void updateEmail(String email, String acc_id) throws UpdateUserInfoException {
-        String sql = "SET SQL_SAFE_UPDATES = 0; UPDATE users SET email = '" + email + "' WHERE account_id = '" + acc_id + "'; SET SQL_SAFE_UPDATES = 1;";
+    public static void updateEmail(String email, String accountID) throws UpdateUserInfoException {
+        String sql = "UPDATE users SET email = '" + email + "' WHERE account_id = '" + accountID + "';";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateUserInfoException();
@@ -224,13 +229,17 @@ public class UserMapper {
 
     //Updates the password from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public static void updatePassword(String password, String acc_id) throws UpdateUserInfoException {
-        String sql = "SET SQL_SAFE_UPDATES = 0; "
-                + "UPDATE users SET password = '" + password + "' WHERE account_id = '" + acc_id + "'; "
-                + "SET SQL_SAFE_UPDATES = 1; ";
+    public static void updatePassword(String password, String accountID) throws UpdateUserInfoException {
+        String sql = "UPDATE users SET password = '" + password + "' WHERE account_id = '" + accountID + "';";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateUserInfoException();
@@ -241,13 +250,17 @@ public class UserMapper {
 
     //Updates the address from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public static void updateAdress(String adress, String acc_id) throws UpdateUserInfoException {
-        String sql = "SET SQL_SAFE_UPDATES = 0; "
-                + "UPDATE users SET address = '" + adress + "' WHERE account_id = '" + acc_id + "'; "
-                + "SET SQL_SAFE_UPDATES = 1; ";
+    public static void updateAdress(String adress, String accountID) throws UpdateUserInfoException {
+        String sql = "UPDATE users SET address = '" + adress + "' WHERE account_id = '" + accountID + "';";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateUserInfoException();
@@ -258,13 +271,17 @@ public class UserMapper {
 
     //Updates the phone from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public static void updatePhone(String phone, String acc_id) throws UpdateUserInfoException {
-        String sql = "SET SQL_SAFE_UPDATES = 0; "
-                + "UPDATE users SET phone_number = '" + Integer.parseInt(phone) + "' WHERE account_id = '" + acc_id + "'; "
-                + "SET SQL_SAFE_UPDATES = 1; ";
+    public static void updatePhone(String phone, String accountID) throws UpdateUserInfoException {
+        String sql = "UPDATE users SET phone_number = '" + Integer.parseInt(phone) + "' WHERE account_id = '" + accountID + "';";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateUserInfoException();
@@ -275,13 +292,17 @@ public class UserMapper {
 
     //Updates the zip zode from the update details form
     //Throws UpdateUserInfoException if the update fails
-    public static void updateZipcode(String zipCode, String acc_id) throws UpdateUserInfoException {
-        String sql = "SET SQL_SAFE_UPDATES = 0; "
-                + "UPDATE users SET zip_code = " + Integer.parseInt(zipCode) + " WHERE account_id = '" + acc_id + "'; "
-                + "SET SQL_SAFE_UPDATES = 1; ";
+    public static void updateZipcode(String zipCode, String accountID) throws UpdateUserInfoException {
+        String sql = "UPDATE users SET zip_code = " + Integer.parseInt(zipCode) + " WHERE account_id = '" + accountID + "';";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateUserInfoException();
@@ -291,16 +312,20 @@ public class UserMapper {
     }//updateZipcode
       
     //Updates an /!\admin/!\ from the Database
-    public static void updateUserStatus (int status, String accountID) throws UpdateStatusException {
-        String sql = "SET SQL_SAFE_UPDATES = 0; "
-                + "UPDATE users SET user_status = " + status + " WHERE account_id = '" + accountID + "'; "
-                + "SET SQL_SAFE_UPDATES = 1; ";
+    public static void updateUserStatus (int status, String accountID) throws UpdateUserInfoException {
+        String sql = "UPDATE users SET user_status = " + status + " WHERE account_id = '" + accountID + "'; ";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
+            stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new UpdateStatusException();
+            throw new UpdateUserInfoException();
         } finally {
             DB.closeStmt(stmt);
         }

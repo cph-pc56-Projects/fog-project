@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Orders Servlet is used for loading the orders a customer has in the profile page
+ * For the admins it creates all the information for the admin page -deliveries, invoices, orders, products and users 
+ */
 @WebServlet(name = "Orders", urlPatterns = {"/Orders"})
 public class Orders extends HttpServlet {
 
