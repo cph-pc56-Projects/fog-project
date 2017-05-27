@@ -1,6 +1,5 @@
 package data;
 
-import data.DB;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateProductException;
 import exceptions.ConnectionException.GetAllProductsException;

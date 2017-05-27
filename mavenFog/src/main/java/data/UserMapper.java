@@ -67,19 +67,19 @@ public class UserMapper {
     //Takes input from the register form and creates new Customer in the Database. 
     //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
     public static void createCustomer(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateCustomerException {
-        String sql = "INSERT INTO users (email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date, account_id)"
-                + " VALUES (?,?,?,?,?,?,?,0, CURDATE(), ?)";
+        String sql = "INSERT INTO users (account_id, email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date, user_status)"
+                + " VALUES (?,?,?,?,?,?,?,?,0, CURDATE(), 1)";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
-            stmt.setString(1, email);
-            stmt.setString(2, password);
-            stmt.setString(3, fName);
-            stmt.setString(4, lName);
-            stmt.setInt(5, Integer.parseInt(phone));
-            stmt.setString(6, adress);
-            stmt.setInt(7, Integer.parseInt(zipCode));
-            stmt.setString(8, DB.generateID("users", "account_id", con));
+            stmt.setString(1, DB.generateID("users", "account_id", con));
+            stmt.setString(2, email);
+            stmt.setString(3, password);
+            stmt.setString(4, fName);
+            stmt.setString(5, lName);
+            stmt.setInt(6, Integer.parseInt(phone));
+            stmt.setString(7, adress);
+            stmt.setInt(8, Integer.parseInt(zipCode));
             stmt.executeUpdate();
         } catch (SQLException | QueryException e) {
             throw new CreateCustomerException();
@@ -111,8 +111,28 @@ public class UserMapper {
         } finally {
             DB.closeStmt(stmt);
         }
-
     }//createSalesRep
+    
+    //Deletes a user from the Database
+    //Used for the testing 
+    public static void deleteUser(String email) {
+        String sql = "DELETE FROM users WHERE email = '" + email + "';";
+        String set = "SET SQL_SAFE_UPDATES = 0;";
+        String reset = "SET SQL_SAFE_UPDATES = 1;";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(set);
+            stmt.executeUpdate();
+            stmt = con.prepareStatement(reset);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.closeStmt(stmt);
+        }
+    }//deleteUser
 
     //Returns an ArrayList with all the users in the Database
     //Throws GetAllUsers Exception if the method is not executable or the list is empty
@@ -261,21 +281,6 @@ public class UserMapper {
             DB.closeStmt(stmt);
         }
     }//updateZipcode
-    
-    //Deletes a /!\customer/!\ from the Database
-    //Used for the testing 
-    public static void deleteUser(String email) {
-        String sql = "DELETE FROM users WHERE email = '" + email + "'";
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(sql);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DB.closeStmt(stmt);
-        }
-    }//delete
     
     //Updates an /!\admin/!\ from the Database
     public static void updateUserStatus (int status, String accountID) throws UpdateStatusException {

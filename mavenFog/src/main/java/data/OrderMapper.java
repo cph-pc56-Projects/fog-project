@@ -21,42 +21,42 @@ public class OrderMapper {
         con = DB.createConnection(); 
     }
 
-
     public static Connection getCon() {
         return con;
     }
 
     //Creates a new Order in the Database with status pending
     //Throws Create Order Exception if the input is not the right data type or the querry is wrong
-    public static void createOrder(String customerID, String productID) throws CreateOrderException {
+    public static String createOrder(String customerID, String productID) throws CreateOrderException {
         String sqlOrders = "INSERT into orders (order_id, creation_date, customer_id, order_status)"
                 + " VALUES (?, CURDATE(),?, 0)";
         String sqlOrderDetails = "INSERT into order_details (order_id, product_id) VALUES (?,?)";
+        String orderID = null;
         PreparedStatement stmt = null;
-        String order_id = "";
         try {
             stmt = con.prepareStatement(sqlOrders);
-            order_id = DB.generateID("orders", "order_id", con);
-            stmt.setString(1, order_id);
+            orderID = DB.generateID("orders", "order_id", con);
+            stmt.setString(1, orderID);
             stmt.setString(2, customerID);
             stmt.executeUpdate();
             
             stmt = con.prepareStatement(sqlOrderDetails);
-            stmt.setString(1, order_id);
+            stmt.setString(1, orderID);
             stmt.setString(2, productID);
             stmt.executeUpdate();
         } catch (SQLException | QueryException e) {
             //Deletes the input if we fail to finish all queries
-            deleteOrder(order_id);
+            deleteOrder(orderID);
             throw new CreateOrderException();
         } finally {
             DB.closeStmt(stmt);
         }
+        return orderID;
     }//createOrder
 
     //Deletes an order for the createOrder method in case of failure
-    private static void deleteOrder(String order_id) {
-        String sql = "DELETE FROM orders WHERE order_id = '" + order_id + "'";
+    public static void deleteOrder(String orderID) {
+        String sql = "DELETE FROM orders WHERE order_id = '" + orderID + "'";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -67,10 +67,10 @@ public class OrderMapper {
         } finally {
             DB.closeStmt(stmt);
         }
-    }
+    }    
 
     // Creates a list with all the orders a customer has
-    // Throws Data Access Exception if not possible to execute
+    // Throws GetAllOrdersException if not possible to execute
     public static ArrayList<Order> findOrdersByCustomer(String customerID) throws GetAllOrdersException {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM orders LEFT JOIN order_details ON orders.order_id = order_details.order_id WHERE customer_id = '" + customerID + "'";
@@ -101,6 +101,7 @@ public class OrderMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
+        if (orders.isEmpty()) {throw new GetAllOrdersException();}
         return orders;
     }//findOrdersByCustomer
     
@@ -136,8 +137,42 @@ public class OrderMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
+        if (orders.isEmpty()) {throw new GetAllOrdersException();}
         return orders;
     }//getAllOrders
+    
+    //Returns an Order
+    //Throws Query Exception if the method is not executable or the list is empty
+    public static Order getOrder(String orderID) throws QueryException {
+        String sql = "SELECT * FROM orders NATURAL JOIN order_details WHERE orders.order_id = order_details.order_id AND order_id = '" + orderID + "'";
+        int orderStatus;
+        String productID, salesRepID, deliveryID, invoiceID, customerID;
+        Date date;
+        Order order = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                date = rs.getDate("creation_date");
+                customerID = rs.getString("customer_id");
+                productID = rs.getString("product_id");
+                salesRepID = rs.getString("sales_rep_id");
+                deliveryID = rs.getString("delivery_id");
+                invoiceID = rs.getString("invoice_id");
+                orderStatus = rs.getInt("order_status");
+                order = new Order(orderID, date, customerID, productID, salesRepID, deliveryID, invoiceID, orderStatus);
+            }
+        } catch (SQLException x) {
+            throw new QueryException();
+        } finally {
+            DB.closeRs(rs);
+            DB.closeStmt(stmt);
+        }
+        if (order==null) {throw new QueryException();}
+        return order;
+    }//getOrder
     
     //Used to update the orderStatus to finilized or pending
     //Throws Update OrderDetails Exception if the update fails

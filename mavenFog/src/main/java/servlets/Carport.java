@@ -89,14 +89,13 @@ public class Carport extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
              {
         try {
             processRequest(request, response);
-        } catch (ServletException | IOException ex) {
+        } catch (IOException | ServletException ex) {
             printServerFailure(response);
         }
     }
