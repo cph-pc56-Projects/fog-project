@@ -213,7 +213,7 @@ public class UserMapper {
         User user = null;
         String email,fName, lName, address;
         int phone, zipCode, role, userStatus;
-        String sql = "SELECT * FROM users WHERE accountID = '" + accountID + "'";
+        String sql = "SELECT * FROM users WHERE account_id = '" + accountID + "'";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {

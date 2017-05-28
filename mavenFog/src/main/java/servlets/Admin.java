@@ -9,6 +9,8 @@ import data.UserMapper;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateInvoiceException;
 import exceptions.ConnectionException.DeleteOrderException;
+import exceptions.ConnectionException.QueryException;
+import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -26,10 +28,9 @@ import model.Product;
 import model.User;
 
 /**
- * Admin Servlet is used for all the salesRep functions.
- * The Servlet handles the information exchange from DB to JSP for finalising an order.
- * The Servlet deletes orders.
- * The Servlet completes deliveries and updates delivery dates.
+ * Admin Servlet is used for all the salesRep functions. The Servlet handles the
+ * information exchange from DB to JSP for finalising an order. The Servlet
+ * deletes orders. The Servlet completes deliveries and updates delivery dates.
  */
 @WebServlet(name = "Admin", urlPatterns = {"/Admin"})
 public class Admin extends HttpServlet {
@@ -61,6 +62,7 @@ public class Admin extends HttpServlet {
             DeliveryMapper.setConnection();
             UserMapper.setConnection();
             ProductMapper.setConnection();
+
             //Take the hidden input
             form = request.getParameter("admin");
             switch (form) {
@@ -77,14 +79,14 @@ public class Admin extends HttpServlet {
                     delivery = DeliveryMapper.getDelivery(order.getOrderID());
                     //Calculate the totalprice of the invoice
                     totalPrice = product.getPrice() + delivery.getPrice();
-                    
+
                     //Set the objects for the finilise order popup
-                    session.setAttribute("userOrder", user);
-                    session.setAttribute("order", order);
-                    session.setAttribute("product", product);
-                    session.setAttribute("totalPrice", totalPrice);
+                    session.setAttribute("userOrder", (Object) user);
+                    session.setAttribute("order", (Object) order);
+                    session.setAttribute("product", (Object) product);
+                    session.setAttribute("totalPrice", (Object) totalPrice);
                     session.setAttribute("popupFinalise", "yes");
-                    response.sendRedirect("../admin/admin.jsp");
+                    response.sendRedirect("admin/admin.jsp");
                     return;
                 case "deleteOrder":
                     //get the order object from the popup
@@ -136,9 +138,9 @@ public class Admin extends HttpServlet {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ConnectionException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException.QueryException ex) {
+        } catch (QueryException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException.UpdateOrderDetailsException ex) {
+        } catch (UpdateOrderDetailsException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DB.releaseConnection(OrderMapper.getCon());

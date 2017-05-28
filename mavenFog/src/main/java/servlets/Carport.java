@@ -56,7 +56,7 @@ public class Carport extends HttpServlet {
             productID = (String)session.getAttribute("productID"); 
             
             //if it is a premade carport Creates an object with all the details of premade carport 
-            if (productID!=null || productID.equals("1") || productID.equals("2") || productID.equals("3") || productID.equals("4")) {
+            if (productID.equals("1") || productID.equals("2") || productID.equals("3") || productID.equals("4")) {
                 product = ProductMapper.getProduct(productID);
             } else {
                 //If custom carport, get the object from the session
@@ -69,7 +69,7 @@ public class Carport extends HttpServlet {
             orderID = OrderMapper.createOrder(user.getAccountID(), productID);
             
             //Creates delivery for this order
-            price = (double) session.getAttribute("deliveryPrice");
+            price = Double.parseDouble((String)session.getAttribute("deliveryPrice")) ;
             moreInfo = (String) session.getAttribute("moreInfo");
             DeliveryMapper.createDelivery(orderID, moreInfo, price);
             

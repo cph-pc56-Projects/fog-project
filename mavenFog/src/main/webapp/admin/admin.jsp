@@ -3,7 +3,12 @@
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<% User user = null; %>
+<%
+    User user = null;
+    User userOrder = null;
+    Product product = null;
+    Order order = null;
+%>
 <%
     if (session.getAttribute("user") != null) {
         user = (User) session.getAttribute("user");
@@ -141,7 +146,7 @@
 
         <!-- areYouSure modal -->
         <div id="areYouSure" class="modal" style="overflow-y: scroll; z-index: 5;">
-            <form class="modal-content animate" action="../testchi.jsp" method="post">
+            <form class="modal-content animate" action="../Admin" method="post">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('areYouSure').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Are you Sure ?</h1>
@@ -156,6 +161,8 @@
         </div>
         <!-- areYouSure modal END -->
 
+        <% if (session.getAttribute("popupFinalise") != null && session.getAttribute("popupFinalise").equals("yes")) {
+                session.removeAttribute("popupFinalise"); %>
         <!-- Finalise -->
         <div id="Finalise" class="modal" style="overflow-y: scroll; z-index: 4;">
             <form class="modal-content animate" action="../testchi.jsp" method="post">
@@ -163,6 +170,13 @@
                     <span onclick="document.getElementById('Finalise').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Finalise an Order</h1>
                 </div>
+
+                <script>
+                    // Get the modal
+                    var modal = document.getElementById('Finalise');
+                    modal.style.display = 'block';
+                </script>
+
                 <div class="loginContainer">
                     <!--customer info-->
                     <div class="row">
@@ -185,13 +199,14 @@
                                             </thead>
                                             <tbody>
                                                 <tr class="active">
-                                                    <td><%= user.getAccountID()%></td>
-                                                    <td><%= user.getEmail()%></td>
-                                                    <td><%= user.getfName()%></td>
-                                                    <td><%= user.getlName()%></td>
-                                                    <td><%= user.getPhone()%></td>
-                                                    <td><%= user.getAddress()%></td>
-                                                    <td><%= user.getZipCode()%></td>
+                                                    <% userOrder = (User) session.getAttribute("userOrder");%>
+                                                    <td><%= userOrder.getAccountID()%></td>
+                                                    <td><%= userOrder.getEmail()%></td>
+                                                    <td><%= userOrder.getfName()%></td>
+                                                    <td><%= userOrder.getlName()%></td>
+                                                    <td><%= userOrder.getPhone()%></td>
+                                                    <td><%= userOrder.getAddress()%></td>
+                                                    <td><%= userOrder.getZipCode()%></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -208,18 +223,27 @@
                                                     <th>Has Shed?</th>
                                                     <th>Rooftop Type</th>
                                                     <th>Name</th>
+                                                    <th>Roof Angle</th>
+                                                    <th>Shed Width</th>
+                                                    <th>Shed Length</th>
+                                                    <th>Roof Height</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr class="warning">
-                                                    <td><%= user.getAccountID()%></td>
-                                                    <td><%= user.getEmail()%></td>
-                                                    <td><%= user.getfName()%></td>
-                                                    <td><%= user.getlName()%></td>
-                                                    <td><%= user.getPhone()%></td>
-                                                    <td><%= user.getAddress()%></td>
-                                                    <td><%= user.getZipCode()%></td>
-                                                    <td><%= user.getZipCode()%></td>
+                                                    <% product = (Product) session.getAttribute("product");%>
+                                                    <td><%= product.getProductID()%></td>
+                                                    <td><%= product.getPrice()%></td>
+                                                    <td><%= product.getInnerHeight()%></td>
+                                                    <td><%= product.getWidth()%></td>
+                                                    <td><%= product.getLength()%></td>
+                                                    <td><%= product.getHasShed()%></td>
+                                                    <td><%= product.getRooftopType()%></td>
+                                                    <td><%= product.getName()%></td>
+                                                    <td><%= product.getRoofAngle()%></td>
+                                                    <td><%= product.getShedWidth()%></td>
+                                                    <td><%= product.getShedLength()%></td>
+                                                    <td><%= product.getRooftopHeight()%></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -234,8 +258,9 @@
                                             </thead>
                                             <tbody>
                                                 <tr class="info">
-                                                    <td><%= user.getAccountID()%></td>
-                                                    <td><%= user.getEmail()%></td>
+                                                    <% order = (Order) session.getAttribute("order");%>
+                                                    <td><%= order.getOrderID()%></td>
+                                                    <td><%= order.getDate()%></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -259,7 +284,6 @@
                             <input type="hidden" name="admin" value="createInvoice">
                             <div class="col-lg-6">
                                 <button type="button" onclick="document.getElementById('areYouSure').style.display = 'block'" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Delete Order</button>
-                                <button type="button" onclick="<%%>" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Delete Order</button>
                                 <button type="submit" class="btn btn-warning btn-lg pull-right"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Create Invoice</button>
                             </div>
                             <!-- form end-->
@@ -268,6 +292,7 @@
                 </div>
             </form>
         </div>
+        <% }%>
         <!-- Finalise END -->
 
         <!--Logout modal -->
@@ -306,31 +331,37 @@
                                             <p>Sit comfortably , and refresh the page per 10 seconds :)</p>
                                         </div>
                                         <% } else { %>
-                                        <form action="../FinaliseOrder">
-                                            <table class="table table-bordered table-hover table-striped mydata">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="center-table">Order ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                        <th class="center-table">Product ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                        <th class="center-table">Ordered on&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                        <th class="center-table">Customer ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                        <th class="center-table">Finalise&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
-                                                </thead>
-                                                <tbody>
-                                                    <% for (Order pending : orders) {%>
-                                                    <tr class="info">
-                                                        <td><%= pending.getOrderID()%></td>
-                                                        <td><%= pending.getProductID()%></td>
-                                                        <td><%= pending.getDate()%></td>
-                                                        <td><%= pending.getCustomerID()%></td>
-                                                        <td><input type="hidden" name="orderID" value="<%=pending.getOrderID()%>">
+
+                                        <table class="table table-bordered table-hover table-striped mydata">
+                                            <thead>
+                                                <tr>
+                                                    <th class="center-table">Order ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                    <th class="center-table">Product ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                    <th class="center-table">Ordered on&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                    <th class="center-table">Customer ID&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                                    <th class="center-table">Finalise&nbsp;&nbsp;<span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                            </thead>
+                                            <tbody>
+                                                <% for (Order pending : orders) {%>
+
+                                                <tr class="info">
+
+                                                    <td><%= pending.getOrderID()%></td>
+                                                    <td><%= pending.getProductID()%></td>
+                                                    <td><%= pending.getDate()%></td>
+                                                    <td><%= pending.getCustomerID()%></td>
+                                                    <td>
+                                                        <form action="../Admin" method="POST">
+                                                            <input type="hidden" name="orderID" value="<%=pending.getOrderID()%>">
+                                                            <input type="hidden" name="admin" value="finaliseOrder">
                                                             <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button>
-                                                        </td>
-                                                    </tr>
-                                                    <% } %>
-                                                </tbody>
-                                            </table>
-                                        </form>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
+
                                         <% } %>
                                     </div><!-- table responsive -->
                                 </div>
@@ -520,24 +551,24 @@
                                                     <th>Shed Length</th>
                                             </thead>
                                             <tbody>
-                                                <% for (Product product : products) {%>
+                                                <% for (Product forProduct : products) {%>
                                                 <tr>
-                                                    <td><%= product.getProductID()%></td>
-                                                    <td><%= product.getName()%></td>
-                                                    <td><%= product.getPrice()%></td>
-                                                    <td><%= product.getRooftopType()%></td>
-                                                    <td><%= product.getInnerHeight()%></td>
-                                                    <td><%= product.getRooftopHeight()%></td>
-                                                    <td><%= product.getRoofAngle()%></td>
-                                                    <td><%= product.getWidth()%></td>
-                                                    <td><%= product.getLength()%></td>
-                                                    <td><% if (product.getHasShed() == 1) {
+                                                    <td><%= forProduct.getProductID()%></td>
+                                                    <td><%= forProduct.getName()%></td>
+                                                    <td><%= forProduct.getPrice()%></td>
+                                                    <td><%= forProduct.getRooftopType()%></td>
+                                                    <td><%= forProduct.getInnerHeight()%></td>
+                                                    <td><%= forProduct.getRooftopHeight()%></td>
+                                                    <td><%= forProduct.getRoofAngle()%></td>
+                                                    <td><%= forProduct.getWidth()%></td>
+                                                    <td><%= forProduct.getLength()%></td>
+                                                    <td><% if (forProduct.getHasShed() == 1) {
                                                             out.print("yes");
                                                         } else {
                                                             out.print("no");
                                                         }%></td>
-                                                    <td><%= product.getShedWidth()%></td>
-                                                    <td><%= product.getShedLength()%></td>
+                                                    <td><%= forProduct.getShedWidth()%></td>
+                                                    <td><%= forProduct.getShedLength()%></td>
                                                 </tr>
                                                 <% }%>
                                             </tbody>
@@ -611,21 +642,20 @@
 
         <!-- Close Create new ,Delete Sales Rep, Finalise, areYouSurel  modals -->
         <script>
-                                    // Get the modal
-                                    var Createmodal = document.getElementById('CreateSalesRep');
-                                    var Deletemodal = document.getElementById('DeleteSalesRep');
-                                    var Finalisemodal = document.getElementById('Finalise');
-                                    var areYouSurel = document.getElementById('areYouSure');
+            // Get the modal
+            var Createmodal = document.getElementById('CreateSalesRep');
+            var Deletemodal = document.getElementById('DeleteSalesRep');
+            var areYouSurel = document.getElementById('areYouSure');
 
-                                    // When the user clicks anywhere outside of the modal, close it
-                                    window.onclick = function (event) {
-                                        if (event.target == Createmodal || event.target == Deletemodal || event.target == Finalise || event.target == areYouSurel) {
-                                            Createmodal.style.display = "none";
-                                            Deletemodal.style.display = "none";
-                                            Finalise.style.display = "none";
-                                            areYouSurel.style.display = "none";
-                                        }
-                                    }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == Createmodal || event.target == Deletemodal || event.target == Finalise || event.target == areYouSurel) {
+                    Createmodal.style.display = "none";
+                    Deletemodal.style.display = "none";
+                    Finalise.style.display = "none";
+                    areYouSurel.style.display = "none";
+                }
+            }
         </script>
 
         <!-- Prevent "space" button script -->
