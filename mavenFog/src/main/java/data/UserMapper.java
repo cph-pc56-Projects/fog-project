@@ -19,6 +19,7 @@ public class UserMapper {
 
     private static Connection con;
 
+    //Creates a connection to DB
     public static void setConnection() throws ConnectionException {
         con = DB.createConnection(); 
     }
@@ -39,13 +40,13 @@ public class UserMapper {
         try {
             stmt = con.prepareStatement(sqlEmail);
             rs = stmt.executeQuery();
-            //if email does not exist in the DB
+            //if email does not exist in the DB throw Login Error
             if (!rs.next()) {
                 throw new LoginError();
             }
             stmt = con.prepareStatement(sqlPass);
             rs = stmt.executeQuery();
-            //gets the password for the current email
+            //gets the password for the current email or throw Login Error
             if (rs.next()) {
                 passwordDB = rs.getString("password");
             } else {

@@ -22,7 +22,6 @@ public class DB {
             Class.forName(driver);
             con = DriverManager.getConnection(URL, id, pw);
         } catch (SQLException | ClassNotFoundException e) {
-            System.out.println("Can`t establish connection to the Database!");
             throw new ConnectionException();
         } 
         return con;
@@ -35,7 +34,6 @@ public class DB {
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                System.out.println("Couldn't close connection!");
             }
         }    
     }
@@ -47,7 +45,6 @@ public class DB {
                 stmt.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                System.out.println("Could not close prepared statement!");
             }
         }
     }
@@ -59,12 +56,11 @@ public class DB {
                 rs.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                System.out.println("Could not close resultset!");
             }
         }
     }
     
-    //Returns a unique ID for the DB
+    //Returns a unique ID for the Mapper Classes to put into DB
     public static String generateID(String table, String column, Connection con) throws QueryException {
         String uniqueID = randomID();
         String sql = "SELECT " + column + " FROM " + table + " WHERE " + column + " = '" + uniqueID +"'";

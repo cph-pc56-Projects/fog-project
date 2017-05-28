@@ -2,6 +2,7 @@ package data;
 
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateOrderException;
+import exceptions.ConnectionException.DeleteOrderException;
 import exceptions.ConnectionException.GetAllOrdersException;
 import exceptions.ConnectionException.QueryException;
 import exceptions.ConnectionException.UpdateOrderDetailsException;
@@ -19,6 +20,7 @@ public class OrderMapper {
 
     private static Connection con;
 
+    //Creates a connection to DB
     public static void setConnection() throws ConnectionException {
         con = DB.createConnection(); 
     }
@@ -50,7 +52,7 @@ public class OrderMapper {
             try {
                 //Deletes the input if we fail to finish all queries
                 deleteOrder(orderID);
-            } catch (ConnectionException.DeleteOrderException ex) {
+            } catch (DeleteOrderException ex) {
                 ex.printStackTrace();
             }
             throw new CreateOrderException();
@@ -61,7 +63,7 @@ public class OrderMapper {
     }//createOrder
 
     //Deletes an order for the createOrder method in case of failure
-    public static void deleteOrder(String orderID) throws ConnectionException.DeleteOrderException {
+    public static void deleteOrder(String orderID) throws DeleteOrderException {
         String sql = "DELETE FROM orders WHERE order_id = '" + orderID + "';";
         String orderDetails = "DELETE FROM order_details WHERE order_id = '" + orderID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
@@ -77,7 +79,7 @@ public class OrderMapper {
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new ConnectionException.DeleteOrderException();
+            throw new DeleteOrderException();
         } finally {
             DB.closeStmt(stmt);
         }
@@ -115,7 +117,6 @@ public class OrderMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (orders.isEmpty()) {throw new GetAllOrdersException();}
         return orders;
     }//findOrdersByCustomer
     
@@ -151,7 +152,6 @@ public class OrderMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (orders.isEmpty()) {throw new GetAllOrdersException();}
         return orders;
     }//getAllOrders
     

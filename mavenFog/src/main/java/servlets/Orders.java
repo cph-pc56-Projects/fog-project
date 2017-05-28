@@ -34,30 +34,44 @@ public class Orders extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        User user;
+        ArrayList<Order> orders;
+        ArrayList<Delivery> deliveries;
+        ArrayList<Invoice> invoices;
+        ArrayList<User> users;
+        ArrayList<Product> products;
         try {
-
-            ////Create connections to DB
+            //Create connections to DB
             OrderMapper.setConnection();
             DeliveryMapper.setConnection();
             InvoiceMapper.setConnection();
             UserMapper.setConnection();
             ProductMapper.setConnection();
 
-            //Get the user from the current session and fetch orders for that user(/!\if admin - take all orders)
-            User user = (User) session.getAttribute("user");
+            //Get the user from the current session
+            user = (User) session.getAttribute("user");
             
-            //Print all orders a user has
+            //Do different for customer and admin
             if (user.getRole() == 0) {
-                ArrayList<Order> orders = OrderMapper.findOrdersByCustomer(user.getAccountID());
+                //create an ArrayList with all the orders a customer has
+                orders = OrderMapper.findOrdersByCustomer(user.getAccountID());
+                
+                //create an ArrayList with all the invoices a customer has
+                invoices = InvoiceMapper.getAllInvoiceByCustomer(user.getAccountID());
+                
+                //Set the objects in the session
                 session.setAttribute("orders", (Object) orders);
+                session.setAttribute("invoices", (Object) invoices);
                 response.sendRedirect(request.getParameter("from"));
             } else {
-                //fetch all data, so admin can browse everything from the DB
-                ArrayList<Order> orders = OrderMapper.getAllOrders();
-                ArrayList<Delivery> deliveries = DeliveryMapper.getAllDelivery();
-                ArrayList<Invoice> invoices = InvoiceMapper.getAllInvoice();
-                ArrayList<User> users = UserMapper.getAllUsers();
-                ArrayList<Product> products = ProductMapper.getAllProducts();
+                //Create ArrayLists with all the information from the DB
+                orders = OrderMapper.getAllOrders();
+                deliveries = DeliveryMapper.getAllDelivery();
+                invoices = InvoiceMapper.getAllInvoice();
+                users = UserMapper.getAllUsers();
+                products = ProductMapper.getAllProducts();
+                
+                //Set the ArrayLists into the session
                 session.setAttribute("orders", (Object) orders);
                 session.setAttribute("deliveries", (Object) deliveries);
                 session.setAttribute("invoices", (Object) invoices);
@@ -68,7 +82,6 @@ public class Orders extends HttpServlet {
         } catch (GetAllOrdersException ex) {
             ex.printStackTrace();
             session.setAttribute("error", "GetAllOrdersException");
-            session.removeAttribute("user");
             response.sendRedirect(request.getParameter("from"));
         } catch (GetAllDeliveryException ex) {
             ex.printStackTrace();

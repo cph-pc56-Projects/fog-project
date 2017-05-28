@@ -36,11 +36,16 @@ public class Register extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        int userType;
+        String email, password, fName, lName, phone, adress, zipCode, acoountID;
         try {
-            int userType = Integer.parseInt((String) request.getParameter("userType"));
+            //Create connection to DB
+            UserMapper.setConnection();
+            
+            //Get the input from hidden field
+            userType = Integer.parseInt(request.getParameter("userType"));
             
             //Get the data from register form
-            String email, password, fName, lName, phone, adress, zipCode;
             email = request.getParameter("email");
             password = request.getParameter("password");
             fName = request.getParameter("fName");
@@ -49,9 +54,6 @@ public class Register extends HttpServlet {
             adress = request.getParameter("adress");
             zipCode = request.getParameter("zipCode");
 
-            //Create connection to DB
-            UserMapper.setConnection();
-            
             switch (userType) {
                 case 0:
                      //Create new user in the database
@@ -62,19 +64,18 @@ public class Register extends HttpServlet {
                     UserMapper.createSalesRep(email, password, fName, lName, phone, adress, zipCode);
                     break;
                 case 3:
-                    //Deletes a Sales Rep profile form DB
-                    String id = (String) request.getParameter("deleteAccountID");
-                    UserMapper.updateUserStatus(0,id);
+                    //Get the accountID to be deleted
+                    acoountID = (String) request.getParameter("deleteAccountID");
+                    //Makes a Sales Rep profile inactive
+                    UserMapper.updateUserStatus(0, acoountID);
             }
             
-           
-
             //If successful go back
             response.sendRedirect(request.getParameter("from"));
-
+        
         } catch (CreateCustomerException ex) {
             ex.printStackTrace();
-            session.setAttribute("error", "CreateCustomerException"); //We are sorry, we could not create your profile! Probably cause is that you already have an account!
+            session.setAttribute("error", "CreateCustomerException"); 
             response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
             ex.printStackTrace();

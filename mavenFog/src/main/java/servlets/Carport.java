@@ -1,6 +1,7 @@
 package servlets;
 
 import data.DB;
+import data.DeliveryMapper;
 import data.OrderMapper;
 import data.ProductMapper;
 import model.Product;
@@ -10,6 +11,8 @@ import exceptions.ConnectionException.CreateOrderException;
 import exceptions.ConnectionException.QueryException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,32 +39,44 @@ public class Carport extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String productID;
+        double price;
+        String productID, moreInfo, orderID;
         Product product;
+        User user;
         try {
             //Get the user from the current session
-            User user = (User) session.getAttribute("user");
+            user = (User) session.getAttribute("user");
             
             //Create connection to DB
             ProductMapper.setConnection();
+            OrderMapper.setConnection();
+            DeliveryMapper.setConnection();
             
-            //id of the PRODUCT / PREMADE
-            productID = (String)session.getAttribute("productID"); //id of the PRODUCT / PREMADE
+            //Get the ID of the product if premade
+            productID = (String)session.getAttribute("productID"); 
             
             //if it is a premade carport Creates an object with all the details of premade carport 
-            if (productID.equals("1") || productID.equals("2") || productID.equals("3") || productID.equals("4")) {
+            if (productID!=null || productID.equals("1") || productID.equals("2") || productID.equals("3") || productID.equals("4")) {
                 product = ProductMapper.getProduct(productID);
             } else {
-                product = (Product) session.getAttribute("product"); // Add it to the session in the JSP!!! THE OBJECT
+                //If custom carport, get the object from the session
+                product = (Product) session.getAttribute("product");
+                //Create a new product in DB
+                productID = ProductMapper.createProduct(product);
             }
-            //Creates order for the particular product that user wants to buy
-            
-            //Create connection to DB
-            OrderMapper.setConnection();
             
             //Creates order for the particular product that user wants to buy
-            OrderMapper.createOrder(user.getAccountID(), product.getProductID());
+            orderID = OrderMapper.createOrder(user.getAccountID(), productID);
             
+            //Creates delivery for this order
+            price = (double) session.getAttribute("deliveryPrice");
+            moreInfo = (String) session.getAttribute("moreInfo");
+            DeliveryMapper.createDelivery(orderID, moreInfo, price);
+            
+            //Remove the productID from the session
+            session.removeAttribute(productID);
+                        
+            //Redirect to thankyou page
             response.sendRedirect("thankyou.jsp");
             
         } catch (ConnectionException ex) {
@@ -76,9 +91,14 @@ public class Carport extends HttpServlet {
             ex.printStackTrace();
             session.setAttribute("error", "QueryException");
             response.sendRedirect(request.getParameter("from"));
+        } catch (ConnectionException.CreateDeliveryException ex) {
+            Logger.getLogger(Carport.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionException.CreateProductException ex) {
+            Logger.getLogger(Carport.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DB.releaseConnection(ProductMapper.getCon());
             DB.releaseConnection(OrderMapper.getCon());
+            DB.releaseConnection(DeliveryMapper.getCon());
         }
 
     }

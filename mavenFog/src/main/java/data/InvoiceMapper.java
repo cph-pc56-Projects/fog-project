@@ -14,17 +14,22 @@ import java.util.ArrayList;
 import model.Invoice;
 
 public class InvoiceMapper {
+
     private static Connection con;
-    
+
+    //Creates a connection to DB
     public static void setConnection() throws ConnectionException {
-        con = DB.createConnection(); 
+        con = DB.createConnection();
     }
 
     public static Connection getCon() {
         return con;
     }
-    
-    public static void createInvoice(double totalPrice, String orderID) throws CreateInvoiceException, ConnectionException {
+
+    //Creates an invoice in DB
+    //Throws ConnectionException if we cant connect to the OrderMapper
+    //Throws CreateInvoiceException if we cant execute the query
+    public static String createInvoice(double totalPrice, String orderID) throws CreateInvoiceException {
         String sql = "INSERT INTO invoice (invoice_id, creation_date, total_price) VALUES (?, curdate(), ?)";
         String invoiceID = "";
         PreparedStatement stmt = null;
@@ -38,20 +43,19 @@ public class InvoiceMapper {
             //Updates the invoice_id in orderDetails throws UpdateOrderDetailsException or QueryException
             OrderMapper.setConnection();
             OrderMapper.updateInvoiceID(invoiceID, orderID);
-        } catch (SQLException e) {
+        } catch (SQLException | QueryException e) {
             throw new CreateInvoiceException();
-        } catch (UpdateOrderDetailsException | QueryException ee) {
-                deleteInvoice(invoiceID);
-                throw new CreateInvoiceException();
-        } catch (ConnectionException ex) {
+        } catch (UpdateOrderDetailsException | ConnectionException ee) {
+            //Delete the invoice if the second part of the try block fails
             deleteInvoice(invoiceID);
-            throw new ConnectionException();
+            throw new CreateInvoiceException();
         } finally {
             DB.closeStmt(stmt);
             DB.releaseConnection(OrderMapper.getCon());
         }
+        return invoiceID;
     }
-    
+
     //Deletes an invoice input from the Database in case of failure in the createInvoice() method
     private static void deleteInvoice(String invoiceID) {
         String sql = "DELETE FROM invoice WHERE invoice_id = '" + invoiceID + "'";
@@ -71,13 +75,13 @@ public class InvoiceMapper {
             DB.closeStmt(stmt);
         }
     }//deleteInvoice
-    
+
     //Returns an ArrayList with all the invoices in the Database
     //Throws GetAllInvoicesException if the method is not executable or the list is empty
-    public static ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException, ConnectionException {
+    public static ArrayList<Invoice> getAllInvoice() throws GetAllInvoicesException {
         ArrayList<Invoice> invoices = new ArrayList<>();
         String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id";
-        String invoiceID,orderID, productID, customerID, salesRepID;
+        String invoiceID, orderID, productID, customerID, salesRepID;
         double totalPrice;
         Date invoiceDate;
         Invoice invoice;
@@ -94,7 +98,7 @@ public class InvoiceMapper {
                 productID = rs.getString("product_id");
                 customerID = rs.getString("customer_id");
                 salesRepID = rs.getString("sales_rep_id");
-                invoice = new Invoice(invoiceID, orderID, productID, customerID, salesRepID,  invoiceDate, totalPrice);
+                invoice = new Invoice(invoiceID, orderID, productID, customerID, salesRepID, invoiceDate, totalPrice);
                 invoices.add(invoice);
             }
         } catch (SQLException x) {
@@ -103,7 +107,40 @@ public class InvoiceMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (invoices.isEmpty()) {throw new GetAllInvoicesException();}
+        return invoices;
+    }//getAllInvoice
+
+    //Returns an ArrayList with all the invoices in the Database
+    //Throws GetAllInvoicesException if the method is not executable or the list is empty
+    public static ArrayList<Invoice> getAllInvoiceByCustomer(String customerID) throws GetAllInvoicesException {
+        ArrayList<Invoice> invoices = new ArrayList<>();
+        String sql = "SELECT * FROM invoice,orders NATURAL JOIN order_details WHERE invoice.invoice_id = order_details.invoice_id AND customer_id = '" + customerID + "'";
+        String invoiceID, orderID, productID, salesRepID;
+        double totalPrice;
+        Date invoiceDate;
+        Invoice invoice;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                invoiceID = rs.getString("invoice_id");
+                totalPrice = rs.getDouble("total_price");
+                invoiceDate = rs.getDate("creation_date");
+                orderID = rs.getString("order_id");
+                productID = rs.getString("product_id");
+                customerID = rs.getString("customer_id");
+                salesRepID = rs.getString("sales_rep_id");
+                invoice = new Invoice(invoiceID, orderID, productID, customerID, salesRepID, invoiceDate, totalPrice);
+                invoices.add(invoice);
+            }
+        } catch (SQLException x) {
+            throw new GetAllInvoicesException();
+        } finally {
+            DB.closeRs(rs);
+            DB.closeStmt(stmt);
+        }
         return invoices;
     }//getAllInvoice
 }

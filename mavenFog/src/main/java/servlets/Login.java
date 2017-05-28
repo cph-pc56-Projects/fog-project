@@ -34,30 +34,26 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        String email, password;
+        User user;
         try {
-            //Taking the email and password when submit the Log in form       
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-
             //Create connection to DB
             UserMapper.setConnection();
+            
+            //Get the input from the user
+            email = request.getParameter("email");
+            password = request.getParameter("password");
 
-            //Check if the email and password match IF NOT throws LoginError();
+            //Check if the email and password match IF NOT throw LoginError();
             UserMapper.validateLoginDetails(email, password);
             
-            //Creates a new User obj with the input data from JSP
-            User user = UserMapper.getUser(email);
+            //Creates a new User object with the input data
+            user = UserMapper.getUser(email);
 
-            int role = user.getRole();
-            
-            //Add to the session our new user object
+            //Set the user object to the session
             session.setAttribute("user", (Object) user);
             
-            // Send to customer visible page if customer, send to admin if admin
-            if (role == 2) {
-                session.setAttribute("admin", "superAdmin");
-            }
-            // Here will redirect to the Orders Servlet, so everything will be loaded on login (see Orders Servlet for more info! comment#34)
+            //Go to Orders servlet
             request.getRequestDispatcher("Orders").forward(request, response);
         } catch (LoginError x) {
             x.printStackTrace();
