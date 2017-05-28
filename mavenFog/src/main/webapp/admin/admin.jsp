@@ -4,9 +4,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <% User user = null; %>
-<% user = (User) session.getAttribute("user"); %>
 <%
-    if (user.getRole() == 0) {
+    if (session.getAttribute("user") != null) {
+        user = (User) session.getAttribute("user");
+    } else if (session.getAttribute("user") == null || user.getRole() == 0) {
         response.sendRedirect("../index.jsp");
     }
 %>
@@ -56,7 +57,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">    
                     <ul class="nav navbar-nav navbar-right">
-                        <% if ("superAdmin".equals(session.getAttribute("admin"))) {%>
+                        <% if (user.getRole() == 2) { %>
                         <li>
                             <a href="#" id="dropdownMenu0" data-toggle="dropdown">Admin Tools&nbsp;<span class="glyphicon glyphicon-cog"></span><span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu0">
@@ -299,6 +300,12 @@
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="table-responsive">
+                                        <% if (orders.isEmpty()) { %>
+                                        <div class="well well-lg">
+                                            <p>There are no Pending Orders in the moment!</p>
+                                            <p>Sit comfortably , and refresh the page per 10 seconds :)</p>
+                                        </div>
+                                        <% } else { %>
                                         <form action="../FinaliseOrder">
                                             <table class="table table-bordered table-hover table-striped mydata">
                                                 <thead>
@@ -320,10 +327,11 @@
                                                             <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-flag"></span>&nbsp;Finalise</button>
                                                         </td>
                                                     </tr>
-                                                    <% }%>
+                                                    <% } %>
                                                 </tbody>
                                             </table>
                                         </form>
+                                        <% } %>
                                     </div><!-- table responsive -->
                                 </div>
                             </div>

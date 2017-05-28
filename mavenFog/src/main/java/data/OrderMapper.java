@@ -115,7 +115,6 @@ public class OrderMapper {
             DB.closeRs(rs);
             DB.closeStmt(stmt);
         }
-        if (orders.isEmpty()) {throw new GetAllOrdersException();}
         return orders;
     }//findOrdersByCustomer
     

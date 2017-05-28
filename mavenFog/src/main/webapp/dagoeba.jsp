@@ -1,6 +1,12 @@
+<%-- 
+    Document   : dagoeba
+    Created on : 28-May-2017, 14:55:12
+    Author     : dido8
+--%>
+
 <%@page import="model.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<!DOCTYPE html>
 <%! Product product = null;
     int rooftopType, hasShed, roofAngle;
     String productID, name;
@@ -17,21 +23,13 @@
     
     
 %>
-<!DOCTYPE html>
 <html>
     <head>
-        <title>Place Order</title>
-        <style>
-            .w3-lobster {
-                font-family: 'Lobster', cursive;
-            }
-        </style>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
     </head>
     <body>
-        <!-- NAVBAR Suite START-->
-        <jsp:include page="navbarSuite.jsp" />  
-        <!-- NAVBAR Suite END-->
-
+        <h1>Hello World!</h1>
         <div class="w3-container w3-padding-32 w3-content">
             <div class="w3-card-2 w3-center w3-container w3-margin">
                 <h2 class="w3-lobster">Your custom carport details</h2>
@@ -90,6 +88,17 @@
                         <% } else { %>
                         <h3>You need to input something, developer!!</h3>
                         <% }%>
+                        <label><b>Your new baby's name:</b></label>
+                        <p><%=request.getParameter("name")%></p>
+                        <label><b>Your <span class="w3-lobster">Custom</span> Carport Price:</b></label>
+                        <p><%=request.getParameter("name")%></p>
+                        <label><b>Delivery price:</b></label>
+                        <p><%=request.getParameter("deliveryPrice")%></p>
+                        <label><b>Total Price:</b></label>
+                        <p>(including Carport and Delivery)</p>
+                        <p><%=request.getParameter("deliveryPrice")%></p>
+
+                        <!--Shaping Product object-->
                         <%
                             double adjacent = width / 2;
                             double opposite = rooftopHeight;
@@ -97,21 +106,8 @@
                             roofAngle = (int) Math.toDegrees(Math.atan((double) opposite / adjacent));
 
                             overallHeight = innerHeight + rooftopHeight;
-                            productPrice = Product.calculatePrice(overallHeight, length, width, rooftopType, hasShed, shedLength);
-                        %>
-                        
-                        <label><b>Your new baby's name:</b></label>
-                        <p><%=request.getParameter("name")%></p>
-                        <label><b>Your <span class="w3-lobster">Custom</span> Carport Price:</b></label>
-                        <p><%= productPrice %></p>
-                        <label><b>Delivery price:</b></label>
-                        <p><%=request.getParameter("deliveryPrice")%></p>
-                        <label><b>Total Price:</b></label>
-                        <p>(including Carport and Delivery)</p>
-                        <p><%= productPrice + Double.parseDouble(request.getParameter("deliveryPrice")) %></p>
+                            
 
-                        <!--Shaping Product object-->
-                        <%
                             product = new Product(productID, rooftopType, hasShed, roofAngle, productPrice, innerHeight, width, length, shedLength, shedWidth, rooftopHeight, name);
                             session.setAttribute("product", product);
                             session.setAttribute("deliveryPrice", request.getParameter("deliveryPrice"));
@@ -133,9 +129,5 @@
                 </form>
             </div>
         </div>
-
-        <!-- FOOTER Suite-->
-        <jsp:include page="footer.jsp" />
-
     </body>
 </html>

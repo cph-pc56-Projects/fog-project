@@ -47,16 +47,10 @@ public class Login extends HttpServlet {
             
             //Creates a new User obj with the input data from JSP
             User user = UserMapper.getUser(email);
-
-            int role = user.getRole();
             
             //Add to the session our new user object
             session.setAttribute("user", (Object) user);
-            
-            // Send to customer visible page if customer, send to admin if admin
-            if (role == 2) {
-                session.setAttribute("admin", "superAdmin");
-            }
+                       
             // Here will redirect to the Orders Servlet, so everything will be loaded on login (see Orders Servlet for more info! comment#34)
             request.getRequestDispatcher("Orders").forward(request, response);
         } catch (LoginError x) {

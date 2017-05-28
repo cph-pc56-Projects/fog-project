@@ -1,5 +1,7 @@
 package model;
 
+import java.text.DecimalFormat;
+
 public class Product {
     private final int rooftopType, hasShed, roofAngle;
     private final String productID, name;
@@ -20,10 +22,12 @@ public class Product {
         this.name = name;
     }
     
-    public double calculatePrice(double height, double length, double width, int rooftopType, int hasShed, double shedLength) {
-        double totalPrice = height*length*width*300;
+    public static double calculatePrice(double height, double length, double width, int rooftopType, int hasShed, double shedLength) {
+        double totalPrice = height*length*width*170;
         if (rooftopType == 1) {totalPrice += 3000;}
         if (hasShed == 1) {totalPrice += 1500*shedLength;}
+        DecimalFormat df2 = new DecimalFormat(".##");
+        totalPrice = Double.parseDouble(df2.format(totalPrice));
         return totalPrice;
     }
     

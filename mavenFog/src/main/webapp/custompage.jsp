@@ -22,7 +22,7 @@
                 <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample">
                     Hint how to take the right measures<br>(Click me and see the bottom)
                 </a>
-                <form class="modal-content animate" action="customFinalDetails.jsp" method="post">
+                <form class="modal-content animate" action="customFinalDetails.jsp" method="POST">
                     <div class="imgcontainer">
                         <h1 class="w3-container w3-lobster">Measures</h1>
                     </div>
@@ -31,7 +31,7 @@
                     <div class="loginContainer">
                         <% if (request.getParameter("hasShed").equals("no")) { %>
                         <label><b>Inner Heigh</b></label>
-                        <input type="text" placeholder="Heigh in meters" name="height" title="e.g. 2.10" maxlength="5" onkeypress="return isNumberKey(event)" pattern="[0-9]+\.[0-9]{2,2}$" required>
+                        <input type="text" placeholder="Heigh in meters" name="innerHeight" title="e.g. 2.10" maxlength="5" onkeypress="return isNumberKey(event)" pattern="[0-9]+\.[0-9]{2,2}$" required>
                         <!--NESTED IF-->
                         <% if (request.getParameter("roofType").equals("hipped")) { %>
                         <label><b>Rooftop Heigh</b></label>
@@ -46,7 +46,7 @@
                             <h4>General: </h4>
                         </div>
                         <label><b>Inner Heigh</b></label>
-                        <input type="text" placeholder="Heigh in meters" name="height" title="e.g. 2.10" maxlength="5" onkeypress="return isNumberKey(event)" pattern="[0-9]+\.[0-9]{2,2}$" required>
+                        <input type="text" placeholder="Heigh in meters" name="innerHeight" title="e.g. 2.10" maxlength="5" onkeypress="return isNumberKey(event)" pattern="[0-9]+\.[0-9]{2,2}$" required>
                         <!--NESTED IF-->
                         <% if (request.getParameter("roofType").equals("hipped")) { %>
                         <label><b>Rooftop Heigh</b></label>
@@ -61,14 +61,24 @@
                             <p>(The Room's measures are included in the General Measures)</p>
                         </div>
                         <label><b>Shed Width</b></label>
-                        <input type="text" placeholder="Width in meters" name="widthShed" title="e.g. 2.70" maxlength="5" onkeypress="return isNumberKey(event)" pattern="[0-9]+\.[0-9]{2,2}$" required>
+                        <input type="text" placeholder="Width in meters" name="shedWidth" title="e.g. 2.70" maxlength="5" onkeypress="return isNumberKey(event)" pattern="[0-9]+\.[0-9]{2,2}$" required>
                         <label><b>Shed Length</b></label>
-                        <input type="text" placeholder="Length in meters" name="lengthShed" title="e.g. 1.50" maxlength="5" onkeypress="return isNumberKey(event)" pattern="[0-9]+\.[0-9]{2,2}$" required>
+                        <input type="text" placeholder="Length in meters" name="shedLength" title="e.g. 1.50" maxlength="5" onkeypress="return isNumberKey(event)" pattern="[0-9]+\.[0-9]{2,2}$" required>
                         <% } else { %>
                         <h3>You need to input something, developer!!</h3>
                         <% }%>
                         <label><b>Give your baby a name:</b></label>
-                        <input type="text" placeholder="Custom name" name="customName" title="e.g. MyBeauty#1 (min. 3 and max. 40 chars)" maxlength="40" pattern="(?=.*[a-z])(?=.*[A-Z]).{3,}" required>
+                        <input type="text" placeholder="Custom name" name="name" title="e.g. MyBeauty#1 (min. 3 and max. 40 chars)" maxlength="40" pattern="(?=.*[a-z])(?=.*[A-Z]).{3,}" required>
+                        <label><b>Choose a region for the Delivery:</b></label>
+                        <p>Sjælland - 250,00 pr. stk.</p>
+                        <p>Fyn - 1.475,00 pr. stk.</p>
+                        <p>Jylland - 1.875,00 pr. stk.</p>
+                        <select class="form-control" id="sel1" name="deliveryPrice">
+                            <option>250.00</option>
+                            <option>1475.00</option>
+                            <option>1875.00</option>
+                        </select>
+                        <br>
                         <input type="hidden" name="roofType" value="<%= request.getParameter("roofType")%>">
                         <input type="hidden" name="hasShed" value="<%= request.getParameter("hasShed")%>">
                         <button type="submit">Next step&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></button>

@@ -193,7 +193,13 @@
                 </div>
                 <div class="tab-pane fade col-xs-12" role="tabpanel" id="completed">
                     <div class="table-responsive">
-                        <h1>Orders</h1>
+                        <h1><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Orders</h1>
+                        <% if(orders.isEmpty()) { %>
+                        <div class="well well-lg">
+                            <p>You don't have any orders yet.</p>
+                            <p>Sit comfortably , because it is time to make your first :)</p>
+                        </div>
+                        <% } else {%>
                         <table class="table table-hover">
                             <th>Order ID</th>
                             <th>Description</th>
@@ -228,6 +234,7 @@
 
                             <% }%>
                         </table>
+                        <% } %>
                     </div>
                 </div>
 
