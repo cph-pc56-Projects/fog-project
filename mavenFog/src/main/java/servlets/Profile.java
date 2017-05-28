@@ -33,46 +33,47 @@ public class Profile extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        String accountID, email, password, address, phone, zipCode;
         User user;
         try {
+            //Create connection to DB
+            UserMapper.setConnection();
+            
             //Get the user from the current session
             user = (User) session.getAttribute("user");
-
-            // Fetching the paramteres from the edit profile form
-            String email, password, address, phone, zipCode;
+            
+            //Get the account of the current customer
+            accountID = user.getAccountID();
+            
+            //Get the parameters from the edit form
             email = request.getParameter("email");
             password = request.getParameter("password");
             address = request.getParameter("address");
             phone = request.getParameter("phone");
             zipCode = request.getParameter("zipcode");
-            String accountId = user.getAccountID();
-
-            //Create connection to DB
-            UserMapper.setConnection();
             
             //Update user info
             if (!email.equals("empty")) {
-                UserMapper.updateEmail(email, accountId);
+                UserMapper.updateEmail(email, accountID);
             }
             if (!password.equals("empty")) {
-                UserMapper.updatePassword(password, accountId);
+                UserMapper.updatePassword(password, accountID);
             }
             if (!address.equals("empty")) {
-                UserMapper.updateAdress(address, accountId);
+                UserMapper.updateAdress(address, accountID);
             }
             if (!phone.equals("empty")) {
-                UserMapper.updatePhone(phone, accountId);
+                UserMapper.updatePhone(phone, accountID);
             }
             if (!zipCode.equals("empty")) {
-                UserMapper.updateZipcode(zipCode, accountId);
+                UserMapper.updateZipcode(zipCode, accountID);
             }
-            //remove old user's information from session
-            session.removeAttribute("user");
-
-            //Updating User Object in session               
+            
+            //Update User Object in session               
             user = UserMapper.getUser(user.getEmail());
             session.setAttribute("user", (Object) user);
             
+            //Redirect back to profile page
             response.sendRedirect("profile/profile.jsp");
             
         } catch (UpdateUserInfoException ex) {

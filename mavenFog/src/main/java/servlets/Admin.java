@@ -4,11 +4,14 @@ import data.DB;
 import data.DeliveryMapper;
 import data.InvoiceMapper;
 import data.OrderMapper;
+import data.ProductMapper;
+import data.UserMapper;
 import exceptions.ConnectionException;
 import exceptions.ConnectionException.CreateInvoiceException;
 import exceptions.ConnectionException.DeleteOrderException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -17,10 +20,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Invoice;
+import model.Delivery;
 import model.Order;
+import model.Product;
+import model.User;
 
-
+/**
+ * Admin Servlet is used for all the salesRep functions.
+ * The Servlet handles the information exchange from DB to JSP for finalising an order.
+ * The Servlet deletes orders.
+ * The Servlet completes deliveries and updates delivery dates.
+ */
 @WebServlet(name = "Admin", urlPatterns = {"/Admin"})
 public class Admin extends HttpServlet {
 
@@ -37,37 +47,88 @@ public class Admin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        double totalPrice;
+        String form, orderID, invoiceID, deliveryID;
         Order order;
-        Invoice invoice;
-        String deliveryID, orderID, form;
-        try  {
-            form = request.getParameter("admin");
-            orderID = request.getParameter("orderID");
+        User user, salesRep;
+        Product product;
+        Delivery delivery;
+        Date date;
+        try {
+            //Create connections to the DB
             InvoiceMapper.setConnection();
             OrderMapper.setConnection();
             DeliveryMapper.setConnection();
-            order = OrderMapper.getOrder(orderID);
+            UserMapper.setConnection();
+            ProductMapper.setConnection();
+            //Take the hidden input
+            form = request.getParameter("admin");
             switch (form) {
+                case "finaliseOrder":
+                    //Get the orderID from hidden input
+                    orderID = request.getParameter("orderID");
+                    //Extract the info for this order from DB
+                    order = OrderMapper.getOrder(orderID);
+                    //Get the user who created this order
+                    user = UserMapper.getUserByID(order.getCustomerID());
+                    //Get the product corresponding to the order
+                    product = ProductMapper.getProduct(order.getProductID());
+                    //Get the delivery for this order
+                    delivery = DeliveryMapper.getDelivery(order.getOrderID());
+                    //Calculate the totalprice of the invoice
+                    totalPrice = product.getPrice() + delivery.getPrice();
+                    
+                    //Set the objects for the finilise order popup
+                    session.setAttribute("userOrder", user);
+                    session.setAttribute("order", order);
+                    session.setAttribute("product", product);
+                    session.setAttribute("totalPrice", totalPrice);
+                    session.setAttribute("popupFinalise", "yes");
+                    response.sendRedirect("../admin/admin.jsp");
+                    return;
                 case "deleteOrder":
+                    //get the order object from the popup
+                    order = (Order) session.getAttribute("order");
+                    //delete the order from DB
                     OrderMapper.deleteOrder(order.getOrderID());
                     break;
-                    
+
                 case "createInvoice":
-                    double totalPrice = (double) session.getAttribute("totalPrice");
-                    InvoiceMapper.createInvoice(totalPrice, order.getOrderID());
+                    //Get the order object from the session set by the finalise button
+                    order = (Order) session.getAttribute("order");
+                    //Get the salesRep object currently working with the program
+                    salesRep = (User) session.getAttribute("user");
+                    //Update the sales rep in order details
+                    OrderMapper.updateSalesRep(salesRep.getAccountID(), order.getOrderID());
+                    //Get the date the sales rep chose 
+                    date = (Date) session.getAttribute("deliveryDate");
+                    //Update the date in the DB
+                    DeliveryMapper.updateDeliveryDate(date, order.getOrderID());
+                    //Get the totalPrice of the invoice
+                    totalPrice = (double) session.getAttribute("totalPrice");
+                    //Create the invoice
+                    invoiceID = InvoiceMapper.createInvoice(totalPrice, order.getOrderID());
+                    //Update the invoice_id in orderdetails
+                    OrderMapper.updateInvoiceID(invoiceID, order.getOrderID());
                     break;
-                    
+
                 case "completeDelivery":
+                    //get the hidden input
                     deliveryID = (String) request.getParameter("deliveryID");
+                    //Update the status in DB
                     DeliveryMapper.updateDeliveryStatus(1, deliveryID);
                     break;
-                    
-                case "cancelDelivery":
+
+                case "updateDeliveryDate":
+                    //Get the hidden input
                     deliveryID = (String) request.getParameter("deliveryID");
-                    DeliveryMapper.updateDeliveryStatus(2, deliveryID);
+                    //Get the updated Date from the session
+                    date = (Date) session.getAttribute("deliveryDate");
+                    //Update the Date in DB
+                    DeliveryMapper.updateDeliveryDate(date, deliveryID);
                     break;
             }
-            
+
             request.getRequestDispatcher("Orders").forward(request, response);
         } catch (DeleteOrderException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,10 +138,14 @@ public class Admin extends HttpServlet {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ConnectionException.QueryException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionException.UpdateOrderDetailsException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             DB.releaseConnection(OrderMapper.getCon());
             DB.releaseConnection(InvoiceMapper.getCon());
             DB.releaseConnection(DeliveryMapper.getCon());
+            DB.releaseConnection(ProductMapper.getCon());
+            DB.releaseConnection(UserMapper.getCon());
         }
     }
 
@@ -130,7 +195,7 @@ public class Admin extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
+
     private void printServerFailure(HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
         try {
@@ -139,14 +204,14 @@ public class Admin extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Server Failure</title>");            
+            out.println("<title>Server Failure</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Our servers can`t handle your request at the moment. We are trying to fix this as soon as possible. Please try again later.");
             out.println("</body>");
             out.println("</html>");
         } catch (IOException ex) {
-            
+
         }
     }
 

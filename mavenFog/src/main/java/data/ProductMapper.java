@@ -15,6 +15,7 @@ public class ProductMapper {
     
     private static Connection con;
 
+    //Creates a connection to DB
     public static void setConnection() throws ConnectionException {
         con = DB.createConnection(); 
     }
@@ -26,10 +27,12 @@ public class ProductMapper {
     
     //Creates new Product in the database
     //Throws CreateProductException if the insertion fails
-    public static void createProduct(Product product) throws CreateProductException {
+    public static String createProduct(Product product) throws CreateProductException {
         String sql = "INSERT INTO products (price, inner_height, width, length, has_shed, rooftop_type, shed_length, shed_width, rooftop_angle, rooftop_height, name, product_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        String productID = "";
         PreparedStatement stmt = null;
         try {
+            productID = DB.generateID("products", "product_id", con);
             stmt = con.prepareStatement(sql);
             stmt.setDouble(1, product.getPrice());
             stmt.setDouble(2, product.getInnerHeight());
@@ -42,13 +45,14 @@ public class ProductMapper {
             stmt.setInt(9, product.getRoofAngle());
             stmt.setDouble(10, product.getRooftopHeight());
             stmt.setString(11, product.getName());
-            stmt.setString(12, DB.generateID("products", "product_id", con));
+            stmt.setString(12, productID);
             stmt.executeUpdate();
         } catch (SQLException | QueryException e) {
             throw new CreateProductException();
         } finally {
             DB.closeStmt(stmt);
         }
+        return productID;
     }//createProduct
     
     //Returns an ArrayList with all the products in the Database
