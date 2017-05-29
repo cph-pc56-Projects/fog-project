@@ -1,3 +1,4 @@
+<%@page import="exceptions.ConnectionException"%>
 <%@page import="model.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.User"%>
@@ -9,6 +10,18 @@
     Product product = null;
     Order order = null;
 %>
+<% String errorMessage = ""; %>
+<%
+    if (session.getAttribute("error") != null) {
+        errorMessage = ConnectionException.getExceptionMessage((String) session.getAttribute("error"), session);
+        session.removeAttribute("error"); %>
+<!--Make modal Login to be visible if the first login attempt was failed-->
+<script>
+    // Get the modal
+    var modal = document.getElementById('exceptionModal');
+    modal.style.display = 'block';
+</script>
+<% } %>
 <%
     if (session.getAttribute("user") != null) {
         user = (User) session.getAttribute("user");
@@ -131,7 +144,7 @@
                 </div>
                 <div class="loginContainer w3-center">
                     <label><b>Sales Rep Account ID:</b></label>
-                    <input type="text" placeholder="e.g 2349493941" name="email" pattern="[0-9]{1,10}$" title="SalesRepID (max.10)" class="inputFields" required>
+                    <input type="text" placeholder="e.g 2349493941" name="deleteAccountID" pattern="[0-9]{1,10}$" title="SalesRepID (max.10)" class="inputFields" required>
                     <!-- current URL passed like a hidden field, so after Deleting, the Servlet will redirect the user back to the same page -->
                     <input type="hidden" name="from" value="${pageContext.request.requestURI}">
                     <!-- send  userType = 3 means that this user will be deleted from our DataBase--> 
@@ -165,7 +178,7 @@
                 session.removeAttribute("popupFinalise"); %>
         <!-- Finalise -->
         <div id="Finalise" class="modal" style="overflow-y: scroll; z-index: 4;">
-            <form class="modal-content animate" action="../testchi.jsp" method="post">
+            <form class="modal-content animate" action="../Admin" method="post">
                 <div class="imgcontainer">
                     <span onclick="document.getElementById('Finalise').style.display = 'none'" class="close"  title="Close Modal">&times;</span>
                     <h1 class="w3-container ">Finalise an Order</h1>
@@ -277,7 +290,7 @@
                                 <div class="panel panel-info">
                                     <div class="panel-heading">Pick Delivery Date:</div>
                                     <div class="panel-body">
-                                        <input type="text" placeholder="Pick Date" id="datepicker" name="pickDate" size="30">
+                                        <input type="text" placeholder="Pick Date" id="datepicker" name="deliveryDate" size="30" required>
                                     </div>
                                 </div>
                             </div>
@@ -304,12 +317,28 @@
                 </div>
             </form>
         </div><!-- Logout END -->
+        
+        <!-- Exception modal-->
+        <div id="exceptionModal" class="modal">
+            <form class="modal-content animate" action="Carport">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Exception Occured!</h1>
+                    <div class="imgcontainer alert alert-danger">
+                        <strong><%= errorMessage%></strong>
+                    </div>
+                </div>
+                <div class="loginContainer">
+                </div>
+            </form>
+        </div>
+        <!-- Exception modal END -->
 
         <!--PAGE CONTENT-->
         <div class="w3-card-2 w3-container">
             <h1>Your Admin Dashboard</h1>
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#pending" role="tab" id="pending-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= orders.size()%></span> Pending&nbsp;<span class="glyphicon glyphicon-step-forward"></span></span></a></li>
+                <li role="presentation" class="active"><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#pending" role="tab" id="pending-tab" data-toggle="tab"><span class="label label-default"><span class="badge"></span> Pending&nbsp;<span class="glyphicon glyphicon-step-forward"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#completed" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default">Completed Orders&nbsp;<span class="glyphicon glyphicon-th-list"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#delivery" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= deliveries.size()%></span> Deliveries&nbsp;<span class="glyphicon glyphicon-send"></span></span></a></li>
                 <li role="presentation" class=""><a class="btn btn-default btn-lg active" style="box-shadow: 10px 10px 5px #888888;" href="#invoice" role="tab" id="profile-tab" data-toggle="tab"><span class="label label-default"><span class="badge"><%= invoices.size()%></span> Invoices&nbsp;<span class="glyphicon glyphicon-list-alt"></span></span></a></li>
@@ -343,9 +372,9 @@
                                             </thead>
                                             <tbody>
                                                 <% for (Order pending : orders) {%>
-
+                                                <% if(pending.getOrderStatus()==0) { %>
                                                 <tr class="info">
-
+                                                        
                                                     <td><%= pending.getOrderID()%></td>
                                                     <td><%= pending.getProductID()%></td>
                                                     <td><%= pending.getDate()%></td>
@@ -358,7 +387,7 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                                <% } %>
+                                                <% } } %>
                                             </tbody>
                                         </table>
 
@@ -598,10 +627,13 @@
                                                     <th>Address</th>
                                                     <th>Zip Code</th>
                                                     <th>Email</th>
+                                                    <th>Status</th>
                                             </thead>
                                             <tbody>
                                                 <% for (User userCell : users) {%>
-                                                <tr>
+                                                <tr class="<%if (userCell.getUserStatus() == 0) {
+                                                        out.print("danger");
+                                                    };%>">
                                                     <td><%= userCell.getAccountID()%></td>
                                                     <td><%= userCell.getfName()%></td>
                                                     <td><%= userCell.getlName()%></td>
@@ -609,6 +641,8 @@
                                                     <td><%= userCell.getAddress()%></td>
                                                     <td><%= userCell.getZipCode()%></td>
                                                     <td><%= userCell.getEmail()%></td>
+                                                    <td><%= userCell.getUserStatus() %>
+                                                    </td>
 
                                                 </tr>
                                                 <% }%>

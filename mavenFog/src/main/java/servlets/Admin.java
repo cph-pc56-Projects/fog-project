@@ -14,6 +14,8 @@ import exceptions.ConnectionException.UpdateOrderDetailsException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -49,7 +51,7 @@ public class Admin extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         double totalPrice;
-        String form, orderID, invoiceID, deliveryID;
+        String form, orderID, deliveryID;
         Order order;
         User user, salesRep;
         Product product;
@@ -98,20 +100,28 @@ public class Admin extends HttpServlet {
                 case "createInvoice":
                     //Get the order object from the session set by the finalise button
                     order = (Order) session.getAttribute("order");
+                    
                     //Get the salesRep object currently working with the program
                     salesRep = (User) session.getAttribute("user");
+                    
                     //Update the sales rep in order details
                     OrderMapper.updateSalesRep(salesRep.getAccountID(), order.getOrderID());
+                    
                     //Get the date the sales rep chose 
-                    date = (Date) session.getAttribute("deliveryDate");
+                    date = Date.valueOf(request.getParameter("deliveryDate"));
+                    
                     //Update the date in the DB
                     DeliveryMapper.updateDeliveryDate(date, order.getOrderID());
+                    
                     //Get the totalPrice of the invoice
                     totalPrice = (double) session.getAttribute("totalPrice");
+                    
+                    //Update the status to completed
+                    OrderMapper.updateOrderStatus(1, order.getOrderID());
+                    
                     //Create the invoice
-                    invoiceID = InvoiceMapper.createInvoice(totalPrice, order.getOrderID());
-                    //Update the invoice_id in orderdetails
-                    OrderMapper.updateInvoiceID(invoiceID, order.getOrderID());
+                    InvoiceMapper.createInvoice(totalPrice, order.getOrderID());
+                                       
                     break;
 
                 case "completeDelivery":
@@ -133,15 +143,25 @@ public class Admin extends HttpServlet {
 
             request.getRequestDispatcher("Orders").forward(request, response);
         } catch (DeleteOrderException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            session.setAttribute("error", "DeleteOrderException");
+            response.sendRedirect(request.getParameter("from"));
         } catch (CreateInvoiceException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            session.setAttribute("error", "CreateInvoiceException");
+            response.sendRedirect(request.getParameter("from"));
         } catch (ConnectionException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            session.setAttribute("error", "ConnectionException");
+            response.sendRedirect(request.getParameter("from"));
         } catch (QueryException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            session.setAttribute("error", "QueryException");
+            response.sendRedirect(request.getParameter("from"));
         } catch (UpdateOrderDetailsException ex) {
-            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            session.setAttribute("error", "UpdateOrderDetailsException");
+            response.sendRedirect(request.getParameter("from"));
         } finally {
             DB.releaseConnection(OrderMapper.getCon());
             DB.releaseConnection(InvoiceMapper.getCon());

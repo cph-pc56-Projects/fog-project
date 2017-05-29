@@ -12,8 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Order;
 
 public class OrderMapper {
@@ -191,7 +189,7 @@ public class OrderMapper {
     //Used to update the orderStatus to finilized or pending
     //Throws Update OrderDetails Exception if the update fails
     public static void updateOrderStatus(int status, String order_id) throws UpdateOrderDetailsException {
-        String sql = "UPDATE orders SET order_status = " + status + " WHERE order_id = '" + order_id + "'";
+        String sql = "UPDATE orders SET order_status = " + status + " WHERE order_id = '" + order_id + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
@@ -214,8 +212,8 @@ public class OrderMapper {
     //Throws Update OrderDetails Exception if the update fails
     public static void updateSalesRep(String salesRep_id, String order_id) throws UpdateOrderDetailsException {
         String sql = "UPDATE order_details SET sales_rep_id = " + salesRep_id + " WHERE order_id = '" + order_id + "'";
-        String set = "SET SQL_SAFE_UPDATES = 0;";
-        String reset = "SET SQL_SAFE_UPDATES = 1;";
+        String set = "SET SQL_SAFE_UPDATES = 0";
+        String reset = "SET SQL_SAFE_UPDATES = 1";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(set);

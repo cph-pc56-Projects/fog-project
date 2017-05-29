@@ -10,6 +10,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import model.Delivery;
 
@@ -165,7 +167,6 @@ public class DeliveryMapper {
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new QueryException();
         } finally {
             DB.closeStmt(stmt);
@@ -175,7 +176,8 @@ public class DeliveryMapper {
     //Updates the Delivery date 
     //Throws QueryException if the input is not the right data type or the querry is wrong
     public static void updateDeliveryDate(Date date, String deliveryID) throws QueryException {
-        String sql = "UPDATE delivery SET delivery_date = '" + date.toString() + "' WHERE delivery_id = '" + deliveryID + "'";
+        DateFormat dFormat = new SimpleDateFormat("yyyy-mm-dd");
+        String sql = "UPDATE delivery SET delivery_date = '" + dFormat.format(date) + "' WHERE delivery_id = '" + deliveryID + "';";
         String set = "SET SQL_SAFE_UPDATES = 0;";
         String reset = "SET SQL_SAFE_UPDATES = 1;";
         PreparedStatement stmt = null;
@@ -187,7 +189,6 @@ public class DeliveryMapper {
             stmt = con.prepareStatement(reset);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new QueryException();
         } finally {
             DB.closeStmt(stmt);

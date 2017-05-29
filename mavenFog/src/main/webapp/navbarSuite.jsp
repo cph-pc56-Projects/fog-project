@@ -1,8 +1,20 @@
+<%@page import="exceptions.ConnectionException"%>
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%User user = null;%>
 <%user = (User) session.getAttribute("user");%>
+<% String errorMessage = ""; %>
+<%
+    if (session.getAttribute("error") != null) {
+        errorMessage = ConnectionException.getExceptionMessage((String) session.getAttribute("error"), session); %>
+<!--Make modal Login to be visible if the first login attempt was failed-->
+<script>
+    // Get the modal
+    var modal = document.getElementById('exceptionModal');
+    modal.style.display = 'block';
+</script>
+<% } %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -201,6 +213,21 @@
             </form>
         </div>
         <!-- LOGOUT END -->
+        <!-- Exception modal-->
+        <div id="exceptionModal" class="modal">
+            <form class="modal-content animate">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Exception Occured!</h1>
+                    <div class="imgcontainer alert alert-danger">
+                        <strong><%= errorMessage%></strong>
+                    </div>
+                </div>
+                <div class="loginContainer">
+                </div>
+            </form>
+        </div>
+        <!-- Exception modal END -->
 
         <!-- ### SCRIPTS ### -->
         <!-- Close LOGIN ,REGISTER and CARD DETAILS modals -->

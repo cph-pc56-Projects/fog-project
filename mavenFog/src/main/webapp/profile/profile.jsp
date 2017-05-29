@@ -1,3 +1,5 @@
+<%@page import="exceptions.ConnectionException"%>
+<%@page import="model.Invoice"%>
 <%@page import="model.Order"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.User"%>
@@ -7,6 +9,18 @@
 <%! String firstName, lastName, address, email, accountID;
     int phone, zipCode;
 %>
+<% String errorMessage = ""; %>
+<%
+    if (session.getAttribute("error") != null) {
+        errorMessage = ConnectionException.getExceptionMessage((String) session.getAttribute("error"), session);
+        session.removeAttribute("error"); %>
+<!--Make modal Login to be visible if the first login attempt was failed-->
+<script>
+    // Get the modal
+    var modal = document.getElementById('exceptionModal');
+    modal.style.display = 'block';
+</script>
+<% } %>
 <%
     if (session.getAttribute("user") == null) {
         response.sendRedirect("../index.jsp");
@@ -23,7 +37,9 @@
 
     }%>
 <%ArrayList<Order> orders = null; %>
+<%ArrayList<Invoice> invoices = null; %>
 <%orders = (ArrayList<Order>) session.getAttribute("orders");%>
+<%invoices = (ArrayList<Invoice>) session.getAttribute("invoices");%>
 <html>
     <head>
         <title>Profile page</title>
@@ -90,7 +106,23 @@
                 </div>
             </form>
         </div><!-- Logout END -->
-
+        
+        <!-- Exception modal-->
+        <div id="exceptionModal" class="modal">
+            <form class="modal-content animate" action="Carport">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('exceptionModal').style.display = 'none'" class="close" title="Close Modal">&times;</span>
+                    <h1 class="w3-container ">Exception Occured!</h1>
+                    <div class="imgcontainer alert alert-danger">
+                        <strong><%= errorMessage%></strong>
+                    </div>
+                </div>
+                <div class="loginContainer">
+                </div>
+            </form>
+        </div>
+        <!-- Exception modal END -->
+        
         <div style="margin-top: 70px;"></div>
         <div class="w3-white w3-card-2 w3-container w3-margin w3-padding-32">
             <h1>Your page:</h1>
@@ -202,34 +234,25 @@
                         <% } else {%>
                         <table class="table table-hover">
                             <th>Order ID</th>
-                            <th>Description</th>
+                            <th>Order Status</th>
                             <th>More info</th>                         
                                 <% for (Order order : orders) {%>                      
-                            <tr class="<%if (order.getOrderStatus() == 0) {
-                                    out.print("warning");
-                                } else if (order.getOrderStatus() == 1) {
+                            <tr class="<% if (order.getOrderStatus() == 0) {
+                                    out.print("info");
+                                } else  {
                                     out.print("success");
-                                } else {
-                                    out.print("danger");
-                                };%>">
+                                } %>">
                                 <td>Order ID: <%=order.getOrderID()%></td>
-                                <td><p>Carport whit flat roof type, which can hold up to 2 compact vehicles.</p>
+                                <td><p><%if (order.getOrderStatus() == 0) {
+                                    out.print("Pending"); } else {
+                                    out.print("Completed"); }%></p>
                                     <div class="collapse" id="<%= order.getOrderID() %>">                                           
-                                        <p>Date: <%=order.getDate()%></p>                                           
-                                        <p>Product ID: <%=order.getProductID()%></p>                                           
-                                        <p>Customer ID:<%=order.getCustomerID()%></p>
+                                        <p>Date: <%=order.getDate()%></p>
                                         <p>Delivery ID:<%=order.getDeliveryID()%></p>
                                         <p>Invoice ID:<%=order.getInvoiceID() %></p>
-                                        <p>Order Status: <%if (order.getOrderStatus() == 0) {
-                                                out.print("Pending");
-                                            } else if (order.getOrderStatus() == 1) {
-                                                out.print("Completed");
-                                            } else {
-                                                out.print("Cancelled");
-                                            };%></p>
-                                        <p>Sales Rep ID: <%=order.getSalesRepID()%></p>
+                                        
                                     </div></td>
-                                <td><button type="button" data-toggle="collapse" data-target="#<%=order.getOrderID()%>" >Info</button></td>
+                                <td><button type="button" data-toggle="collapse" data-target="#<%=order.getOrderID()%>" >Click to collapse</button></td>
                             </tr>
 
                             <% }%>

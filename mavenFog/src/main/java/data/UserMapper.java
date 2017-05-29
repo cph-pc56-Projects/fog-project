@@ -92,8 +92,8 @@ public class UserMapper {
     //Takes input from the admin form and creates new Salesep in the Database. 
     //Throws Create Customer Exception if the input is not the right data type or the querry is wrong
     public static void createSalesRep(String email, String password, String fName, String lName, String phone, String adress, String zipCode) throws CreateSalesRepException {
-        String sql = "INSERT INTO users (account_id, email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date)"
-                + " VALUES (?,?,?,?,?,?,?,?,1, CURDATE())";
+        String sql = "INSERT INTO users (account_id, email, password, first_name, last_name, phone_number, address, zip_code, role, creation_date, user_status)"
+                + " VALUES (?,?,?,?,?,?,?,?,1, CURDATE(), 1)";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);

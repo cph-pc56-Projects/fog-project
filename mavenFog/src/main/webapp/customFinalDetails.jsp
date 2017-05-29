@@ -36,7 +36,7 @@
             <div class="w3-card-2 w3-center w3-container w3-margin">
                 <h2 class="w3-lobster">Your custom carport details</h2>
                 <p>Take a look at what you've chosen before you place your order.</p>
-                <form class="modal-content animate" action="Carport" method="post">
+                <form class="modal-content animate">
                     <div class="imgcontainer">
                         <h1 class="w3-container w3-lobster">Measures</h1>
                     </div>
@@ -118,11 +118,7 @@
                             String deliveryPrice = (String)request.getParameter("deliveryPrice");
                             session.setAttribute("deliveryPrice", deliveryPrice);
                         %>
-
-                        <input type="hidden" name="roofType" value="<%= request.getParameter("roofType")%>">
-                        <input type="hidden" name="hasShed" value="<%= request.getParameter("hasShed")%>">
-
-                        <button type="submit" onclick="document.getElementById('cardAPI').style.display = 'block'">Place Order&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span></button>
+                        <button type="button" onclick="document.getElementById('cardAPI').style.display = 'block'">Place Order&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span></button>
                     </div>
                     <!-- MEASURE LOGIC ENDS HERE -->
                     <div class="loginContainer" style="background-color:#f1f1f1">

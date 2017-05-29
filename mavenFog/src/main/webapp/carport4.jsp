@@ -95,6 +95,7 @@
                     <li role="presentation" class="active"><a href="#shiping" role="tab" data-toggle="tab">Yderligere leveringsinformation&nbsp;</a></li>
                     <li role="presentation" class=""><a href="#dokument" role="tab" data-toggle="tab">Dokumenter&nbsp;</a></li>
                 </ul>
+                <% session.setAttribute("productPrice", "18995.00"); %>
                 <!-- TABS CONTENT -->
                 <div class="tab-content">
                     <div class="tab-pane fade active in" role="tabpanel" id="shiping">
@@ -134,19 +135,14 @@
                 <h4><strong>Buy this beauty</strong></h4>
                 <p>When you click the "Buy" button that means you accept our Terms&Conditions.</p>
                 <p>You will be lead through the process by our system. Happy buying.</p>
-
-                <p><button class="w3-button w3-green w3-third" onclick=
-                           <%
-                               //onclick the button will open a pop-up with Log in if there is no session was opened, or Credit Details modal if the user already was logged in
-                               if (session.getAttribute("user") == null) {
-                                   String buyLink = "document.getElementById('id01').style.display = 'block'";
-                                   session.setAttribute("buyLink", buyLink);
-                               } else {
-                                   String buyLink = "document.getElementById('cardAPI').style.display = 'block'";
-                                   session.setAttribute("buyLink", buyLink);
-                               }
-                           %>
-                           "<%= session.getAttribute("buyLink")%>">Buy</button></p>
+                <% session.setAttribute("productID", "4"); %>
+                <%
+                    //onclick the button will open a pop-up with Log in if there is no session was opened, else leads the user to customType.jsp
+                    if (session.getAttribute("user") == null) { %>
+                <a onclick="document.getElementById('id01').style.display = 'block'" href="#" class="w3-button w3-teal w3-block w3-xlarge">Buy</a>
+                <% } else { %>
+                <a href="regularpage.jsp" class="w3-button w3-teal w3-block w3-xlarge">Buy</a>
+                <% }%>
             </div>
         </div><!-- End page content -->
 

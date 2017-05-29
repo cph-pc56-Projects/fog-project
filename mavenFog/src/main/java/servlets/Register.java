@@ -62,10 +62,12 @@ public class Register extends HttpServlet {
                 case 1:
                     //Create new SalesRep in the DB
                     UserMapper.createSalesRep(email, password, fName, lName, phone, adress, zipCode);
-                    break;
+                    //Go to Orders servlet
+                    request.getRequestDispatcher("Orders").forward(request, response);
+                    return;
                 case 3:
                     //Get the accountID to be deleted
-                    acoountID = (String) request.getParameter("deleteAccountID");
+                    acoountID = request.getParameter("deleteAccountID");
                     //Makes a Sales Rep profile inactive
                     UserMapper.updateUserStatus(0, acoountID);
             }
